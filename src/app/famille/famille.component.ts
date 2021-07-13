@@ -10,7 +10,7 @@ import { FamilleService } from './famille.service';
 })
 export class FamilleComponent implements OnInit {
 
-  public familles: Famille[];
+  familles: Famille[] = [];
 
   constructor(private familleService: FamilleService) { }
 
