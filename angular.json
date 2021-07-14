@@ -42,7 +42,10 @@
               "node_modules/admin-lte/plugins/raphael/raphael.js",
               "node_modules/admin-lte/plugins/jquery-mapael/jquery.mapael.js",
               "node_modules/admin-lte/plugins/chart.js/Chart.js",
-              "node_modules/admin-lte/dist/js/pages/dashboard2.js"
+              "node_modules/admin-lte/dist/js/pages/dashboard2.js",
+              "node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js",
+              "node_modules/admin-lte/plugins/sweetalert2/sweetalert2.min.js",
+              "node_modules/admin-lte/plugins/toastr/toastr.min.js"
             ]
           },
           "configurations": {

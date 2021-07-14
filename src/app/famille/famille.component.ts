@@ -1,5 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { FamilleFormComponent } from '../famille-form/famille-form.component';
 import { Famille } from './famille';
 import { FamilleService } from './famille.service';
 
@@ -10,9 +12,12 @@ import { FamilleService } from './famille.service';
 })
 export class FamilleComponent implements OnInit {
 
+  // familleSelected = new Famille ;
   familles: Famille[] = [];
 
-  constructor(private familleService: FamilleService) { }
+  columnsToDisplay = ['libelleFamille','codeFamille']
+
+  constructor(private familleService: FamilleService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAllFamilles();
@@ -29,4 +34,33 @@ export class FamilleComponent implements OnInit {
       )
   }
 
+  // public onListClick(row: Famille):void {
+  //   this.familleSelected =row
+  //   this.openDialog
+  // }
+
+  openDialogUpdateFamille(row:Famille): void {
+    const dialogRef = this.dialog.open(FamilleFormComponent, {
+      width: '1000px',
+      height:'1000px',
+      data: {idFamille: row.idFamille}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openDialogCreateFamille(): void {
+    const dialogRef = this.dialog.open(FamilleFormComponent, {
+      width: '1000px',
+      height:'1000px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
 }
+
