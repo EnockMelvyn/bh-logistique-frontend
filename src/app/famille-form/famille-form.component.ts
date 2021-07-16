@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Famille } from '../famille/famille';
-import { FamilleService } from '../famille/famille.service';
+import { Famille } from '../models/famille';
+import { FamilleService } from '../services/famille.service';
 
 @Component({
   selector: 'app-famille-form',
@@ -35,6 +35,7 @@ public famille : Famille = { idFamille:0, libelleFamille:'',codeFamille:''};
         this.famille = response ;
         alert('Famille ajoutée avec succès');
         console.log(this.famille)
+        // window.close()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -58,6 +59,9 @@ public famille : Famille = { idFamille:0, libelleFamille:'',codeFamille:''};
     this.familleService.updateFamille(this.data.idFamille, this.famille).subscribe(
       (response: Famille) => {
         this.famille = response ;
+        alert('Famille mise à jour');
+        console.log(this.famille)
+        // window.close()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

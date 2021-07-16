@@ -1,97 +1,30 @@
 <div class="card">
     <div class="card-header">
-      <h3 class="card-title">DataTable with default features</h3>
+      <h3 class="card-title">Liste des familles</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-      <div class="col-offset-5">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modal-default"  value="">Ajouter une famille</button>
+      <div >
+        <button class="btn btn-primary" (click)="openDialogCreateFamille()" value="">Ajouter une famille</button>
       </div>
-      <br>
-      <table id="example2" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-            <th>Libellé famille</th>
-            <th>Code famille</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let famille of familles">
-            <td>{{ famille?.libelleFamille}}</td>
-            <td>{{ famille?.codeFamille}}</td>
-            </tr>
-        </tbody>
+      <div class="col-md-12">
+      <table mat-table [dataSource]="familles">
+        <ng-container matColumnDef="libelleFamille">
+          <th mat-header-cell *matHeaderCellDef> Libellé famille </th>
+          <td mat-cell *matCellDef="let famille"> {{famille.libelleFamille}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="codeFamille">
+          <th mat-header-cell *matHeaderCellDef> code famille </th>
+          <td mat-cell *matCellDef="let famille"> {{famille.codeFamille}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row (click)="openDialogUpdateFamille(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
       </table>
     </div>
-    <h3> Tableau material angular</h3>
-    <br>
-    <table mat-table [dataSource]="familles">
-      <ng-container matColumnDef="libelleFamille">
-        <th mat-header-cell *matHeaderCellDef> Libellé famille </th>
-        <td mat-cell *matCellDef="let famille"> {{famille.libelleFamille}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="codeFamille">
-        <th mat-header-cell *matHeaderCellDef> code famille </th>
-        <td mat-cell *matCellDef="let famille"> {{famille.codeFamille}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row (click)="openDialogUpdateFamille(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-    </table>
-</div>
-<div class="modal fade" id="modal-lg">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Large Modal</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>One fine body&hellip;</p>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-    <!-- /.modal-content -->
   </div>
-  <!-- /.modal-dialog -->
 </div>
-
-<script src="../node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/jszip/jszip.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../node_modules/admin-lte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
-  </script>
-
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>

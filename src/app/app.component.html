@@ -189,20 +189,18 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a routerLink="/parametre/sousFamille" routerLinkActive="active" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>
                     Sous-familles
-                    <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a routerLink="/parametre/article" routerLinkActive="active" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>
                     Articles
-                    <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
               </li>
@@ -216,15 +214,6 @@
     
   </aside>
   <div class="content-wrapper">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">App works</h3>
-      </div>
-      <!-- /.card-header -->
-      <div class="card-body">
-        <h3 class="card-title">App really works</h3>
-      </div>
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </body>

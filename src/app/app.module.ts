@@ -12,12 +12,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FamilleFormComponent } from './famille-form/famille-form.component';
 import { FormsModule } from '@angular/forms';
+import { SousfamilleListComponent } from './sousfamille-list/sousfamille-list.component';
+import { SousfamilleFormComponent } from './sousfamille-form/sousfamille-form.component';
+import { ArticleFormComponent } from './article-form/article-form.component';
+import { ArticleListComponent } from './article-list/article-list.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
     AppComponent,
     FamilleComponent,
-    FamilleFormComponent
+    FamilleFormComponent,
+    SousfamilleListComponent,
+    SousfamilleFormComponent,
+    ArticleFormComponent,
+    ArticleListComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +37,8 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

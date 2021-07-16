@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FamilleFormComponent } from '../famille-form/famille-form.component';
-import { Famille } from './famille';
-import { FamilleService } from './famille.service';
+import { Famille } from '../models/famille';
+import { FamilleService } from '../services/famille.service';
 
 @Component({
   selector: 'app-famille',
@@ -33,11 +33,6 @@ export class FamilleComponent implements OnInit {
       }
       )
   }
-
-  // public onListClick(row: Famille):void {
-  //   this.familleSelected =row
-  //   this.openDialog
-  // }
 
   openDialogUpdateFamille(row:Famille): void {
     const dialogRef = this.dialog.open(FamilleFormComponent, {
