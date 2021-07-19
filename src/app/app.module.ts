@@ -17,6 +17,7 @@ import { SousfamilleFormComponent } from './sousfamille-form/sousfamille-form.co
 import { ArticleFormComponent } from './article-form/article-form.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { DemandeFormComponent } from './demande-form/demande-form.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MatSelectModule } from '@angular/material/select';
     SousfamilleListComponent,
     SousfamilleFormComponent,
     ArticleFormComponent,
-    ArticleListComponent
+    ArticleListComponent,
+    DemandeFormComponent
   ],
   imports: [
     BrowserModule,
