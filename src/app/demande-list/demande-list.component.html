@@ -1,0 +1,58 @@
+<p>demande-list works!</p>
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Liste des demandes</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <div >
+        <button mat-button class="btn btn-primary" (click)="openDialogCreateDemande()" value="">Ajouter une sous famille</button>
+      </div>
+      <div class="col-md-12">
+      <table mat-table [dataSource]="demandes">
+        <ng-container matColumnDef="numRef">
+          <th mat-header-cell *matHeaderCellDef> N° Ref </th>
+          <td mat-cell *matCellDef="let demande"> {{demande.numRef}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estimation">
+          <th mat-header-cell *matHeaderCellDef> estimation </th>
+          <td mat-cell *matCellDef="let demande"> {{demande.estimation}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="observation">
+          <th mat-header-cell *matHeaderCellDef> observation </th>
+          <td mat-cell *matCellDef="let demande"> {{demande.observation}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateDemande">
+            <th mat-header-cell *matHeaderCellDef> dateDemande </th>
+            <td mat-cell *matCellDef="let demande"> {{demande.dateDemande}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="demandeur">
+            <th mat-header-cell *matHeaderCellDef> demandeur </th>
+            <td mat-cell *matCellDef="let demande"> {{demande.demandeur}} </td>
+        </ng-container>
+          
+        <ng-container matColumnDef="statutDemande">
+            <th mat-header-cell *matHeaderCellDef> statutDemande </th>
+            <td mat-cell *matCellDef="let demande"> {{demande.statutDemande}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="urgent">
+            <th mat-header-cell *matHeaderCellDef> urgent </th>
+            <td mat-cell *matCellDef="let demande"> {{demande.urgent}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="justifUrgence">
+            <th mat-header-cell *matHeaderCellDef> justifUrgence </th>
+            <td mat-cell *matCellDef="let demande"> {{demande.justifUrgence}} </td>
+          </ng-container>
+          
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row (click)="openDialogUpdateDemande(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+  </div>
+</div>

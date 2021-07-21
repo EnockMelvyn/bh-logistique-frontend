@@ -9,6 +9,11 @@
       </div>
       <div class="col-md-12">
       <table mat-table [dataSource]="articles">
+        <ng-container matColumnDef="idArticle">
+          <th mat-header-cell *matHeaderCellDef> id article </th>
+          <td mat-cell *matCellDef="let article"> {{article.idArticle}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="libelleArticle">
           <th mat-header-cell *matHeaderCellDef> Libellé article </th>
           <td mat-cell *matCellDef="let article"> {{article.libelleArticle}} </td>

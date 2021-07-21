@@ -10,6 +10,7 @@ import {MatTableModule} from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { FamilleFormComponent } from './famille-form/famille-form.component';
 import { FormsModule } from '@angular/forms';
 import { SousfamilleListComponent } from './sousfamille-list/sousfamille-list.component';
@@ -17,7 +18,9 @@ import { SousfamilleFormComponent } from './sousfamille-form/sousfamille-form.co
 import { ArticleFormComponent } from './article-form/article-form.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 import { DemandeFormComponent } from './demande-form/demande-form.component';
+import { DemandeListComponent } from './demande-list/demande-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { DemandeFormComponent } from './demande-form/demande-form.component';
     SousfamilleFormComponent,
     ArticleFormComponent,
     ArticleListComponent,
-    DemandeFormComponent
+    DemandeFormComponent,
+    DemandeListComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,9 @@ import { DemandeFormComponent } from './demande-form/demande-form.component';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule,
+    MatOptionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

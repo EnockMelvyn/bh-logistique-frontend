@@ -7,7 +7,7 @@ import { Demande } from '../models/demande';
 @Injectable({
   providedIn: 'root'
 })
-export class demandeService {
+export class DemandeService {
 
   private apiServerUrl = environment.apiBaseUrl
 

@@ -18,7 +18,7 @@
         <div class="form-group">
           <label for="sousFamille">Sous famille</label>
           <mat-select class="form-control" name="sousFamille" placeholder="Sous famille" [(ngModel)]="article.sousFamille">
-            <mat-option *ngFor="let sousFamille of sousFamilles" value="sous"> {{ sousFamille.libelleSousFamille }} </mat-option>
+            <mat-option *ngFor="let sousFamille of sousFamilles" [value]="sousFamille"> {{ sousFamille.libelleSousFamille }} </mat-option>
           </mat-select>
         </div>
       </div>

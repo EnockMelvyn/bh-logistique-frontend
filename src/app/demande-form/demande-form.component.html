@@ -1,1 +1,79 @@
 <p>demande-form works!</p>
+<div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Détails de la demande</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <!-- <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup"> -->
+            <form #familleForm="ngForm">
+            <div class="card-body">
+                <div class="form-group .col-4">
+                    <label for="numRef">numRef</label>
+                    <input type="text" class="form-control" name="numRef"  placeholder="numRef" [(ngModel)]="demande.numRef" >
+                </div>
+                <div class="form-group .col-4">
+                <label for="estimation">estimation</label>
+                <input type="text" class="form-control" name="estimation" placeholder="estimation" [(ngModel)]="demande.estimation">
+                </div>
+                <div class="form-group">
+                    <label for="observation">observation</label>
+                    <input type="text" class="form-control" name="observation"  placeholder="observation" [(ngModel)]="demande.observation" >
+                </div>
+                <div class="form-group">
+                    <label for="dateDemande">dateDemande</label>
+                    <input type="text" class="form-control" name="dateDemande" placeholder="dateDemande" [(ngModel)]="demande.dateDemande">
+                </div><div class="form-group">
+                    <label for="demandeur">demandeur</label>
+                    <input type="text" class="form-control" name="demandeur"  placeholder="demandeur" [(ngModel)]="demande.demandeur" >
+                </div>
+                <div class="form-group">
+                    <label for="statutDemande">statutDemande</label>
+                    <input type="text" class="form-control" name="statutDemande" placeholder="statutDemande" [(ngModel)]="demande.statutDemande">
+                </div><div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="urgent" [(ngModel)]="demande.urgent" >
+                    <label class="form-check-label" for="urgent">urgent</label>
+                    <!-- <mat-form-field>
+                    <mat-radio-group [(ngModel)]="demande.urgent">
+                        <mat-radio-button value="false">Auto</mat-radio-button>
+                        <mat-radio-button value="true">Always</mat-radio-button>
+                    </mat-radio-group>
+                    </mat-form-field> -->
+                </div>
+                <div *ngIf="demande.urgent" class="form-group">
+                    <label for="justifUrgence">justifUrgence</label>
+                    <input type="text" class="form-control" name="justifUrgence" placeholder="justifUrgence" [(ngModel)]="demande.justifUrgence">
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" (click)="updateDemande()" *ngIf="idDemande!=-1">Mettre à jour</button>
+                <button mat-button matStepperNext type="submit" class="btn btn-primary" (click)="createDemande()" >Enregistrer les articles</button>
+                <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
+            </div>
+            </form>
+        <!-- </mat-step>
+    </mat-stepper> -->
+
+    <h3> Formulaire articles à ajouter</h3>
+    <form #familleArticleForm="ngForm">
+        <div class="card-body">
+            <div class="form-group">
+                <label for="article">Article</label>
+                <mat-select class="form-control" name="article" id="article" placeholder="Article" [(ngModel)]="articleToAdd">
+                    <mat-option *ngFor="let article of articles" value="article"> {{ article.libelleArticle }} </mat-option>
+                </mat-select>
+            </div>
+        </div>
+            
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary" (click)="updateDemande()" *ngIf="idDemande!=-1">Mettre à jour</button>
+            <button mat-button matStepperNext type="submit" class="btn btn-primary" (click)="createDemande()" >Enregistrer les articles</button>
+            <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
+        </div>
+    </form>
+</div>

@@ -22,15 +22,15 @@ export class ArticleFormComponent implements OnInit {
   
     constructor(private articleService : ArticleService , private sousFamilleService : sousFamilleService, @Inject(MAT_DIALOG_DATA) public data: {idArticle: number}) { }
   
-    ngOnInit(): void {
-      console.log(this.idArticle)
+    ngOnInit(): void {      
       this.getAllSousFamilles()
       console.log(this.sousFamilles)
       if (this.data.idArticle != null) {
         this.getArticle() 
         this.idArticle= this.data.idArticle
       }
-      
+      console.log(this.idArticle)
+      console.log(this.sousFamilles)
     }
   
     onSubmit(form: NgForm) {

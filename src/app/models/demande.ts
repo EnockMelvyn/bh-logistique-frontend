@@ -1,3 +1,5 @@
+import { DemandeArticle } from "./demandeArticle";
+
 export interface Demande {
     idDemande: number;
     numRef: string;
@@ -8,11 +10,12 @@ export interface Demande {
     statutDemande: string;
     urgent: boolean;
     justifUrgence: string;
+    articles: DemandeArticle[];
+
     createdAt: Date;
     createdBy: string;
     modifiedAt: Date;
     modifiedBy : string
-    codeArticle: string;
 
     // constructor(){
     //     this.idFamille=0
