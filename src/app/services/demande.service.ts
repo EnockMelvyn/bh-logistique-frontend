@@ -33,5 +33,8 @@ export class DemandeService {
   public updateDemande(idDemande: number, demande:Demande ) : Observable <Demande> {
     return this.http.put<any>(`${this.apiServerUrl}/api/demandes/`+idDemande, demande);
   }  
+  public validateOrRefuseDemande(idDemande: number, validateOrRefuse: String) : Observable <Demande> {
+    return this.http.put<any>(`${this.apiServerUrl}/api/demandes/`+validateOrRefuse+`/`+ idDemande, null);
+  }  
 
 }

@@ -1,0 +1,18 @@
+table{
+    text-align: center;
+    height: fit-content;
+}
+
+th{
+    text-align: center;
+}
+
+.button-container{
+    padding: 5px;
+}
+.button-row{
+    margin-left: 2px ;
+    margin-right: 2px ;
+}
+
+

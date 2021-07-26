@@ -1,12 +1,9 @@
-<p>article-form works!</p>
-<div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Détails article</h3>
-    </div>
+
+      <h3 mat-dialog-title >Détails article</h3>
     <!-- /.card-header -->
     <!-- form start -->
+    <mat-dialog-content>
     <form #articleForm="ngForm">
-      <div class="card-body">
         <div class="form-group">
           <label for="libelleArticle">Libellé article</label>
           <input type="text" class="form-control" name="libelleArticle"  placeholder="libellé article" [(ngModel)]="article.libelleArticle" >
@@ -21,13 +18,11 @@
             <mat-option *ngFor="let sousFamille of sousFamilles" [value]="sousFamille"> {{ sousFamille.libelleSousFamille }} </mat-option>
           </mat-select>
         </div>
-      </div>
-      <!-- /.card-body -->
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary" (click)="updateArticle()" *ngIf="idArticle!=-1">Mettre à jour</button>
+        
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" class="btn btn-primary" (click)="updateArticle()" *ngIf="idArticle!=-1">Mettre à jour</button>
         <button type="submit" class="btn btn-primary" (click)="createArticle()" *ngIf="idArticle==-1">Enregistrer l'article</button>
         <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
-      </div>
-    </form>
-  </div>
+  </mat-dialog-actions>

@@ -1,15 +1,24 @@
-<p>demande-list works!</p>
 <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">Liste des demandes</h3>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-      <div >
-        <button mat-button class="btn btn-primary" (click)="openDialogCreateDemande()" value="">Ajouter une sous famille</button>
+  <div class="card-header">
+    <h3 class="card-title">Liste des demandes</h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <div class="button-row">
+      
+      <div class="row">
+        <div class="col-lg-9" ></div>
+        <div class="col-lg-3">
+            <div class="col-lg-4">
+              <button mat-button class="btn btn-primary" (click)="openDialogCreateDemande()" value="">Enregistrer une demande</button>
+            </div>
+        </div>
       </div>
-      <div class="col-md-12">
-      <table mat-table [dataSource]="demandes">
+    </div>
+
+    <br/>
+    <div class="col-md-12">
+      <table class="table table-bordered" mat-table [dataSource]="demandes">
         <ng-container matColumnDef="numRef">
           <th mat-header-cell *matHeaderCellDef> N° Ref </th>
           <td mat-cell *matCellDef="let demande"> {{demande.numRef}} </td>
@@ -50,9 +59,51 @@
             <td mat-cell *matCellDef="let demande"> {{demande.justifUrgence}} </td>
           </ng-container>
           
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row (click)="openDialogUpdateDemande(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let demande"> 
+              <div class="row button-row">
+                <div class="button-container">
+                  <button (click)="openDialogUpdateDemande(demande.idDemande)" mat-mini-fab color="primary" aria-label="Bouton 1 Modifier">
+                    <mat-icon fab fa-pencil>edit</mat-icon>
+                  </button>
+                </div>
+                <div class="button-container">
+                  <button (click)="openDialogUpdateDemande(demande.idDemande)" mat-mini-fab color="primary" aria-label="Bouton 1 Modifier">
+                    <mat-icon fab fa-pencil>check_circle_outline</mat-icon>
+                  </button>
+                </div>
+                <div class="button-container">
+                  <button (click)="openDialogUpdateDemande(demande.idDemande)" mat-mini-fab color="primary" aria-label="Bouton 1 Modifier">
+                    <mat-icon fab fa-pencil>edit</mat-icon>
+                  </button>
+                </div>
+              </div>  
+            </td>
+          </ng-container>
+
+        <tr class="thead-light" mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr class="tbody" mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
       </table>
     </div>
   </div>
+
 </div>
+
+<!-- <script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script> -->

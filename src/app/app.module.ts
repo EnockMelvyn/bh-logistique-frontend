@@ -18,6 +18,7 @@ import { SousfamilleFormComponent } from './sousfamille-form/sousfamille-form.co
 import { ArticleFormComponent } from './article-form/article-form.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { DemandeFormComponent } from './demande-form/demande-form.component';
 import { DemandeListComponent } from './demande-list/demande-list.component';
@@ -46,7 +47,8 @@ import { DemandeListComponent } from './demande-list/demande-list.component';
     FormsModule,
     MatSelectModule,
     MatButtonModule,
-    MatOptionModule
+    MatOptionModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

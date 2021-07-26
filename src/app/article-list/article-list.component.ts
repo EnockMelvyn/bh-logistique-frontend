@@ -35,8 +35,8 @@ export class ArticleListComponent implements OnInit {
 
   openDialogUpdateArticle(row:Article): void {
     const dialogRef = this.dialog.open(ArticleFormComponent, {
-      width: '1000px',
-      height:'1000px',
+      width: '900px',
+      height:'auto',
       data: {idArticle: row.idArticle}
     });
 
@@ -47,8 +47,8 @@ export class ArticleListComponent implements OnInit {
 
   openDialogCreateArticle(): void {
     const dialogRef = this.dialog.open(ArticleFormComponent, {
-      width: '1000px',
-      height:'1000px'
+      width: '900px',
+      height:'auto'
     });
 
     dialogRef.afterClosed().subscribe(result => {

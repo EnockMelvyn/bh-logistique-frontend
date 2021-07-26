@@ -18,7 +18,7 @@ export class ArticleFormComponent implements OnInit {
 
   public sousFamilles: SousFamille[]=[]
 
-  public article : Article = { idArticle:0, libelleArticle:'',codeArticle:'', sousFamille: null};
+  public article : Article = {};
   
     constructor(private articleService : ArticleService , private sousFamilleService : sousFamilleService, @Inject(MAT_DIALOG_DATA) public data: {idArticle: number}) { }
   
@@ -29,6 +29,7 @@ export class ArticleFormComponent implements OnInit {
         this.getArticle() 
         this.idArticle= this.data.idArticle
       }
+      console.log(this.article)
       console.log(this.idArticle)
       console.log(this.sousFamilles)
     }

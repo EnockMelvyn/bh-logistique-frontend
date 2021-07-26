@@ -10,7 +10,7 @@ export interface Demande {
     statutDemande: string;
     urgent: boolean;
     justifUrgence: string;
-    articles: DemandeArticle[];
+    demandeArticles: DemandeArticle[];
 
     createdAt: Date;
     createdBy: string;
