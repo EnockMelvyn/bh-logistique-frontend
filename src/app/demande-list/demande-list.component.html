@@ -18,7 +18,7 @@
 
     <br/>
     <div class="col-md-12">
-      <table class="table table-bordered" mat-table [dataSource]="demandes">
+      <table class="mat-elevation-z8" mat-table [dataSource]="demandes">
         <ng-container matColumnDef="numRef">
           <th mat-header-cell *matHeaderCellDef> N° Ref </th>
           <td mat-cell *matCellDef="let demande"> {{demande.numRef}} </td>

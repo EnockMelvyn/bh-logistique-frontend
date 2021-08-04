@@ -35,24 +35,22 @@ export class ArticleListComponent implements OnInit {
 
   openDialogUpdateArticle(row:Article): void {
     const dialogRef = this.dialog.open(ArticleFormComponent, {
-      width: '900px',
-      height:'auto',
       data: {idArticle: row.idArticle}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.ngOnInit()
     });
   }
 
   openDialogCreateArticle(): void {
     const dialogRef = this.dialog.open(ArticleFormComponent, {
-      width: '900px',
-      height:'auto'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.ngOnInit()
     });
   }
 }

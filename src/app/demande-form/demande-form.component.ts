@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -22,6 +22,9 @@ export class DemandeFormComponent implements OnInit {
 
   public idDemande = 0 
 
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
   public articles : Article[]=[]
 
   public statutDemande: any[]= [
@@ -39,7 +42,7 @@ export class DemandeFormComponent implements OnInit {
     }
   ]
   // Elements formulaire ajout Produit
-  columnsToDisplay = ['article','quantite']
+  columnsToDisplay = ['article','quantite','action']
   
    
   public idArticleToAdd = 0
@@ -57,15 +60,32 @@ export class DemandeFormComponent implements OnInit {
 
 
   constructor( private demandeService : DemandeService, private articleService: ArticleService , 
-    @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, private router: Router) { }
+    @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, private router: Router, private _formBuilder: FormBuilder ) { 
+
+      this.firstFormGroup = this._formBuilder.group({
+        numRef: ['', Validators.required],
+        estimation: ['', Validators.required],
+        observation: [''],
+        dateDemande: [''],
+        demandeur: [''],
+        statutDemande: ['', Validators.required],
+        urgent: [''],
+        justifUrgence: ['']
+    });
+      this.secondFormGroup = this._formBuilder.group({
+        article: ['', Validators.required],
+        quantite: ['', Validators.required],
+      });
+  
+    }
 
 
   ngOnInit(): void {
-
     if (this.data.idDemande != null) {
       this.getDemande()
       this.idDemande= this.data.idDemande
     }
+
     this.articleService.getAllArticles().subscribe(
       (response: Article[]) => {
         this.articles = response ;
@@ -176,7 +196,16 @@ export class DemandeFormComponent implements OnInit {
         alert(error.message);
       }
     )
+  }
 
-     }
+  public deleteDemandeArticle(ligne: DemandeArticle):void {
+
+    const index = this.demande.demandeArticles.findIndex(demandeArticle => demandeArticle = ligne);
+    this.demande.demandeArticles.splice(index,1)
+        this.demande.demandeArticles.sort
+        this.table.renderRows()
+        console.log(this.demande.demandeArticles)
+    
+  }
 
 }

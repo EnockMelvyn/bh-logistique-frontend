@@ -38,8 +38,6 @@ export class DemandeListComponent implements OnInit {
 
   public openDialogUpdateDemande(idDemandeToUpdate:number): void {
     const dialogRef = this.dialog.open(DemandeFormComponent, {
-      width: '1000px',
-      height:'1000px',
       data: {idDemande: idDemandeToUpdate }
     });
 
@@ -51,8 +49,6 @@ export class DemandeListComponent implements OnInit {
 
   public openDialogCreateDemande(): void {
     const dialogRef = this.dialog.open(DemandeFormComponent, {
-      width: '1000px',
-      height:'auto',
       data: {idDemande: null }
     });
 

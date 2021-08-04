@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Article } from '../models/article';
 import { SousFamille } from '../models/sousFamille';
 import { ArticleService } from '../services/article.service';
@@ -20,12 +20,14 @@ export class ArticleFormComponent implements OnInit {
 
   public article : Article = {};
   
-    constructor(private articleService : ArticleService , private sousFamilleService : sousFamilleService, @Inject(MAT_DIALOG_DATA) public data: {idArticle: number}) { }
+    constructor(private articleService : ArticleService , private sousFamilleService : sousFamilleService, 
+      public dialogRef: MatDialogRef<ArticleFormComponent>,
+      @Inject(MAT_DIALOG_DATA) public data: {idArticle: number}) { }
   
     ngOnInit(): void {      
       this.getAllSousFamilles()
       console.log(this.sousFamilles)
-      if (this.data.idArticle != null) {
+      if (this.data) {
         this.getArticle() 
         this.idArticle= this.data.idArticle
       }
@@ -69,6 +71,7 @@ export class ArticleFormComponent implements OnInit {
           this.article = response ;
           alert('Article mise à jour');
           console.log(this.article)
+          this.dialogRef.close()
           // window.close()
         },
         (error: HttpErrorResponse) => {

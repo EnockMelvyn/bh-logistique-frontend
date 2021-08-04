@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FamilleFormComponent } from './famille-form/famille-form.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SousfamilleListComponent } from './sousfamille-list/sousfamille-list.component';
 import { SousfamilleFormComponent } from './sousfamille-form/sousfamille-form.component';
 import { ArticleFormComponent } from './article-form/article-form.component';
@@ -20,6 +20,7 @@ import { ArticleListComponent } from './article-list/article-list.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
 import { DemandeFormComponent } from './demande-form/demande-form.component';
 import { DemandeListComponent } from './demande-list/demande-list.component';
 
@@ -33,7 +34,7 @@ import { DemandeListComponent } from './demande-list/demande-list.component';
     ArticleFormComponent,
     ArticleListComponent,
     DemandeFormComponent,
-    DemandeListComponent
+    DemandeListComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +49,9 @@ import { DemandeListComponent } from './demande-list/demande-list.component';
     MatSelectModule,
     MatButtonModule,
     MatOptionModule,
-    MatIconModule
+    MatIconModule,
+    MatStepperModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

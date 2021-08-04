@@ -8,7 +8,7 @@
         <button class="btn btn-primary" (click)="openDialogCreateArticle()" value="">Ajouter un article</button>
       </div>
       <div class="col-md-12">
-      <table class="table table-bordered" mat-table [dataSource]="articles">
+      <table class="mat-elevation-z8" mat-table [dataSource]="articles">
         <ng-container matColumnDef="idArticle">
           <th mat-header-cell *matHeaderCellDef> id article </th>
           <td mat-cell *matCellDef="let article"> {{article.idArticle}} </td>

@@ -1,39 +1,39 @@
 
 <h3 mat-dialog-title >Détails de la demande</h3>
-<mat-dialog-content>
-    <mat-stepper>
+<mat-dialog-content  class="dialogBox">
+    <mat-stepper linear #stepper>
         <mat-step [stepControl]="firstFormGroup">
-            <form #familleForm="ngForm" formGroup ="firstFormGroup">
+            <form [formGroup] ="firstFormGroup" (ngSubmit)="onSubmit" *ngIf="firstFormGroup">
             
                 <div class="card-body">
                     <div class="form-group .col-4">
                         <label for="numRef">numRef</label>
-                        <input type="text" class="form-control" name="numRef"  placeholder="numRef" [(ngModel)]="demande.numRef" >
+                        <input matInput type="text" class="form-control" name="numRef" id="numRef" formControlName="numRef" placeholder="numRef" [(ngModel)]="demande.numRef">
                     </div>
                     <div class="form-group .col-4">
-                    <label for="estimation">estimation</label>
-                    <input type="text" class="form-control" name="estimation" placeholder="estimation" [(ngModel)]="demande.estimation">
-                    </div>
+                        <label for="estimation">estimation</label>
+                        <input matInput type="text" class="form-control" name="estimation" id="estimation" formControlName="estimation" placeholder="estimation" [(ngModel)]="demande.estimation">
+                        </div>
                     <div class="form-group">
                         <label for="observation">observation</label>
-                        <input type="text" class="form-control" name="observation"  placeholder="observation" [(ngModel)]="demande.observation" >
+                        <input matInput type="text" class="form-control" name="observation" id="observation" formControlName="observation"  placeholder="observation" [(ngModel)]="demande.observation">
                     </div>
                     <div class="form-group">
                         <label for="dateDemande">dateDemande</label>
-                        <input type="text" class="form-control" name="dateDemande" placeholder="dateDemande" [(ngModel)]="demande.dateDemande">
+                        <input matInput type="text" class="form-control" name="dateDemande" id="dateDemande" formControlName="dateDemande" placeholder="dateDemande" [(ngModel)]="demande.dateDemande">
                     </div><div class="form-group">
                         <label for="demandeur">demandeur</label>
-                        <input type="text" class="form-control" name="demandeur"  placeholder="demandeur" [(ngModel)]="demande.demandeur" >
+                        <input matInput type="text" class="form-control" name="demandeur" id="demandeur" formControlName="demandeur" placeholder="demandeur" [(ngModel)]="demande.demandeur">
                     </div>
                     <div class="form-group">
                         <label for="statutDemande">statutDemande</label>
-                        <mat-select class="form-control" name="statutDemande" placeholder="Statut de la demande" [(ngModel)]="demande.statutDemande">
+                        <mat-select class="form-control" name="statutDemande" id="statutDemande" formControlName="statutDemande" placeholder="Statut de la demande" [(ngModel)]="demande.statutDemande">
                             <mat-option *ngFor="let statut of statutDemande" [value]="statut.valeur"> {{ statut.texte }} </mat-option>
                         </mat-select>
                         <!-- <!-- <input type="text" class="form-control" name="statutDemande" placeholder="statutDemande" [(ngModel)]="demande.statutDemande"> -->
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="urgent" [(ngModel)]="demande.urgent" >
+                        <input type="checkbox" class="form-check-input" name="urgent" id="urgent" formControlName="urgent" [(ngModel)]="demande.urgent">
                         <label class="form-check-label" for="urgent">urgent</label>
                         <!-- <mat-form-field>
                         <mat-radio-group [(ngModel)]="demande.urgent">
@@ -42,46 +42,39 @@
                         </mat-radio-group>
                         </mat-form-field> -->
                     </div>
-                    <div *ngIf="demande.urgent" class="form-group">
+                    <div *ngIf="firstFormGroup.value.urgent" class="form-group">
                         <label for="justifUrgence">justifUrgence</label>
-                        <input type="text" class="form-control" name="justifUrgence" placeholder="justifUrgence" [(ngModel)]="demande.justifUrgence">
+                        <input matInput  type="text" class="form-control" name="justifUrgence" formControlName="justifUrgence" placeholder="justifUrgence" [(ngModel)]="demande.justifUrgence">
                     </div>
                 </div>
             
-            <div class="card-footer">
-                <div *ngIf="demande.demandeArticles.length>0">
-                    <button type="submit" class="btn btn-primary" (click)="updateDemande()" *ngIf="idDemande!=-1">Mettre à jour</button>
-                    <button *ngIf="idDemande==-1" mat-button matStepperNext type="submit" class="btn btn-primary" (click)="createDemande()" >Enregistrer la demande</button>
-                </div>
-                <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
+                <div class="card-footer">
 
-                <button type="submit" class="btn btn-success" mat-dialog-close (click)="validateDemande()">Valider</button>
-                <button type="submit" class="btn btn-danger" mat-dialog-close (click)="refuseDemande()">Refuser</button>
-            </div>
+                    <button mat-button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
+                    <button mat-button type="submit" class="btn btn-primary" matStepperNext>Suivant <i class="fa fa-angle-right"></i> </button>
+
+                </div>
             </form>
         </mat-step>
 
         
         <mat-step [stepControl]="secondFormGroup">
             <h3> Formulaire articles à ajouter</h3>
-            <form #familleArticleForm="ngForm" formGroup="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
                 <div class="card-body">
                     <div class="form-group">
                         <label for="article">Article</label>
-                        <mat-select class="form-control" name="article" id="article" placeholder="Article" [(ngModel)]="idArticleToAdd">
+                        <mat-select class="form-control" name="article" formControlName="article" id="article" placeholder="Article" [(ngModel)]="idArticleToAdd">
                             <mat-option *ngFor="let article of articles" [value]="article.idArticle"> {{ article.libelleArticle }} </mat-option>
                         </mat-select>
                     </div>
                     <div *ngIf="idArticleToAdd" class="form-group">
                         <label for="quantite">Quantité demandée</label>
-                        <input type="text" class="form-control" name="quantite" placeholder="Quantité" [(ngModel)]="quantite">
+                        <input matInput type="text" class="form-control" name="quantite" formControlName="quantite" placeholder="Quantité" [(ngModel)]="quantite">
                     </div>
+                    <button [disabled]="quantite<=0" mat-button type="submit" class="btn btn-primary" (click)="addDemandeArticle()" >Ajouter l'article <i class="fa fa-plus"></i></button>
                 </div>
-                <div class="card-footer">
-                    <button mat-button matStepperNext type="submit" class="btn btn-primary" (click)="addDemandeArticle()" >Ajouter l'article</button>
-                    <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
-                </div>
-            </form>
+                
 
             <div *ngIf="demande.demandeArticles">
                 <table class="table table-bordered" mat-table [dataSource]="demande.demandeArticles">
@@ -94,11 +87,24 @@
                     <th mat-header-cell *matHeaderCellDef> Quantité </th>
                     <td mat-cell *matCellDef="let demandeArticle"> {{ demandeArticle.quantite }} </td>
                     </ng-container>
+
+                    <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let demandeArticle" (click)="deleteDemandeArticle(demandeArticle)"> <i class="fa fa-bell"></i> </td>
+                    </ng-container>
         
                     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                     <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
                 </table>
             </div>
+            <div class="card-footer">
+                <div class="btn-group">
+                    <button mat-button matStepperPrevious type="submit" class="btn btn-primary"> <i class="fa fa-angle-left"></i> Retour</button>
+                    <button *ngIf="idDemande==0 && demande.demandeArticles.length>0" mat-button type="submit" class="btn btn-success" (click)="createDemande()" >Enregistrer la demande</button>
+                    <button *ngIf="idDemande!=0 && demande.demandeArticles.length>0" mat-button type="submit" class="btn btn-success" (click)="updateDemande()" >Mettre à jour la demande</button>
+                </div>
+            </div>
+        </form>
         </mat-step>
     </mat-stepper>
 </mat-dialog-content>

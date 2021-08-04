@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Famille } from '../models/famille';
 import { FamilleService } from '../services/famille.service';
 
@@ -16,10 +16,12 @@ export class FamilleFormComponent implements OnInit {
 
 public famille : Famille = { idFamille:0, libelleFamille:'',codeFamille:''};
 
-  constructor(private familleService : FamilleService , @Inject(MAT_DIALOG_DATA) public data: {idFamille: number}) { }
+  constructor(private familleService : FamilleService , 
+    public dialogRef: MatDialogRef<FamilleFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {idFamille: number}) { }
 
   ngOnInit(): void {
-    if (this.data.idFamille != null) {
+    if (this.data) {
       this.getFamille() 
       this.idFamille= this.data.idFamille
     }
@@ -35,6 +37,8 @@ public famille : Famille = { idFamille:0, libelleFamille:'',codeFamille:''};
         this.famille = response ;
         alert('Famille ajoutée avec succès');
         console.log(this.famille)
+        this.famille = { idFamille:0, libelleFamille:'',codeFamille:''};
+        this.ngOnInit()
         // window.close()
       },
       (error: HttpErrorResponse) => {
@@ -61,12 +65,14 @@ public famille : Famille = { idFamille:0, libelleFamille:'',codeFamille:''};
         this.famille = response ;
         alert('Famille mise à jour');
         console.log(this.famille)
-        // window.close()
+        this.famille = { idFamille:0, libelleFamille:'',codeFamille:''};
+        this.dialogRef.close()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
       )
   }
+
 
 }

@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Famille } from '../models/famille';
 import { SousFamille } from '../models/sousFamille';
+import { FamilleService } from '../services/famille.service';
 import { sousFamilleService } from '../services/sousFamille.service';
 
 @Component({
@@ -13,15 +15,20 @@ import { sousFamilleService } from '../services/sousFamille.service';
 export class SousfamilleFormComponent implements OnInit {
 
   public idSousFamille=-1
+  public familles: Famille[] = []
 
-  public sousFamille : SousFamille = { idSousFamille:0, libelleSousFamille:'',codeSousFamille:'', famille: null};
+  public sousFamille : SousFamille = {};
 
-  constructor(private sousFamilleService : sousFamilleService , @Inject(MAT_DIALOG_DATA) public data: {idSousFamille: number}) { }
+  constructor(private familleService: FamilleService,private sousFamilleService : sousFamilleService , 
+    public dialogRef: MatDialogRef<SousfamilleFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {idSousFamille: number}) { }
 
 
   ngOnInit(): void {
-    if (this.data.idSousFamille != null) {
+    this.getAllFamilles()
+    if (this.data) {
       this.getSousFamille() 
+      console.log(this.sousFamille)
       this.idSousFamille= this.data.idSousFamille
     }
     
@@ -37,6 +44,7 @@ export class SousfamilleFormComponent implements OnInit {
         this.sousFamille = response ;
         alert('SousFamille ajoutée avec succès');
         console.log(this.sousFamille)
+        this.sousFamille = {};
         // window.close()
       },
       (error: HttpErrorResponse) => {
@@ -63,12 +71,24 @@ export class SousfamilleFormComponent implements OnInit {
         this.sousFamille = response ;
         alert('SousFamille mise à jour');
         console.log(this.sousFamille)
+        this.dialogRef.close()
         // window.close()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
       )
+  }
+
+  public getAllFamilles(): void {
+    this.familleService.getAllFamilles().subscribe(
+      (response: Famille[]) => {
+        this.familles = response ;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
   }
   
 }

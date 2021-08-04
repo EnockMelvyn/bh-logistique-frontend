@@ -1,11 +1,12 @@
-<div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Détails Famille</h3>
+<!-- <div class="card card-primary"> -->
+    <div mat-dialog-title >
+      <h3 >Détails Famille</h3>
     </div>
     <!-- /.card-header -->
     <!-- form start -->
-    <form #familleForm="ngForm">
-      <div class="card-body">
+    
+    <div mat-dialog-content>
+      <form #familleForm="ngForm">
         <div class="form-group">
           <label for="libelleFamille">Libellé famille</label>
           <input type="text" class="form-control" name="libelleFamille"  placeholder="libellé famille" [(ngModel)]="famille.libelleFamille" >
@@ -14,13 +15,14 @@
           <label for="codeFamille">Code famille</label>
           <input type="text" class="form-control" name="codeFamille" placeholder="Code famille" [(ngModel)]="famille.codeFamille">
         </div>
-      </div>
+      </form>
+    </div>
       <!-- /.card-body -->
 
-      <div class="card-footer">
+      <div mat-dialog-actions>
         <button type="submit" class="btn btn-primary" (click)="updateFamille()" *ngIf="idFamille!=-1">Mettre à jour</button>
         <button type="submit" class="btn btn-primary" (click)="createFamille()" *ngIf="idFamille==-1">Enregistrer la famille</button>
         <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
       </div>
-    </form>
-  </div>
+    
+  <!-- </div> -->

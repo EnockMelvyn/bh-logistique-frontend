@@ -35,24 +35,22 @@ export class SousfamilleListComponent implements OnInit {
 
   openDialogUpdateSousFamille(row:SousFamille): void {
     const dialogRef = this.dialog.open(SousfamilleFormComponent, {
-      width: '1000px',
-      height:'1000px',
       data: {idSousFamille: row.idSousFamille}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.ngOnInit()
     });
   }
 
   openDialogCreateSousFamille(): void {
     const dialogRef = this.dialog.open(SousfamilleFormComponent, {
-      width: '1000px',
-      height:'1000px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.ngOnInit()
     });
   }
 }
