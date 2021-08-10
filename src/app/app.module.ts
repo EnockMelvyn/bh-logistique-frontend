@@ -18,11 +18,13 @@ import { SousfamilleFormComponent } from './sousfamille-form/sousfamille-form.co
 import { ArticleFormComponent } from './article-form/article-form.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { DemandeFormComponent } from './demande-form/demande-form.component';
 import { DemandeListComponent } from './demande-list/demande-list.component';
+import { EnregistrementBLComponent } from './enregistrement-bl/enregistrement-bl.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { DemandeListComponent } from './demande-list/demande-list.component';
     ArticleListComponent,
     DemandeFormComponent,
     DemandeListComponent,
+    EnregistrementBLComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import { DemandeListComponent } from './demande-list/demande-list.component';
     MatInputModule,
     FormsModule,
     MatSelectModule,
+    MatCardModule,
     MatButtonModule,
     MatOptionModule,
     MatIconModule,

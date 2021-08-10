@@ -21,6 +21,10 @@ export class ArticleService {
   public getArticleByCode(codeArticle: string ): Observable<Article[]> {
     return this.http.get<any>(`${this.apiServerUrl}/api/articles?codeArticle=`+codeArticle);
   }
+  
+  public getArticleByLibelle(libelleArticle: string ): Observable<Article[]> {
+    return this.http.get<any>(`${this.apiServerUrl}/api/articles?libelleArticle=`+libelleArticle);
+  }
 
   public getArticleById(idArticle: number ) : Observable<Article> {
     return this.http.get<any>(`${this.apiServerUrl}/api/articles/`+ idArticle);

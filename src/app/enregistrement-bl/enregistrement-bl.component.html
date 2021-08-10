@@ -1,0 +1,39 @@
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title> Import fichier Bon de livraison</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="formUpload">
+            <!-- <mat-form-field> -->
+                <input mat-input type="file" id="file" placeholder="BL.xlsx" (change)="onFileChange($event)" >
+                
+            <!-- </mat-form-field>    -->
+            <button type="submit" *ngIf="file" mat-button color="primary" (click)="onImport()"> importer le fichier</button>
+            <button mat-button *ngIf="dataSource" color="primary" (click)="uploadFile()"> Valider </button>
+            
+        </form>
+
+        <table mat-table [dataSource]="dataSource" *ngIf="dataSource" class="table">
+                <mat-text-column name="Date"></mat-text-column>
+                <mat-text-column name="Ref"></mat-text-column>
+                <mat-text-column name="Entrée"></mat-text-column>
+                <mat-text-column name="Sortie"></mat-text-column>
+                <mat-text-column name="BL n°"></mat-text-column>
+                <mat-text-column name="BC n°"></mat-text-column>
+                <mat-text-column name="Marque"></mat-text-column>
+                <mat-text-column name="Fournisseur"></mat-text-column>
+                <mat-text-column name="Direction / Agence"></mat-text-column>
+                <mat-text-column name="Demandeur"></mat-text-column>
+                <mat-text-column name="Prix Unitaire"></mat-text-column>
+                <mat-text-column name="Montant Total"></mat-text-column>
+
+            <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
+            <tr mat-row *matRowDef="let row; columns: colonnes"></tr>
+
+            <!-- <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4"> Aucune ligne correspondante pour: {{ input.value }}</td>
+            </tr> -->
+        </table>
+    </mat-card-content> 
+</mat-card>
