@@ -1,0 +1,28 @@
+
+      <h3 mat-dialog-title >Détails article</h3>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <mat-dialog-content>
+    <form #articleForm="ngForm">
+        <div class="form-group">
+          <label for="libelleArticle">Libellé article</label>
+          <input mat-input type="text" class="form-control" name="libelleArticle"  placeholder="libellé article" [(ngModel)]="article.libelleArticle" >
+        </div>
+        <div class="form-group">
+          <label for="codeArticle">Code article</label>
+          <input type="text" class="form-control" name="codeArticle" placeholder="Code article" [(ngModel)]="article.codeArticle">
+        </div>
+        <div class="form-group">
+          <label for="sousFamille">Sous famille</label>
+          <mat-select class="form-control" name="sousFamille" placeholder="Sous famille" [(ngModel)]="article.sousFamille">
+            <mat-option *ngFor="let sousFamille of sousFamilles" [value]="sousFamille"> {{ sousFamille.libelleSousFamille }} </mat-option>
+          </mat-select>
+        </div>
+        
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" class="btn btn-primary" (click)="updateArticle()" *ngIf="idArticle!=-1">Mettre à jour</button>
+        <button type="submit" class="btn btn-primary" (click)="createArticle()" *ngIf="idArticle==-1">Enregistrer l'article</button>
+        <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
+  </mat-dialog-actions>

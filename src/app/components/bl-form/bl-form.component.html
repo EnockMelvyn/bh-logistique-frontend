@@ -1,0 +1,65 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Enregitrement Bon de livraison</h3>
+      </div>
+    <div class="card-body">
+        <form [formGroup] ="formBl" *ngIf="formBl">
+            <div class="form-group .col-4">
+                <label for="fournisseur">Fournisseur</label>
+                <mat-select class="form-control" name="fournisseur" id="fournisseur" formControlName="fournisseur" >
+                    <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur"> {{ fournisseur.nomFournisseur}} </mat-option>
+                </mat-select>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group .col-4">
+                        <label for="dateLivraison">Date de livraison</label>
+                        <input type="date" class="form-control" name="dateLivraison" id="dateLivraison" formControlName="dateLivraison">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group .col-4">
+                        <label for="numeroBl">N° Bon de livraison</label>
+                        <input type="text" class="form-control" name="numeroBl" id="numeroBl" formControlName="numeroBl" placeholder="BL000XX" >
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group .col-4">
+                        <label for="articles">Importer les articles du BL</label>
+                        <input type="file" class="form-control" name="articles" id="artiles" formControlName="articles" placeholder="articles" (change)="onFileChange($event)">
+                    </div>
+                    <button matButton type="submit" *ngIf="file" mat-button color="primary" (click)="onImport()"> importer le fichier</button>
+                    <button type="submit" *ngIf="file" mat-button color="success" (click)="creationObjetLivraison()"> Valider</button>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Liste des articles</h4>
+                            <mat-form-field appearance="standard">
+                                <mat-label>Rechercher ...</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSource" *ngIf="dataSource" class="table">
+                                <mat-text-column name="Ref"></mat-text-column>
+                                <mat-text-column name="Entrée"></mat-text-column>
+                                <mat-text-column name="Prix Unitaire"></mat-text-column>
+
+                                <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
+                                <tr mat-row *matRowDef="let row; columns: colonnes"></tr>
+                        
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4"> Aucune données</td>
+                                </tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
