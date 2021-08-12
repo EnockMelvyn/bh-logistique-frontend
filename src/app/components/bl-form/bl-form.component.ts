@@ -9,6 +9,7 @@ import { Livraison } from 'src/app/models/livraison';
 import { LivraisonDetail } from 'src/app/models/livraison-detail';
 import { ArticleService } from 'src/app/services/article.service';
 import { FournisseurService } from 'src/app/services/fournisseur.service';
+import { LivraisonService } from 'src/app/services/livraison.service';
 import * as xlsx from 'xlsx';
 
 @Component({
@@ -32,7 +33,8 @@ export class BlFormComponent implements OnInit{
 
   articles: Article[] = []
   fournisseurs : Fournisseur[]=[]
-  constructor( private fournisseurService: FournisseurService, private articleService: ArticleService, private formBuilder: FormBuilder) { 
+  constructor( private fournisseurService: FournisseurService, private articleService: ArticleService, 
+    private livraisonService: LivraisonService, private formBuilder: FormBuilder) { 
     this.formBl = this.formBuilder.group({
       fournisseur: ['', Validators.required],
       dateLivraison: ['', Validators.required],
@@ -128,13 +130,29 @@ export class BlFormComponent implements OnInit{
       "dateLivraison": this.formBl.get('dateLivraison')?.value,
       "fournisseur": this.formBl.get('fournisseur')?.value,
       "numeroBl": this.formBl.get('numeroBl')?.value,
-      "livraisonDets": this.livraisonDetails
+      "livraisonDetails": this.livraisonDetails
     }
    }
 
    console.log(this.livraison.dateLivraison)
    console.log(this.livraison.fournisseur)
    console.log("livraison details2");
-   console.log(this.livraison.livraisonDets)
+   console.log(this.livraison.livraisonDetails)
+
+  }
+
+  public createLivraison(): void {
+    this.creationObjetLivraison()
+    this.livraisonService.createLivraison(this.livraison).subscribe(
+      (response: Livraison) => {
+        this.livraison = response ;
+        alert('Bon de livraison enregistré avec succès');
+        this.ngOnInit()
+                // window.close()
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
   }
 }

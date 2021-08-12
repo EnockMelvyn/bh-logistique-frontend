@@ -31,7 +31,7 @@
                         <input type="file" class="form-control" name="articles" id="artiles" formControlName="articles" placeholder="articles" (change)="onFileChange($event)">
                     </div>
                     <button matButton type="submit" *ngIf="file" mat-button color="primary" (click)="onImport()"> importer le fichier</button>
-                    <button type="submit" *ngIf="file" mat-button color="success" (click)="creationObjetLivraison()"> Valider</button>
+                    <button type="submit" *ngIf="file" mat-button color="success" (click)="createLivraison()"> Valider</button>
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-9">

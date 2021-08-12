@@ -1,4 +1,3 @@
-<p>sousfamille-list works!</p>
 <div class="card">
     <div class="card-header">
       <h3 class="card-title">Liste des sous-familles</h3>
@@ -21,8 +20,8 @@
         </ng-container>
         
         <ng-container matColumnDef="famille">
-          <th mat-header-cell *matHeaderCellDef> code sous-famille </th>
-          <td mat-cell *matCellDef="let sousFamille"> {{sousFamille.famille.libelleFamille}} </td>
+          <th mat-header-cell *matHeaderCellDef> Famille </th>
+          <td mat-cell *matCellDef="let sousFamille"> {{sousFamille.famille?sousFamille.famille.libelleFamille: ''}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

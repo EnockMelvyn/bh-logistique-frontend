@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Form, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Article } from 'src/app/models/article';
 import { SousFamille } from 'src/app/models/sousFamille';
@@ -19,10 +19,19 @@ export class ArticleFormComponent implements OnInit {
   public sousFamilles: SousFamille[]=[]
 
   public article : Article = {};
+
+  public formArticle: FormGroup;
   
     constructor(private articleService: ArticleService, private sousFamilleService : sousFamilleService, 
+      private formBuilder: FormBuilder,
       public dialogRef: MatDialogRef<ArticleFormComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: {idArticle: number}) { }
+      @Inject(MAT_DIALOG_DATA) public data: {idArticle: number}) {
+        this.formArticle = formBuilder.group({
+          libelleArticle: ['',Validators.required],
+          codeArticle: ['', Validators.required],
+          sousFamille: [{}, Validators.required]
+        })
+       }
   
     ngOnInit(): void {      
       this.getAllSousFamilles()
@@ -36,10 +45,31 @@ export class ArticleFormComponent implements OnInit {
       console.log(this.sousFamilles)
     }
   
+    public initForm():void {
+  
+      let art = {
+        libelleArticle: this.article.libelleArticle?this.article.libelleArticle:'',
+        codeArticle: this.article.codeArticle?this.article.codeArticle:'',
+        sousFamille: this.article.sousFamille?this.article.sousFamille:{}
+      }
+      this.formArticle.patchValue(art)
+    }
+
+    public createObjectArticle(): void {
+      const formValue = this.formArticle.value
+      this.article = {
+        libelleArticle: formValue["libelleArticle"],
+        codeArticle: formValue["codeArticle"],
+        sousFamille: formValue["sousFamille"]
+      }
+      console.log(this.formArticle.value)
+    }
+
     onSubmit(form: NgForm) {
       console.log(form.value);
     }
     public createArticle(): void {
+      this.createObjectArticle()
       this.articleService.createArticle(this.article).subscribe(
         (response: Article) => {
           this.article = response ;
@@ -57,6 +87,7 @@ export class ArticleFormComponent implements OnInit {
       this.articleService.getArticleById(this.data.idArticle).subscribe(
         (response: Article) => {
           this.article = response ;
+          this.initForm()
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -66,6 +97,7 @@ export class ArticleFormComponent implements OnInit {
   
   
     public updateArticle(): void {
+      this.createObjectArticle()
       this.articleService.updateArticle(this.data.idArticle, this.article).subscribe(
         (response: Article) => {
           this.article = response ;
