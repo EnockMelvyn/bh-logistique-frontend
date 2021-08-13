@@ -20,7 +20,7 @@ import * as xlsx from 'xlsx';
 export class BlFormComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
-  colonnes= ["Ref", "Entrée", "Prix Unitaire"];
+  colonnes= ["Ref", "Entrée", "Prix Unitaire", "Montant Total"];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   formBl: FormGroup;
   file: File;

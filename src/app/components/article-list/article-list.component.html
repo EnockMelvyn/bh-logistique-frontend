@@ -10,8 +10,8 @@
       <div class="col-md-12">
       <table class="mat-elevation-z8" mat-table [dataSource]="articles">
         <ng-container matColumnDef="idArticle">
-          <th mat-header-cell *matHeaderCellDef> id article </th>
-          <td mat-cell *matCellDef="let article"> {{article.idArticle}} </td>
+          <mat-header-cell *matHeaderCellDef> id article </mat-header-cell>
+          <mat-cell *matCellDef="let article"> {{article.idArticle}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="libelleArticle">

@@ -27,6 +27,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlFormComponent } from './components/bl-form/bl-form.component';
+import { BlListComponent } from './components/bl-list/bl-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { BlFormComponent } from './components/bl-form/bl-form.component';
     DemandeListComponent,
     FournisseurListComponent,
     FournisseurFormComponent,
-    BlFormComponent
+    BlFormComponent,
+    BlListComponent
   ],
   imports: [
     BrowserModule,
