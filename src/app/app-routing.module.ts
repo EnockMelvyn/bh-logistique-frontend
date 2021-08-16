@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ArticleFormComponent } from './components/article-form/article-form.component';
 import { ArticleListComponent } from './components/article-list/article-list.component';
 import { BlFormComponent } from './components/bl-form/bl-form.component';
+import { BlListComponent } from './components/bl-list/bl-list.component';
 import { DemandeFormComponent } from './components/demande-form/demande-form.component';
 import { DemandeListComponent } from './components/demande-list/demande-list.component';
 import { FamilleFormComponent } from './components/famille-form/famille-form.component';
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'parametre/fournisseur/creer', component: FournisseurFormComponent},
   { path: 'demande', component: DemandeListComponent },
   { path: 'demande/creer', component: DemandeFormComponent },
-  { path: 'livraison/enregistrer', component: BlFormComponent }
+  { path: 'livraison/enregistrer', component: BlFormComponent },
+  { path: 'livraison', component: BlListComponent }
 ];
 
 @NgModule({
