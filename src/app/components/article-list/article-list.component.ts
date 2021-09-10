@@ -13,7 +13,7 @@ export class ArticleListComponent implements OnInit {
   
   articles: Article[] = [];
 
-  columnsToDisplay = ['libelleArticle','codeArticle', 'sousFamille']
+  columnsToDisplay = ['libelleArticle','codeArticle', 'sousFamille', 'cmup', 'quantiteStock']
 
   constructor(private articleService: ArticleService, public dialog: MatDialog) { }
 

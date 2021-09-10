@@ -1,1 +1,53 @@
-<p>sortie-form works!</p>
+<div class="card">
+    <div class="card-header">
+        <h3 mat-dialog-title > Enregistrer une sortie</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <div class="card-body">
+        <mat-dialog-content>
+            <form [formGroup] ="formSortie" (ngSubmit)="onSubmit">
+                <div class="card-body">
+                <div class="form-group">
+                <label for="dateSortie">Date de sortie</label>
+                <input matInput type="date" class="form-control" name="dateSortie" formControlName="dateSortie" placeholder="Date de sortie">
+                </div>
+                <div class="form-group .col-6">
+                <label for="reference">Référence</label>
+                <input matInput type="text" class="form-control" name="reference" formControlName="reference" placeholder="Référence">
+                </div>  
+                <div class="form-group .col-6">
+                    <label for="demande">Demande</label>
+                    <mat-select class="form-control" name="demande" formControlName="demande" placeholder="Demande" id="demande">
+                        <mat-option *ngFor="let demande of demandes" [value]="demande"> {{ demande.numRef }} du {{ demande.dateDemande }}</mat-option>
+                    </mat-select>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group .col-6">
+                        <label for="article">Article</label>
+                        <mat-select class="form-control" name="article" formControlName="article" placeholder="Article" id="article">
+                            <mat-option *ngFor="let article of articles" [value]="article"> {{ article.libelleArticle }} </mat-option>
+                        </mat-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group .col-6">
+                            <label for="quantite">Quantité</label>
+                            <input type="text" class="form-control" name="quantite" formControlName="quantite" placeholder="Quantité">
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            </form>
+        </mat-dialog-content>
+            <!-- /.card-body -->
+
+        <div mat-dialog-actions>
+            <button type="submit" class="btn btn-primary" (click)="enregistrerSortie()" *ngIf="idSortie==-1">Enregistrer </button>
+            <button type="submit" class="btn btn-danger" mat-dialog-close >Retour</button>
+        </div>
+    </div>
+</div>
+    <!-- </div> -->

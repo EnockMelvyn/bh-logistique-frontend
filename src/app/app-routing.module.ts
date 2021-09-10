@@ -4,12 +4,15 @@ import { ArticleFormComponent } from './components/article-form/article-form.com
 import { ArticleListComponent } from './components/article-list/article-list.component';
 import { BlFormComponent } from './components/bl-form/bl-form.component';
 import { BlListComponent } from './components/bl-list/bl-list.component';
+import { CommandeFormComponent } from './components/commande-form/commande-form.component';
+import { CommandeListComponent } from './components/commande-list/commande-list.component';
 import { DemandeFormComponent } from './components/demande-form/demande-form.component';
 import { DemandeListComponent } from './components/demande-list/demande-list.component';
 import { FamilleFormComponent } from './components/famille-form/famille-form.component';
 import { FamilleComponent } from './components/famille/famille.component';
 import { FournisseurFormComponent } from './components/fournisseur-form/fournisseur-form.component';
 import { FournisseurListComponent } from './components/fournisseur-list/fournisseur-list.component';
+import { SortieFormComponent } from './components/sortie-form/sortie-form.component';
 import { SousfamilleFormComponent } from './components/sousfamille-form/sousfamille-form.component';
 import { SousfamilleListComponent } from './components/sousfamille-list/sousfamille-list.component';
 
@@ -24,8 +27,11 @@ const routes: Routes = [
   { path: 'parametre/fournisseur/creer', component: FournisseurFormComponent},
   { path: 'demande', component: DemandeListComponent },
   { path: 'demande/creer', component: DemandeFormComponent },
+  { path: 'sortie/creer', component: SortieFormComponent },
   { path: 'livraison/enregistrer', component: BlFormComponent },
-  { path: 'livraison', component: BlListComponent }
+  { path: 'livraison', component: BlListComponent },
+  { path: 'commande/enregistrer', component: CommandeFormComponent },
+  { path: 'commande', component: CommandeListComponent }
 ];
 
 @NgModule({

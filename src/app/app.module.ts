@@ -29,6 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlFormComponent } from './components/bl-form/bl-form.component';
 import { BlListComponent } from './components/bl-list/bl-list.component';
 import { SortieFormComponent } from './components/sortie-form/sortie-form.component';
+import { CommandeFormComponent } from './components/commande-form/commande-form.component';
+import { CommandeListComponent } from './components/commande-list/commande-list.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { SortieFormComponent } from './components/sortie-form/sortie-form.compon
     FournisseurFormComponent,
     BlFormComponent,
     BlListComponent,
-    SortieFormComponent
+    SortieFormComponent,
+    CommandeFormComponent,
+    CommandeListComponent
   ],
   imports: [
     BrowserModule,

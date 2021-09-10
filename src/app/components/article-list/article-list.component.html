@@ -5,7 +5,7 @@
     <!-- /.card-header -->
     <div class="card-body">
       <div >
-        <button class="btn btn-primary" (click)="openDialogCreateArticle()" value="">Ajouter un article</button>
+        <button class="btn btn-primary" (click)="openDialogCreateArticle()" value="">Nouvel article</button>
       </div>
       <div class="col-md-12">
       <table class="mat-elevation-z8" mat-table [dataSource]="articles">
@@ -27,6 +27,16 @@
         <ng-container matColumnDef="sousFamille">
           <th mat-header-cell *matHeaderCellDef> Sous-famille </th>
           <td mat-cell *matCellDef="let article"> {{article.sousFamille? article.sousFamille.libelleSousFamille: ""}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cmup">
+          <th mat-header-cell *matHeaderCellDef> CMUP </th>
+          <td mat-cell *matCellDef="let article"> {{ article.cmup  }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantiteStock">
+          <th mat-header-cell *matHeaderCellDef> Quantité en stock </th>
+          <td mat-cell *matCellDef="let article"> {{ article.quantiteStock  }} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

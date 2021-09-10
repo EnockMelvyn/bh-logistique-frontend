@@ -4,7 +4,9 @@ export interface Article {
     idArticle?: number;
     libelleArticle?: string;
     codeArticle?: string;
-    sousFamille?: SousFamille
+    sousFamille?: SousFamille;
+    cmup?: number;
+    quantiteStock?: number;
 
     // constructor(){
     //     this.idFamille=0
