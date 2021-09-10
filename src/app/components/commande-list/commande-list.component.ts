@@ -11,7 +11,7 @@ import { CommandeService } from 'src/app/services/commande.service';
 })
 export class CommandeListComponent implements OnInit {
 
-  colonnes = ["numeroCommande","dateCommande", "createdBy", "status"]
+  colonnes = ["numeroCommande","dateCommande", "createdBy", "status", "actions"]
   commandes : Commande[]= []
   dataSource : MatTableDataSource<Commande> = new MatTableDataSource();
   constructor(private commandeService: CommandeService) { }
