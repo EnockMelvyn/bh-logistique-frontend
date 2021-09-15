@@ -27,4 +27,13 @@ export class CommandeService {
   public createCommande(commande: Commande ) : Observable<Commande> {
     return this.http.post<any>(`${this.apiServerUrl}/api/commandes/`, commande);
   } 
+  
+  public validateCommande(commande: Commande) : Observable<Commande> {
+    return this.http.put<any>(`${this.apiServerUrl}/api/commandes/validate?idCommande=`+ commande.idCommande, commande);
+  } 
+  public refuseCommande(commande: Commande) : Observable<Commande> {
+    return this.http.put<any>(`${this.apiServerUrl}/api/commandes/refuse?idCommande=`+ commande.idCommande, commande);
+  } 
+
+
 }

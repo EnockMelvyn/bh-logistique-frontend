@@ -18,7 +18,7 @@ export class CommandeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCommande()
-    this.dataSource.data = this.commandes
+    // this.dataSource.data = this.commandes
   }
 
   public getAllCommande(): void {
@@ -34,5 +34,17 @@ export class CommandeListComponent implements OnInit {
         alert(error.message);
       }
     )
+  }
+  
+  public validateCommande(commande: Commande): void {    console.log(commande.idCommande)
+    this.commandeService.validateCommande(commande).subscribe(
+      (response: Commande) => {
+
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+    this.ngOnInit()
   }
 }

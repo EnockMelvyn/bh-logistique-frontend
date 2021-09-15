@@ -31,6 +31,9 @@ import { BlListComponent } from './components/bl-list/bl-list.component';
 import { SortieFormComponent } from './components/sortie-form/sortie-form.component';
 import { CommandeFormComponent } from './components/commande-form/commande-form.component';
 import { CommandeListComponent } from './components/commande-list/commande-list.component';
+import { AuthFormComponent } from './components/auth-form/auth-form.component';
+import { ContentComponent } from './components/content/content.component';
+import { TemplateAdminLTEComponent } from './components/template-admin-lte/template-admin-lte.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { CommandeListComponent } from './components/commande-list/commande-list.
     BlListComponent,
     SortieFormComponent,
     CommandeFormComponent,
-    CommandeListComponent
+    CommandeListComponent,
+    AuthFormComponent,
+    ContentComponent,
+    TemplateAdminLTEComponent
   ],
   imports: [
     BrowserModule,
