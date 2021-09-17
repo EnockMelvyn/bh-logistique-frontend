@@ -10,7 +10,7 @@ export class TemplateAdminLTEComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(localStorage.getItem('userConnected'))
+    console.log("template admin")
   }
 
 }

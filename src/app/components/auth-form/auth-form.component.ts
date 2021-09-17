@@ -31,14 +31,12 @@ export class AuthFormComponent implements OnInit {
       password: encoder.sha512(this.formAuth.get('password')?.value)
     }
     console.log(user)
-    this.authService.connexionUser(user).subscribe(
+    this.authService.connexionUser(user).toPromise().then(
       (response: any) => {
-        console.log(response)
         if(!response.hasError) {
-          localStorage.setItem('userConnected', response.items[1]);
-          console.log("je suis rentré")
+          localStorage.setItem('userConnected', response.items[0]);
           console.log(response.status.message)
-          this.router.navigateByUrl('content')
+          this.router.navigateByUrl('/content/sortie/creer')
         }
         else {
           alert(response.status.message + user.password);

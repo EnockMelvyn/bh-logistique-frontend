@@ -59,7 +59,7 @@ export class DemandeFormComponent implements OnInit {
 
 
   constructor( private demandeService : DemandeService, private articleService: ArticleService, 
-    @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, private router: Router, private _formBuilder: FormBuilder ) { 
+    @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, private router: Router, private _formBuilder: FormBuilder) { 
 
       this.firstFormGroup = this._formBuilder.group({
         numRef: ['', Validators.required],
@@ -67,7 +67,7 @@ export class DemandeFormComponent implements OnInit {
         observation: [''],
         dateDemande: [''],
         demandeur: [''],
-        statutDemande: ['', Validators.required],
+        statutDemande: ['EN_ATTENTE'],
         urgent: [''],
         justifUrgence: ['']
     });
@@ -77,7 +77,6 @@ export class DemandeFormComponent implements OnInit {
       });
   
     }
-
 
   ngOnInit(): void {
     if (this.data.idDemande != null) {
@@ -102,12 +101,13 @@ export class DemandeFormComponent implements OnInit {
   }
 
   public createDemande(): void {
-    this.demandeService.createDemande(this.demande).subscribe(
+    let demande= this.buildDemande()
+    this.demandeService.createDemande(demande).subscribe(
       (response: Demande) => {
         this.demande = response ;
         alert('Demande enregistrée');
         console.log(this.demande)
-        // window.close()
+        window.close()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -129,7 +129,8 @@ export class DemandeFormComponent implements OnInit {
 
 
   public updateDemande(): void {
-    this.demandeService.updateDemande(this.data.idDemande, this.demande).subscribe(
+    let demande= this.buildDemande()
+    this.demandeService.updateDemande(this.data.idDemande, demande).subscribe(
       (response: Demande) => {
         this.demande = response ;
         alert('Demande mise à jour');
@@ -142,6 +143,22 @@ export class DemandeFormComponent implements OnInit {
       )
   }
 
+  public buildDemande(): Demande {
+    let demande : Demande
+    demande= {
+      numRef: this.firstFormGroup.get('numRef')!.value,
+      estimation: this.firstFormGroup.get('estimation')!.value,
+      observation: this.firstFormGroup.get('observation')!.value,
+      dateDemande: this.firstFormGroup.get('dateDemande')!.value,
+      demandeur: this.firstFormGroup.get('demandeur')!.value,
+      statutDemande: 'EN_ATTENTE',
+      urgent: this.firstFormGroup.get('urgent')!.value,
+      justifUrgence: this.firstFormGroup.get('justifUrgence')!.value,
+      demandeArticles: this.demande.demandeArticles
+    }
+
+    return demande;
+  }
   public validateDemande(): void {
     this.demandeService.validateOrRefuseDemande(this.data.idDemande, "validate").subscribe(
       (response: Demande) => {
@@ -183,8 +200,8 @@ export class DemandeFormComponent implements OnInit {
         this.demandeArticle = {article: this.articleToAdd, quantite: this.quantite}
         console.log('demandeArticle 1 = ' + this.demandeArticle)
         console.log('demandeArticle lib = ' + this.demandeArticle.article?.libelleArticle)
-        this.demande.demandeArticles.push(this.demandeArticle);
-        this.demande.demandeArticles.sort
+        this.demande.demandeArticles!.push(this.demandeArticle);
+        this.demande.demandeArticles!.sort
         console.log(this.demande.demandeArticles)
         // nettoyage demandeArticle
         this.demandeArticle={}
@@ -199,9 +216,9 @@ export class DemandeFormComponent implements OnInit {
 
   public deleteDemandeArticle(ligne: DemandeArticle):void {
 
-    const index = this.demande.demandeArticles.findIndex(demandeArticle => demandeArticle = ligne);
-    this.demande.demandeArticles.splice(index,1)
-        this.demande.demandeArticles.sort
+    const index = this.demande.demandeArticles!.findIndex(demandeArticle => demandeArticle = ligne);
+    this.demande.demandeArticles!.splice(index,1)
+        this.demande.demandeArticles!.sort
         this.table.renderRows()
         console.log(this.demande.demandeArticles)
     

@@ -7,7 +7,7 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiServerUrl = 'http://192.168.200.17:8081/auth/v1/user/'
+  private apiServerUrl = 'http://192.168.200.17:8081/auth/v1/user'
 
   constructor(private http : HttpClient) { }
 
@@ -28,7 +28,7 @@ export class AuthService {
   }
   public userConnected(): any {
     if(localStorage.getItem('userConnected')){
-      return localStorage.getItem('userConnected')
+      return JSON.parse(localStorage.getItem('userConnected')!)
     }else{
       return false;
     }

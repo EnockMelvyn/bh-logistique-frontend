@@ -10,7 +10,10 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (localStorage.getItem('userConnected')){
-        console.log(JSON.parse(localStorage.getItem('userConnected')!))
+        let user = localStorage.getItem('userConnected')
+        if (user!=null) {
+          console.log(user)
+        }
         return true;
       }
       else {

@@ -37,11 +37,12 @@ const routes: Routes = [
   // { path: 'commande', component: CommandeListComponent, canActivate: [AuthGuard] },
   { path: 'content', component: TemplateAdminLTEComponent, canActivate: [AuthGuard], 
     children:[
+      { path: 'liv/creer', component: BlFormComponent},
       { path: 'parametre',
         children:[
           { path: 'famille', component: FamilleComponent,
             children:[
-              { path: 'creer', component: FamilleFormComponent, canActivate: [AuthGuard] },
+              { path: 'creer', component: FamilleFormComponent },
             ]
           },
           { path: 'sousFamille', component: SousfamilleListComponent, 
@@ -61,20 +62,27 @@ const routes: Routes = [
           },
         ] 
       },
-      { path: 'demande', component: DemandeListComponent, 
+      { path: 'demande', 
         children:[
-          { path: 'creer', component: DemandeFormComponent, canActivate: [AuthGuard]},
+          { path: 'creer', component: DemandeFormComponent},
+          { path: 'list', component: DemandeListComponent}
         ]
       },
-      { path: 'sortie/creer', component: SortieFormComponent, canActivate: [AuthGuard] },
-      { path: 'livraison', component: BlListComponent,
+      { path: 'sortie',
         children:[
-          { path: 'enregistrer', component: BlFormComponent}
+          { path: 'creer', component: SortieFormComponent},
         ] 
       },
-      { path: 'commande', component: CommandeListComponent, 
+      { path: 'livraison',
         children:[
-          { path: 'enregistrer', component: CommandeFormComponent }
+          { path: 'creer', component: BlFormComponent},
+          { path: 'list', component: BlListComponent},
+        ] 
+      },
+      { path: 'commande', 
+        children:[
+          { path: 'creer', component: CommandeFormComponent },
+          { path: 'list', component: CommandeListComponent }
         ] 
       }
     ]
@@ -85,7 +93,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

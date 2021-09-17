@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { Demande } from 'src/app/models/demande';
+import { AuthService } from 'src/app/services/auth.service';
 import { DemandeService } from 'src/app/services/demande.service';
 import { DemandeFormComponent } from '../demande-form/demande-form.component';
 
@@ -19,10 +20,11 @@ export class DemandeListComponent implements OnInit {
   columnsToDisplay = ['numRef','estimation', 'observation', 'dateDemande', 'demandeur', 'statutDemande', 'urgent', 'justifUrgence', 'actions']
         
 
-  constructor(private demandeService: DemandeService, public dialog: MatDialog) { }
+  constructor(private demandeService: DemandeService, public dialog: MatDialog, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getAllDemandes();
+    // console.log(localStorage.getItem('u'))
   }
 
   public getAllDemandes(): void {
