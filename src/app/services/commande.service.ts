@@ -15,6 +15,10 @@ export class CommandeService {
   public getAllCommandes(): Observable<Commande[]> {
     return this.http.get<any>(`${this.apiServerUrl}/api/commandes`);
   }
+  
+  public getCommandesByStatut(statutCommande: string): Observable<Commande[]> {
+    return this.http.get<any>(`${this.apiServerUrl}/api/commandes/statut?statutCommande=`+statutCommande);
+  }
 
   public getCommandeByReference(numeroBL: string ): Observable<Commande[]> {
     return this.http.get<any>(`${this.apiServerUrl}/api/commandes?numeroBL=`+numeroBL);

@@ -33,7 +33,7 @@ export class SortieFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllArticles()
-    this.getAllDemandes()
+    this.getDemandesEnAttente()
   }
 
   public enregistrerSortie():void {
@@ -74,8 +74,8 @@ export class SortieFormComponent implements OnInit {
     )
   }
 
-  public getAllDemandes(): void {
-    this.demandeService.getAllDemandes().subscribe(
+  public getDemandesEnAttente(): void {
+    this.demandeService.getDemandeByStatut("EN_ATTENTE").subscribe(
       (response: Demande[]) => {
         this.demandes = response ;
       },

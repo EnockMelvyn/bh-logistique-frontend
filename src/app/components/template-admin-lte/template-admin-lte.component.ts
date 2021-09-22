@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-template-admin-lte',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplateAdminLTEComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
     console.log("template admin")
   }
 
+  disconnectUser():void{
+    this.authService.disconnectUser()
+  }
 }

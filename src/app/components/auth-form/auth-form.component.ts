@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import * as encoder from 'js-sha512';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -14,7 +15,8 @@ import { Router } from '@angular/router';
 export class AuthFormComponent implements OnInit {
 
   formAuth : FormGroup
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router,
+    private data: DataService) {
     this.formAuth = this.formBuilder.group({
       login : ['', Validators.required],
       password: ['', Validators.required]
@@ -34,7 +36,8 @@ export class AuthFormComponent implements OnInit {
     this.authService.connexionUser(user).toPromise().then(
       (response: any) => {
         if(!response.hasError) {
-          localStorage.setItem('userConnected', response.items[0]);
+          // this.data.setUserConnected(response.items[0])
+          localStorage.setItem('userConnected', JSON.stringify(response.items[0]));
           console.log(response.status.message)
           this.router.navigateByUrl('/content/sortie/creer')
         }

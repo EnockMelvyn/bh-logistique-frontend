@@ -14,7 +14,8 @@ import { CommandeService } from 'src/app/services/commande.service';
   styleUrls: ['./commande-form.component.css']
 })
 export class CommandeFormComponent implements OnInit {
-  
+  dateCommInvalid =false
+  numCommInvalid =false
   @ViewChild(MatTable) table!: MatTable<any>;
   commande : Commande = {}
   colonnes = ["article", "CMUP", "quantite"];
@@ -65,6 +66,9 @@ export class CommandeFormComponent implements OnInit {
   }
 
   public createCommande(): void {
+    if(!this.formCommande.get('dateCommande')?.valid){
+      this.dateCommInvalid = true
+    } else {
     this.commande= {
       dateCommande: this.formCommande.get('dateCommande')?.value,
       numeroCommande: this.formCommande.get('numCommande')?.value,
@@ -78,12 +82,13 @@ export class CommandeFormComponent implements OnInit {
         this.ngOnInit()
                 // window.close()
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      (errorResponse: HttpErrorResponse) => {
+        alert(errorResponse.error.message);
       }
     )
 
     this.resetPage()
+  }
   }
 
   resetPage(): void {

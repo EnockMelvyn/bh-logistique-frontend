@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl : 'http://192.168.200.17:8081/bhlogistic'
+  apiBaseUrl : 'http://localhost:8081/bhlogistique'
 };
 
 /*

@@ -8,6 +8,8 @@ import { Article } from 'src/app/models/article';
 import { Demande } from 'src/app/models/demande';
 import { DemandeArticle } from 'src/app/models/demandeArticle';
 import { ArticleService } from 'src/app/services/article.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { DataService } from 'src/app/services/data.service';
 import { DemandeService } from 'src/app/services/demande.service';
 
 @Component({
@@ -52,6 +54,7 @@ export class DemandeFormComponent implements OnInit {
 
   private demandeArticle?: DemandeArticle 
 
+  public mustJustify: boolean = false
 
   public demande : Demande = { numRef: '', estimation:0, observation:'',
    dateDemande: new Date,idDemande:0, demandeur:'', statutDemande:'', urgent:false,
@@ -59,18 +62,21 @@ export class DemandeFormComponent implements OnInit {
 
 
   constructor( private demandeService : DemandeService, private articleService: ArticleService, 
-    @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, private router: Router, private _formBuilder: FormBuilder) { 
+    @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, private router: Router, private _formBuilder: FormBuilder,
+    private authService: AuthService) { 
 
       this.firstFormGroup = this._formBuilder.group({
         numRef: ['', Validators.required],
         estimation: ['', Validators.required],
         observation: [''],
-        dateDemande: [''],
-        demandeur: [''],
+        dateDemande: [Date.now, Validators.required],
+        // demandeur: ['', Validators.required],
         statutDemande: ['EN_ATTENTE'],
         urgent: [''],
         justifUrgence: ['']
     });
+    
+
       this.secondFormGroup = this._formBuilder.group({
         article: ['', Validators.required],
         quantite: ['', Validators.required],
@@ -79,6 +85,9 @@ export class DemandeFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    
+    // if()
+    console.log(this.authService.userConnected)
     if (this.data.idDemande != null) {
       this.getDemande()
       this.idDemande= this.data.idDemande
@@ -102,17 +111,24 @@ export class DemandeFormComponent implements OnInit {
 
   public createDemande(): void {
     let demande= this.buildDemande()
-    this.demandeService.createDemande(demande).subscribe(
-      (response: Demande) => {
-        this.demande = response ;
-        alert('Demande enregistrée');
-        console.log(this.demande)
-        window.close()
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-      )
+    console.log("user connected => "+ this.authService.userConnected().emailUser)
+    console.log(demande)
+    // this.demandeService.createDemande(demande).subscribe(
+    //   (response: Demande) => {
+    //     this.demande = response ;
+    //     alert('Demande enregistrée');
+    //     console.log(this.demande)
+    //     window.close()
+    //   },
+    //   (errorResponse: HttpErrorResponse) => {
+    //     alert(errorResponse.error.message);
+    //   }
+    //   )
+  }
+
+  public OnChecked(target: any){
+    this.mustJustify = !this.mustJustify;
+    console.log("mustJustify => "+ this.mustJustify)
   }
 
   public getDemande(): void {
@@ -150,7 +166,7 @@ export class DemandeFormComponent implements OnInit {
       estimation: this.firstFormGroup.get('estimation')!.value,
       observation: this.firstFormGroup.get('observation')!.value,
       dateDemande: this.firstFormGroup.get('dateDemande')!.value,
-      demandeur: this.firstFormGroup.get('demandeur')!.value,
+      demandeur: this.authService.userConnected().emailUser,
       statutDemande: 'EN_ATTENTE',
       urgent: this.firstFormGroup.get('urgent')!.value,
       justifUrgence: this.firstFormGroup.get('justifUrgence')!.value,

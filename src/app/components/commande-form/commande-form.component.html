@@ -4,14 +4,20 @@
     </div>
 
     <div class="card-body">
+        
         <form [formGroup] ="formCommande" *ngIf="formCommande">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group .col-4">
+                            <div class="form-group .col-4" >
                                 <label for="dateCommande">Date de commande</label>
-                                <input type="date" class="form-control" name="dateCommande" id="dateCommande" formControlName="dateCommande">
+                                <input type="date" class="form-control" name="dateCommande" id="dateCommande" formControlName="dateCommande" >
+                                <!-- <div *ngIf="dateCommInvalid" class="text-danger">
+                                    <div >
+                                        Veuillez renseigner la date de la commande
+                                      </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -38,11 +44,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2">
-                            <!-- <div class="form-group "> -->
-                                <button mat-flat-button type="submit"  mat-button color="primary" (click)="addArticle()"> Ajouter l'article</button>
-                            <!-- </div> -->
-                        </div>
+                            <button mat-raised-btn class="btn btn-primary" routerLink="/content/commande/list"> Retour </button>
+                            <button mat-raised-button type="submit"  mat-button class="btn btn-primary" (click)="addArticle()" 
+                            *ngIf="formCommande.get('article')?.value && formCommande.get('quantite')?.value"> Ajouter l'article</button>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -55,7 +59,7 @@
                                             
                                         </div>
                                         <div class="col-sm-2">
-                                            <button mat-flat-button type="submit" mat-button color="primary" (click)="createCommande()"> Enregistrer la commande</button>
+                                            <button mat-flat-button type="submit" mat-button class="btn btn-success" (click)="createCommande()" *ngIf="formCommande.valid && commandeDetails.length>0 "> Enregistrer la commande</button>
                                             
                                         </div>
                                     </div>

@@ -1,18 +1,16 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { Commande } from 'src/app/models/commande';
 import { CommandeService } from 'src/app/services/commande.service';
 import { DataService } from 'src/app/services/data.service';
-
 @Component({
-  selector: 'app-commande-list',
-  templateUrl: './commande-list.component.html',
-  styleUrls: ['./commande-list.component.css']
+  selector: 'app-commande-list-val',
+  templateUrl: './commande-list-val.component.html',
+  styleUrls: ['./commande-list-val.component.css']
 })
-export class CommandeListComponent implements OnInit{
+export class CommandeListValComponent implements OnInit {
 
   colonnes = ["numeroCommande","dateCommande", "createdBy", "status", "actions"]
   commandes : Commande[]= []
@@ -20,8 +18,7 @@ export class CommandeListComponent implements OnInit{
   constructor(private commandeService: CommandeService, private router: Router, private data : DataService) { }
 
   ngOnInit(): void {
-    this.getCommandesEnattente()
-    // this.dataSource.data = this.commandes
+    this.getCommandesValid()
     
   }
 
@@ -29,9 +26,9 @@ export class CommandeListComponent implements OnInit{
     this.data.setCommande(commande)
     this.router.navigateByUrl('content/commande/recap')
   }
-  public getCommandesEnattente(): void {
+  public getCommandesValid(): void {
     
-    this.commandeService.getCommandesByStatut('ATT').subscribe(
+    this.commandeService.getCommandesByStatut('VAL').subscribe(
       (response: Commande[]) => {
         this.commandes = response ;
         this.dataSource.data = response;
@@ -46,5 +43,4 @@ export class CommandeListComponent implements OnInit{
   public goToForm(): void {
     this.router.navigateByUrl('/content/commande/enregistrer')
   }
-
 }

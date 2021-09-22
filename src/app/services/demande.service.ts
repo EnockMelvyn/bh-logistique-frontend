@@ -21,6 +21,10 @@ export class DemandeService {
   public getDemandeByReference(numRefDemande: string ): Observable<Demande[]> {
     return this.http.get<any>(`${this.apiServerUrl}/api/demandes?numRefDemande=`+numRefDemande);
   }
+  
+  public getDemandeByStatut(statut: string ): Observable<Demande[]> {
+    return this.http.get<any>(`${this.apiServerUrl}/api/demandes/statut?code=`+statut);
+  }
 
   public getDemandeById(idDemande: number ) : Observable<Demande> {
     return this.http.get<any>(`${this.apiServerUrl}/api/demandes/`+ idDemande);
