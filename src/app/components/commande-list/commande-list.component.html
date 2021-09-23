@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h1> Liste des commandes</h1>
+        <h1 > {{ titre }}</h1>
     </div>
 
     <div class="card-body">
@@ -32,7 +32,8 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell *matCellDef="let row"> 
-                    <button mat-raised-button  class="btn btn-primary" (click)="clickOnCommand(row)"> Valider</button>    
+                    <button mat-raised-button  class="btn btn-primary" (click)="clickOnCommand(row)" *ngIf="codeStatut!='VAL' && codeStatut!='REJ'"> Valider</button> 
+                    <button mat-raised-button  class="btn btn-primary" (click)="clickOnCommand(row)" *ngIf="codeStatut=='VAL' || codeStatut=='REJ'"> Voir détails</button> 
                 </td>
             </ng-container>
 

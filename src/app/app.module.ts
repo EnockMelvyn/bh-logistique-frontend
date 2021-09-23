@@ -35,7 +35,6 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
 import { ContentComponent } from './components/content/content.component';
 import { TemplateAdminLTEComponent } from './components/template-admin-lte/template-admin-lte.component';
 import { CommandeRecapComponent } from './components/commande-recap/commande-recap.component';
-import { CommandeListValComponent } from './components/commande-list-val/commande-list-val.component';
 
 @NgModule({
   declarations: [
@@ -58,8 +57,7 @@ import { CommandeListValComponent } from './components/commande-list-val/command
     AuthFormComponent,
     ContentComponent,
     TemplateAdminLTEComponent,
-    CommandeRecapComponent,
-    CommandeListValComponent
+    CommandeRecapComponent
   ],
   imports: [
     BrowserModule,

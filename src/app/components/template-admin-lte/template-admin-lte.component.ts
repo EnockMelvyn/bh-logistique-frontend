@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class TemplateAdminLTEComponent implements OnInit {
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService, private router: Router) { }
 
   ngOnInit(): void {
     console.log("template admin")
@@ -17,4 +18,5 @@ export class TemplateAdminLTEComponent implements OnInit {
   disconnectUser():void{
     this.authService.disconnectUser()
   }
+
 }

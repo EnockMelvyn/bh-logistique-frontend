@@ -78,20 +78,33 @@
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/content/commande/list" routerLinkActive="active" class="nav-link">
+              <a  routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
-                  Commandes
+                  Commandes 
+                  <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-            </li>
-            <li class="nav-item">
-              <a routerLink="/content/commande/validatedList" routerLinkActive="active" class="nav-link">
-                <i class="nav-icon fas fa-circle"></i>
-                <p>
-                  Commandes validées
-                </p>
-              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a routerLink="/content/commande/list/attente" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> En attente </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a routerLink="/content/commande/list/valide" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Validées </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a routerLink="/content/commande/list/refuse" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Refusées </p>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="nav-item">
               <a routerLink="/content/livraison/list" routerLinkActive="active" class="nav-link">

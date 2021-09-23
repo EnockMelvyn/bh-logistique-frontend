@@ -19,7 +19,6 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
 import { AuthGuard } from './guards/auth.guard';
 import { TemplateAdminLTEComponent } from './components/template-admin-lte/template-admin-lte.component';
 import { CommandeRecapComponent } from './components/commande-recap/commande-recap.component';
-import { CommandeListValComponent } from './components/commande-list-val/commande-list-val.component';
 
 const routes: Routes = [
   // { path: 'parametre/famille', component: FamilleComponent, canActivate: [AuthGuard] },
@@ -84,8 +83,7 @@ const routes: Routes = [
       { path: 'commande', 
         children:[
           { path: 'creer', component: CommandeFormComponent },
-          { path: 'list', component: CommandeListComponent },
-          { path: 'validatedList', component: CommandeListValComponent},
+          { path: 'list/:statutCommandes', component: CommandeListComponent },
           { path: 'recap', component: CommandeRecapComponent }
         ] 
       }
@@ -97,7 +95,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash:true})],
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: 'reload',
+    useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

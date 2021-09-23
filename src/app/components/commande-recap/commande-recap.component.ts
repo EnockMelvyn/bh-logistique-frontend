@@ -17,6 +17,7 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./commande-recap.component.css']
 })
 export class CommandeRecapComponent implements OnInit{
+  statutCommande=''
   codeStatut = ''
   articles : Article[] = []
   commande: Commande = {}
@@ -43,11 +44,24 @@ export class CommandeRecapComponent implements OnInit{
       )
     }
 
+    public retour():void {
+      switch (this.commande.status?.codeStatut) {
+        case 'REJ':
+          this.router.navigateByUrl('/content/commande/list/refuse')
+          break;
+        case 'VAL':
+          this.router.navigateByUrl('/content/commande/list/valide')
+          break;
+        default:
+          this.router.navigateByUrl('/content/commande/list/attente')
+          break;
+      }
+    }
+
     public getCommandeById(idCommande: number): void {
       this.commandeService.getCommandeById(idCommande).subscribe(
         (response: Commande) => {
           this.commande = response ;
-          this.codeStatut = this.commande.status?.codeStatut!
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -59,7 +73,7 @@ export class CommandeRecapComponent implements OnInit{
       this.commandeService.validateCommande(this.commande).subscribe(
         (response: Commande) => {
           alert("La commande a été validée")
-          this.router.navigateByUrl('/content/commande/list')
+          this.router.navigateByUrl('/content/commande/list/valide')
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -71,7 +85,7 @@ export class CommandeRecapComponent implements OnInit{
         this.commandeService.refuseCommande(this.commande).subscribe(
           (response: Commande) => {
             alert("La commande a été rejetée")
-            this.router.navigateByUrl('/content/commande/list')
+            this.router.navigateByUrl('/content/commande/list/refuse')
           },
           (error: HttpErrorResponse) => {
             alert(error.message);

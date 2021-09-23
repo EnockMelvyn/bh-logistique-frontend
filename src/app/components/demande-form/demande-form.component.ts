@@ -113,17 +113,17 @@ export class DemandeFormComponent implements OnInit {
     let demande= this.buildDemande()
     console.log("user connected => "+ this.authService.userConnected().emailUser)
     console.log(demande)
-    // this.demandeService.createDemande(demande).subscribe(
-    //   (response: Demande) => {
-    //     this.demande = response ;
-    //     alert('Demande enregistrée');
-    //     console.log(this.demande)
-    //     window.close()
-    //   },
-    //   (errorResponse: HttpErrorResponse) => {
-    //     alert(errorResponse.error.message);
-    //   }
-    //   )
+    this.demandeService.createDemande(demande).subscribe(
+      (response: Demande) => {
+        this.demande = response ;
+        alert('Demande enregistrée');
+        console.log(this.demande)
+        window.close()
+      },
+      (errorResponse: HttpErrorResponse) => {
+        alert(errorResponse.error.message);
+      }
+      )
   }
 
   public OnChecked(target: any){

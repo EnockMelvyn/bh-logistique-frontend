@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="row">
-                            <button mat-raised-btn class="btn btn-primary" routerLink="/content/commande/list"> Retour </button>
+                            <button mat-raised-btn class="btn btn-primary" routerLink="/content/commande/list/attente"> Retour </button>
                             <button mat-raised-button type="submit"  mat-button class="btn btn-primary" (click)="addArticle()" 
                             *ngIf="formCommande.get('article')?.value && formCommande.get('quantite')?.value"> Ajouter l'article</button>
                     </div>

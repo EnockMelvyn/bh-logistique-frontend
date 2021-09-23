@@ -8,16 +8,22 @@
             
             <form>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group .col-4" >
                             <label for="dateCommande">Date de commande</label>
                             <input type="text" class="form-control" name="dateCommande" id="dateCommande" [ngModel]="commande.dateCommande" disabled>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group .col-4">
                             <label for="numCommande">N° Commande</label>
                             <input type="text" class="form-control" name="numCommande" id="numCommande" [ngModel]="commande.numeroCommande" disabled>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group .col-4">
+                            <label for="statutCommande">Statut</label>
+                            <input type="text" class="form-control" name="statutCommande" id="statutCommande" [ngModel]="commande.status?.libelleStatut!" disabled>
                         </div>
                     </div>
                 </div>
@@ -52,11 +58,11 @@
                         </div>
                     </div>
                 </div>
-                <button mat-raised-btn class="btn btn-primary" routerLink="/content/commande/list"> Retour </button>
+                <button mat-raised-btn class="btn btn-primary" (click)="retour()"> Retour </button>
                 <button mat-raised-btn class="btn btn-danger" (click)="refuseCommande()"
-                *ngIf="commande.numeroCommande && codeStatut=='att'"> Rejeter la commande</button>
+                *ngIf="commande.numeroCommande && commande.status?.codeStatut=='ATT'"> Rejeter la commande</button>
                 <button mat-raised-btn class="btn btn-success float-right" (click)="validateCommande()" 
-                *ngIf="commande.numeroCommande && codeStatut=='att'" > Valider la commande</button>
+                *ngIf="commande.numeroCommande && commande.status?.codeStatut=='ATT'" > Valider la commande</button>
                 
             </form>
         </div>

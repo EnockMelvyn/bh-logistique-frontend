@@ -4,10 +4,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Article } from 'src/app/models/article';
+import { Commande } from 'src/app/models/commande';
 import { Fournisseur } from 'src/app/models/fournisseur';
 import { Livraison } from 'src/app/models/livraison';
 import { LivraisonDetail } from 'src/app/models/livraison-detail';
 import { ArticleService } from 'src/app/services/article.service';
+import { CommandeService } from 'src/app/services/commande.service';
 import { FournisseurService } from 'src/app/services/fournisseur.service';
 import { LivraisonService } from 'src/app/services/livraison.service';
 import * as xlsx from 'xlsx';
@@ -26,7 +28,7 @@ export class BlFormComponent implements OnInit{
   file: File;
   
   arrayBuffer: any;
-
+  commandesValide : Commande[] = []
   livraison : Livraison = {}
   tabLivDet: LivraisonDetail[] = []
   livraisonDetails: LivraisonDetail[] = []
@@ -34,21 +36,33 @@ export class BlFormComponent implements OnInit{
   articles: Article[] = []
   fournisseurs : Fournisseur[]=[]
   constructor( private fournisseurService: FournisseurService, private articleService: ArticleService, 
-    private livraisonService: LivraisonService, private formBuilder: FormBuilder) { 
+    private livraisonService: LivraisonService, private commandeService:CommandeService, private formBuilder: FormBuilder) { 
     this.formBl = this.formBuilder.group({
       fournisseur: ['', Validators.required],
       dateLivraison: ['', Validators.required],
       numeroBl: ['', Validators.required],
+      commande: [''],
       articles: []
     });
   }
 
   ngOnInit(): void {
     this.getAllFournisseurs()
+    this.getCommandeValide()
     this.getAllArticles()
   }
 
 
+  public getCommandeValide(): void {
+    this.commandeService.getCommandesByStatut('VAL').subscribe(
+      (response: Commande[]) => {
+        this.commandesValide = response ;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
   public getAllFournisseurs(): void {
     this.fournisseurService.getAllFournisseurs().subscribe(
       (response: Fournisseur[]) => {
@@ -130,12 +144,14 @@ export class BlFormComponent implements OnInit{
       "dateLivraison": this.formBl.get('dateLivraison')?.value,
       "fournisseur": this.formBl.get('fournisseur')?.value,
       "numeroBl": this.formBl.get('numeroBl')?.value,
+      "commande": this.formBl.get('commande')?.value,
       "livraisonDetails": this.livraisonDetails
     }
    }
 
    console.log(this.livraison.dateLivraison)
    console.log(this.livraison.fournisseur)
+   console.log(this.livraison.commande)
    console.log("livraison details2");
    console.log(this.livraison.livraisonDetails)
 
@@ -148,10 +164,10 @@ export class BlFormComponent implements OnInit{
         this.livraison = response ;
         alert('Bon de livraison enregistré avec succès');
         this.ngOnInit()
-                // window.close()
+                
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      (errorResponse: HttpErrorResponse) => {
+        alert(errorResponse.error.message);
       }
     )
   }

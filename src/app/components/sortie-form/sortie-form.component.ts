@@ -53,8 +53,8 @@ export class SortieFormComponent implements OnInit {
         this.ngOnInit()
         // window.close()
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      (errorResponse: HttpErrorResponse) => {
+        alert(errorResponse.error.message);
       }
     )
   }
@@ -68,8 +68,8 @@ export class SortieFormComponent implements OnInit {
       (response: Article[]) => {
         this.articles = response ;
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      (errorResponse: HttpErrorResponse) => {
+        alert(errorResponse.error.message);
       }
     )
   }
@@ -79,8 +79,8 @@ export class SortieFormComponent implements OnInit {
       (response: Demande[]) => {
         this.demandes = response ;
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      (errorResponse: HttpErrorResponse) => {
+        alert(errorResponse.error.message);
       }
     )
   }

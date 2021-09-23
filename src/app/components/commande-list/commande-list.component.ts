@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Commande } from 'src/app/models/commande';
 import { CommandeService } from 'src/app/services/commande.service';
@@ -14,15 +14,43 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class CommandeListComponent implements OnInit{
 
+  titre = ''
+  statutCommandes =''
+  codeStatut =''
   colonnes = ["numeroCommande","dateCommande", "createdBy", "status", "actions"]
   commandes : Commande[]= []
   dataSource : MatTableDataSource<Commande> = new MatTableDataSource();
-  constructor(private commandeService: CommandeService, private router: Router, private data : DataService) { }
+  constructor(private commandeService: CommandeService, private router: Router, private data : DataService,
+    private route: ActivatedRoute) {
+          
+     }
 
   ngOnInit(): void {
-    this.getCommandesEnattente()
-    // this.dataSource.data = this.commandes
+    this.route.params.subscribe( params => {
+      this.statutCommandes = params.statutCommandes
+      switch (this.statutCommandes) {
+        case 'refuse':
+          this.codeStatut= 'REJ'
+          this.titre = "Liste des commandes rejetées"
+          break;
+        case 'valide':
+          this.codeStatut= 'VAL'
+          this.titre = "Liste des commandes validées"
+          break;
+        default:
+          this.codeStatut= 'ATT'
+          this.titre = "Liste des commandes en attente"
+          break;
+      }
+      this.getCommandesEnattente()
+    } );
+     
     
+    console.log(this.statutCommandes)
+  }
+
+  rechargerPage(): void {
+    window.location.reload()
   }
 
   public clickOnCommand(commande: Commande){
@@ -31,12 +59,10 @@ export class CommandeListComponent implements OnInit{
   }
   public getCommandesEnattente(): void {
     
-    this.commandeService.getCommandesByStatut('ATT').subscribe(
+    this.commandeService.getCommandesByStatut(this.codeStatut).subscribe(
       (response: Commande[]) => {
         this.commandes = response ;
         this.dataSource.data = response;
-        console.log(this.commandes)
-                // window.close()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
