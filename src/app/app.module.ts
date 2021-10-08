@@ -35,6 +35,9 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
 import { ContentComponent } from './components/content/content.component';
 import { TemplateAdminLTEComponent } from './components/template-admin-lte/template-admin-lte.component';
 import { CommandeRecapComponent } from './components/commande-recap/commande-recap.component';
+import { SortieListComponent } from './components/sortie-list/sortie-list.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DemandeRecapComponent } from './components/demande-recap/demande-recap.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,10 @@ import { CommandeRecapComponent } from './components/commande-recap/commande-rec
     AuthFormComponent,
     ContentComponent,
     TemplateAdminLTEComponent,
-    CommandeRecapComponent
+    CommandeRecapComponent,
+    SortieListComponent,
+    DashboardComponent,
+    DemandeRecapComponent
   ],
   imports: [
     BrowserModule,

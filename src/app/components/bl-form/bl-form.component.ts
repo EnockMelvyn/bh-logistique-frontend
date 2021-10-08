@@ -133,25 +133,33 @@ export class BlFormComponent implements OnInit{
   public creationObjetLivraison(): void{
     for (var val of this.dataSource.data){
       for (var val2 of this.articles){
-        if (val["Ref"]== val2.codeArticle){
-          this.livraisonDetails.push({"article": val2, "quantite": val["Entrée"],"prix_unitaire": val["Prix Unitaire"]})
+        if (val["Ref"]== val2.libelleArticle && val["Entrée"]>0 && val["Prix Unitaire"]){
+          console.log(val2.codeArticle+"OK")
+          let livDet : LivraisonDetail = {
+            "article": val2, 
+            "quantite": val["Entrée"],
+            "prixUnitaire": val["Prix Unitaire"]
+          }
+          console.log(livDet)
+          this.livraisonDetails.push(livDet)
+          console.log(this.livraisonDetails)
         }
       }
     }
 
-   if (this.formBl.valid) {
+  //  if (this.formBl.valid) {
      this.livraison = {
       "dateLivraison": this.formBl.get('dateLivraison')?.value,
       "fournisseur": this.formBl.get('fournisseur')?.value,
       "numeroBl": this.formBl.get('numeroBl')?.value,
       "commande": this.formBl.get('commande')?.value,
       "livraisonDetails": this.livraisonDetails
-    }
+    // }
    }
 
-   console.log(this.livraison.dateLivraison)
-   console.log(this.livraison.fournisseur)
-   console.log(this.livraison.commande)
+  //  console.log(this.livraison.dateLivraison)
+  //  console.log(this.livraison.fournisseur)
+  //  console.log(this.livraison.commande)
    console.log("livraison details2");
    console.log(this.livraison.livraisonDetails)
 

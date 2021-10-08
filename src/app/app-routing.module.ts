@@ -19,6 +19,8 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
 import { AuthGuard } from './guards/auth.guard';
 import { TemplateAdminLTEComponent } from './components/template-admin-lte/template-admin-lte.component';
 import { CommandeRecapComponent } from './components/commande-recap/commande-recap.component';
+import { SortieListComponent } from './components/sortie-list/sortie-list.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   // { path: 'parametre/famille', component: FamilleComponent, canActivate: [AuthGuard] },
@@ -38,6 +40,8 @@ const routes: Routes = [
   // { path: 'commande', component: CommandeListComponent, canActivate: [AuthGuard] },
   { path: 'content', component: TemplateAdminLTEComponent, canActivate: [AuthGuard], 
     children:[
+
+      { path: 'dashboard', component: DashboardComponent},
       { path: 'liv/creer', component: BlFormComponent},
       { path: 'parametre',
         children:[
@@ -65,13 +69,14 @@ const routes: Routes = [
       },
       { path: 'demande', 
         children:[
-          { path: 'creer', component: DemandeFormComponent},
-          { path: 'list', component: DemandeListComponent}
+          { path: 'creer/:idType', component: DemandeFormComponent},
+          { path: 'list/:statutDemandes', component: DemandeListComponent}
         ]
       },
       { path: 'sortie',
         children:[
           { path: 'creer', component: SortieFormComponent},
+          { path: 'list', component: SortieListComponent}
         ] 
       },
       { path: 'livraison',

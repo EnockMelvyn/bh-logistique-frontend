@@ -70,10 +70,26 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
+              <a routerLink="/content/dashboard" routerLinkActive="active" class="nav-link">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                  Dashboard
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a routerLink="/content/sortie/creer" routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
                   Enregistrer une sortie
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/content/sortie/list" routerLinkActive="active" class="nav-link">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                  Liste des sorties
                 </p>
               </a>
             </li>
@@ -115,12 +131,51 @@
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/content/demande/list" routerLinkActive="active" class="nav-link">
+              <a  routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
                   Demandes
+                  <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a routerLink="/content/demande/list/attente" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> En attente </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a routerLink="/content/demande/list/refuse" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Refusées </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a routerLink="/content/demande/list/valideParSuperieur" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Validées </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a routerLink="/content/demande/list/enTraitement" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> En cours de traitement</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a routerLink="/content/demande/list/visaDemandeur" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> En attente de votre visa</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a routerLink="/content/demande/list/traitee" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Traitées </p>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="nav-item">
               <a class="nav-link">

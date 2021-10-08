@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Commande } from '../models/commande';
+import { Demande } from '../models/demande';
 import { User } from '../models/user';
 
 @Injectable({
@@ -9,6 +10,7 @@ import { User } from '../models/user';
 export class DataService {
 
   commande:Commande = {} 
+  demande : Demande = {}
   userConnected: User ={}
   // = JSON.parse(localStorage.getItem('userConnected')!)
   
@@ -21,6 +23,14 @@ export class DataService {
   }
    getCommande(): Commande {
     return this.commande
+  }
+
+  setDemande(demande: Demande) {
+    this.demande = demande
+  }
+
+  getDemande() {
+    return this.demande
   }
 
   setUserConnected (user:User) {

@@ -4,5 +4,5 @@ export interface LivraisonDetail {
     idLivraisonDetail?: number;
     article?: Article 
     quantite: number 
-    prix_unitaire: number 
+    prixUnitaire: number 
 }

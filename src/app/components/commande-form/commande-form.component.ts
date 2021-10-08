@@ -5,8 +5,10 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Article } from 'src/app/models/article';
 import { Commande } from 'src/app/models/commande';
 import { CommandeDetail } from 'src/app/models/commande-detail';
+import { Fournisseur } from 'src/app/models/fournisseur';
 import { ArticleService } from 'src/app/services/article.service';
 import { CommandeService } from 'src/app/services/commande.service';
+import { FournisseurService } from 'src/app/services/fournisseur.service';
 
 @Component({
   selector: 'app-commande-form',
@@ -18,13 +20,14 @@ export class CommandeFormComponent implements OnInit {
   numCommInvalid =false
   @ViewChild(MatTable) table!: MatTable<any>;
   commande : Commande = {}
-  colonnes = ["article", "CMUP", "quantite"];
+  colonnes = ["article", "CMUP", "quantite","actions"];
   articles : Article[] = [];
+  fournisseurs: Fournisseur[] = []
   commandeDetails : CommandeDetail[] = []
-  dataSource: MatTableDataSource<CommandeDetail> = new MatTableDataSource();
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
   formCommande : FormGroup
   constructor(private formBuilder : FormBuilder, private articleService: ArticleService,
-    private commandeService : CommandeService) { 
+    private commandeService : CommandeService, private fournisseurService: FournisseurService) { 
 
     this.formCommande = this.formBuilder.group({
       numCommande : ['', Validators.required],
@@ -36,12 +39,23 @@ export class CommandeFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllArticles()
+    this.getAllFournisseur()
   }
 
   public getAllArticles(): void {
     this.articleService.getAllArticles().subscribe(
       (response: Article[]) => {
         this.articles = response ;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+  public getAllFournisseur(): void {
+    this.fournisseurService.getAllFournisseurs().subscribe(
+      (response: Fournisseur[]) => {
+        this.fournisseurs = response ;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -55,14 +69,27 @@ export class CommandeFormComponent implements OnInit {
     this.commandeDetails.push(commandeDet)
 
     this.dataSource.data = this.commandeDetails
+    this.dataSource.data.forEach(element =>{
+      element['isEdit'] = false
+    })
 
     this.table.renderRows()
 
     console.log(this.dataSource.data)
   }
-  
+  public edit(el: any): void {
+    el.isEdit = !el.isEdit
+  }
+
+  public update(commDet: CommandeDetail , article: Article, quantite: number): void {
+    const copy = this.dataSource.data.slice()
+    commDet.article = article;
+    commDet.quantite = quantite;
+    this.dataSource._updateChangeSubscription();
+  }
+
   removeArticle(): void {
-    this.articles.push(this.formCommande.get('article')?.value)
+    this.articles.push()
   }
 
   public createCommande(): void {

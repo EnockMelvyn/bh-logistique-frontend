@@ -6,11 +6,6 @@ export interface DemandeArticle {
     quantite?: number;
     demande?: Demande;
     article?: Article;
-    
-
-    createdAt?: Date;
-    createdBy?: string;
-    modifiedAt?: Date;
-    modifiedBy ?: string;
+    idArticle?: number;
 
 }

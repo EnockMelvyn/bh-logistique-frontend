@@ -3,7 +3,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Article } from 'src/app/models/article';
 import { Demande } from 'src/app/models/demande';
 import { DemandeArticle } from 'src/app/models/demandeArticle';
@@ -45,10 +45,10 @@ export class DemandeFormComponent implements OnInit {
   // Elements formulaire ajout Produit
   columnsToDisplay = ['article','quantite','action']
   
-   
+  public idType : number
   public idArticleToAdd = 0
   public quantite = 0
-
+  public dateDem: Date
   // public article?: Article;
   private articleToAdd?: Article
 
@@ -56,20 +56,29 @@ export class DemandeFormComponent implements OnInit {
 
   public mustJustify: boolean = false
 
-  public demande : Demande = { numRef: '', estimation:0, observation:'',
-   dateDemande: new Date,idDemande:0, demandeur:'', statutDemande:'', urgent:false,
-   justifUrgence:'', demandeArticles:[], createdAt: new Date, createdBy:'',modifiedAt: new Date, modifiedBy:''};
+  public demande : Demande = {}
+  // { numRef: '', estimation:0, observation:'',
+  //  dateDemande: new Date,idDemande:0, demandeur:'', statutDemande:'', urgent:false,
+  //  justifUrgence:'', demandeArticles:[], createdAt: new Date, createdBy:'',modifiedAt: new Date, modifiedBy:''};
 
 
   constructor( private demandeService : DemandeService, private articleService: ArticleService, 
-    @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, private router: Router, private _formBuilder: FormBuilder,
+    // @Inject(MAT_DIALOG_DATA) public data: {idDemande: number}, 
+    private data : DataService, private route : ActivatedRoute,
+    private router: Router, private _formBuilder: FormBuilder,
     private authService: AuthService) { 
+     
 
+      if (this.data.getDemande() )
+    {
+      this.demande = this.data.getDemande() 
+    }
       this.firstFormGroup = this._formBuilder.group({
-        numRef: ['', Validators.required],
-        estimation: ['', Validators.required],
-        observation: [''],
-        dateDemande: [Date.now, Validators.required],
+        numRef: [this.demande.numRef, Validators.required],
+        categorie: [this.demande.idCategorie, Validators.required],
+        estimation: [this.demande.estimation, Validators.required],
+        observation: [this.demande.observation],
+        // dateDemande: [new Date(), Validators.required],
         // demandeur: ['', Validators.required],
         statutDemande: ['EN_ATTENTE'],
         urgent: [''],
@@ -85,14 +94,24 @@ export class DemandeFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    
+    this.route.params.subscribe(params =>{
+      this.idType = params.idType
+      }
+      )
+    this.dateDem = new Date()
+    console.log(this.idType)
     // if()
-    console.log(this.authService.userConnected)
-    if (this.data.idDemande != null) {
-      this.getDemande()
-      this.idDemande= this.data.idDemande
-    }
+    // if (this.data.idDemande != null) {
+    //   this.getDemande()
+    //   this.idDemande= this.data.idDemande
+    // }
+    
+    // if (this.data.getDemande() )
+    // {
+    //   this.demande = this.data.getDemande() 
+    // }
 
+    console.log(this.demande)
     this.articleService.getAllArticles().subscribe(
       (response: Article[]) => {
         this.articles = response ;
@@ -113,7 +132,7 @@ export class DemandeFormComponent implements OnInit {
     let demande= this.buildDemande()
     console.log("user connected => "+ this.authService.userConnected().emailUser)
     console.log(demande)
-    this.demandeService.createDemande(demande).subscribe(
+    this.demandeService.createDemande2(demande).subscribe(
       (response: Demande) => {
         this.demande = response ;
         alert('Demande enregistrée');
@@ -132,7 +151,7 @@ export class DemandeFormComponent implements OnInit {
   }
 
   public getDemande(): void {
-    this.demandeService.getDemandeById(this.data.idDemande).subscribe(
+    this.demandeService.getDemandeById(this.demande.idDemande!).subscribe(
       (response: Demande) => {
         this.demande = response ;
         console.log(this.demande)
@@ -146,7 +165,7 @@ export class DemandeFormComponent implements OnInit {
 
   public updateDemande(): void {
     let demande= this.buildDemande()
-    this.demandeService.updateDemande(this.data.idDemande, demande).subscribe(
+    this.demandeService.updateDemande(this.demande.idDemande!, demande).subscribe(
       (response: Demande) => {
         this.demande = response ;
         alert('Demande mise à jour');
@@ -165,9 +184,10 @@ export class DemandeFormComponent implements OnInit {
       numRef: this.firstFormGroup.get('numRef')!.value,
       estimation: this.firstFormGroup.get('estimation')!.value,
       observation: this.firstFormGroup.get('observation')!.value,
-      dateDemande: this.firstFormGroup.get('dateDemande')!.value,
+      // dateDemande: this.firstFormGroup.get('dateDemande')!.value,
       demandeur: this.authService.userConnected().emailUser,
       statutDemande: 'EN_ATTENTE',
+      idType: this.idType,
       urgent: this.firstFormGroup.get('urgent')!.value,
       justifUrgence: this.firstFormGroup.get('justifUrgence')!.value,
       demandeArticles: this.demande.demandeArticles
@@ -176,7 +196,7 @@ export class DemandeFormComponent implements OnInit {
     return demande;
   }
   public validateDemande(): void {
-    this.demandeService.validateOrRefuseDemande(this.data.idDemande, "validate").subscribe(
+    this.demandeService.validateOrRefuseDemande(this.demande.idDemande!, "validate").subscribe(
       (response: Demande) => {
         this.demande = response ;
         alert('Demande mise à jour');
@@ -190,7 +210,7 @@ export class DemandeFormComponent implements OnInit {
       )
   }
   public refuseDemande(): void {
-    this.demandeService.validateOrRefuseDemande(this.data.idDemande, "refuse").subscribe(
+    this.demandeService.validateOrRefuseDemande(this.demande.idDemande!, "refuse").subscribe(
       (response: Demande) => {
         this.demande = response ;
         alert('Demande mise à jour');
@@ -207,27 +227,33 @@ export class DemandeFormComponent implements OnInit {
   public addDemandeArticle():void {
 
     console.log(this.idArticleToAdd)
-    this.articleService.getArticleById(this.idArticleToAdd).subscribe(
-      (response: Article) => {
-        this.articleToAdd = response ;
-        console.log('-------------------------------------------------------')
-        console.log('Article to add'+this.articleToAdd)
-        console.log('-------------------------------------------------------')
-        this.demandeArticle = {article: this.articleToAdd, quantite: this.quantite}
-        console.log('demandeArticle 1 = ' + this.demandeArticle)
-        console.log('demandeArticle lib = ' + this.demandeArticle.article?.libelleArticle)
-        this.demande.demandeArticles!.push(this.demandeArticle);
-        this.demande.demandeArticles!.sort
-        console.log(this.demande.demandeArticles)
-        // nettoyage demandeArticle
-        this.demandeArticle={}
-        console.log('demandeArticle 2 = ' + this.demandeArticle)  
-        this.table.renderRows()
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    )
+    this.demandeArticle= {idArticle: this.idArticleToAdd, 
+    quantite: this.quantite}
+    this.demande.demandeArticles?.push(this.demandeArticle)
+    this.demande.demandeArticles?.sort
+    this.demandeArticle={}
+    this.table.renderRows()
+    // this.articleService.getArticleById(this.idArticleToAdd).subscribe(
+    //   (response: Article) => {
+    //     this.articleToAdd = response ;
+    //     console.log('-------------------------------------------------------')
+    //     console.log('Article to add'+this.articleToAdd)
+    //     console.log('-------------------------------------------------------')
+    //     this.demandeArticle = {article: this.articleToAdd, quantite: this.quantite}
+    //     console.log('demandeArticle 1 = ' + this.demandeArticle)
+    //     console.log('demandeArticle lib = ' + this.demandeArticle.article?.libelleArticle)
+    //     this.demande.demandeArticles!.push(this.demandeArticle);
+    //     this.demande.demandeArticles!.sort
+    //     console.log(this.demande.demandeArticles)
+    //     // nettoyage demandeArticle
+    //     this.demandeArticle={}
+    //     console.log('demandeArticle 2 = ' + this.demandeArticle)  
+    //     this.table.renderRows()
+    //   },
+    //   (error: HttpErrorResponse) => {
+    //     alert(error.message);
+    //   }
+    // )
   }
 
   public deleteDemandeArticle(ligne: DemandeArticle):void {
@@ -240,4 +266,9 @@ export class DemandeFormComponent implements OnInit {
     
   }
 
+  public annulerDemande():void {
+    this.demande = {}
+    this.data.setDemande(this.demande)
+    this.router.navigateByUrl("/content/demande/list")
+  }
 }
