@@ -32,6 +32,10 @@ export class CommandeService {
     return this.http.post<any>(`${this.apiServerUrl}/api/commandes/`, commande);
   } 
   
+  public updateCommande(commande: Commande ) : Observable<Commande> {
+    return this.http.put<any>(`${this.apiServerUrl}/api/commandes?idCommande=`+ commande.idCommande, commande);
+  } 
+  
   public validateCommande(commande: Commande) : Observable<Commande> {
     return this.http.put<any>(`${this.apiServerUrl}/api/commandes/validate?idCommande=`+ commande.idCommande, commande);
   } 

@@ -16,6 +16,10 @@ export class AuthService {
     return this.http.post<any>(`${this.apiServerUrl}/create`,user);
   }
   
+  public getAllUsers(): Observable<any> {
+    return this.http.get<any>(this.apiServerUrl+'/all')
+  }
+
   public connexionUser(user: User): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}/connexion`,user);
   }

@@ -21,6 +21,7 @@ import { TemplateAdminLTEComponent } from './components/template-admin-lte/templ
 import { CommandeRecapComponent } from './components/commande-recap/commande-recap.component';
 import { SortieListComponent } from './components/sortie-list/sortie-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ListDemandeDirectionComponent } from './components/list-demande-direction/list-demande-direction.component';
 
 const routes: Routes = [
   // { path: 'parametre/famille', component: FamilleComponent, canActivate: [AuthGuard] },
@@ -70,7 +71,8 @@ const routes: Routes = [
       { path: 'demande', 
         children:[
           { path: 'creer/:idType', component: DemandeFormComponent},
-          { path: 'list/:statutDemandes', component: DemandeListComponent}
+          { path: 'list/:statutDemandes', component: DemandeListComponent},
+          { path: 'direction', component: ListDemandeDirectionComponent},
         ]
       },
       { path: 'sortie',

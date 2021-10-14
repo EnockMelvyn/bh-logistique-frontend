@@ -8,22 +8,28 @@
             
             <form>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-lg-3">
                         <div class="form-group .col-4" >
                             <label for="dateCommande">Date de commande</label>
                             <input type="text" class="form-control" name="dateCommande" id="dateCommande" [ngModel]="commande.dateCommande" disabled>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-lg-3">
                         <div class="form-group .col-4">
                             <label for="numCommande">N° Commande</label>
                             <input type="text" class="form-control" name="numCommande" id="numCommande" [ngModel]="commande.numeroCommande" disabled>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-lg-3">
                         <div class="form-group .col-4">
                             <label for="statutCommande">Statut</label>
                             <input type="text" class="form-control" name="statutCommande" id="statutCommande" [ngModel]="commande.status?.libelleStatut!" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group .col-4">
+                            <label for="statutCommande">Fournisseur</label>
+                            <input type="text" class="form-control" name="fournisseur" id="fournisseur" [ngModel]="commande.fournisseur?.nomFournisseur!" disabled>
                         </div>
                     </div>
                 </div>
@@ -63,6 +69,8 @@
                 *ngIf="commande.numeroCommande && commande.status?.codeStatut=='ATT'"> Rejeter la commande</button>
                 <button mat-raised-btn class="btn btn-success float-right" (click)="validateCommande()" 
                 *ngIf="commande.numeroCommande && commande.status?.codeStatut=='ATT'" > Valider la commande</button>
+                
+                <button mat-raised-btn class="btn btn-success float-right" (click)="exportToExcel()" > Exporter vers excel</button>
                 
             </form>
         </div>

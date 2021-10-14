@@ -8,6 +8,7 @@ export interface Demande {
     observation?: string;
     dateDemande?: Date;
     demandeur?: string;
+    directionId?: number
     statutDemande?: string;
     idStatus?: number;
     idCategorie?: number;

@@ -8,21 +8,23 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        Demandes
+                        Mes demandes
                     </div>
                     <div class="card-body">
-                        <div *ngFor="let dashboardDemande of dashboardDemandes" class="col-lg-3 col-4">
-                            <!-- small box -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                <h3> {{ dashboardDemande.nombre }}</h3>
-                
-                                <p> Statut: {{ dashboardDemande.statut }}</p>
+                        <div class="row">
+                            <div *ngFor="let dashboardDemande of dashboardDemandes" class="col-lg-3 col-4">
+                                <!-- small box -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                    <h3> {{ dashboardDemande.nombre }}</h3>
+                    
+                                    <p> Statut: {{ dashboardDemande.statut }}</p>
+                                    </div>
+                                    <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    </div>
+                                    <a (click)="goToDetailDemandeDashboard(dashboardDemande)" class="small-box-footer">Voir détails<i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                <i class="ion ion-bag"></i>
-                                </div>
-                                <a href="/content/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

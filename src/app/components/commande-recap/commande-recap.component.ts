@@ -10,6 +10,7 @@ import { CommandeDetail } from 'src/app/models/commande-detail';
 import { ArticleService } from 'src/app/services/article.service';
 import { CommandeService } from 'src/app/services/commande.service';
 import { DataService } from 'src/app/services/data.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-commande-recap',
@@ -96,5 +97,20 @@ export class CommandeRecapComponent implements OnInit{
         console.log('Thing was not saved to the database.');
       }
       
+    }
+    
+    public createExcelArray (donnees :any[]): any[] {
+      let dataToReturn: any[] = []
+      donnees.forEach(element => {
+        dataToReturn.push({
+          'Code article': element.article?.codeArticle,
+          'Libellé article': element.article?.libelleArticle,
+          'Quantité': element.quantite
+        })
+      });
+      return dataToReturn;
+    }
+    public exportToExcel () {
+       this.data.exportToExecl(this.createExcelArray(this.commande.commandeDetails!),'Commande.xlsx');
     }
 }

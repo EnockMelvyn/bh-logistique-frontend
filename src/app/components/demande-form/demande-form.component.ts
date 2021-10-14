@@ -258,11 +258,17 @@ export class DemandeFormComponent implements OnInit {
 
   public deleteDemandeArticle(ligne: DemandeArticle):void {
 
-    const index = this.demande.demandeArticles!.findIndex(demandeArticle => demandeArticle = ligne);
-    this.demande.demandeArticles!.splice(index,1)
-        this.demande.demandeArticles!.sort
-        this.table.renderRows()
-        console.log(this.demande.demandeArticles)
+    // const index = this.demande.demandeArticles!.findIndex(demandeArticle => demandeArticle = ligne);
+    // this.demande.demandeArticles!.splice(index,1)
+    //     this.demande.demandeArticles!.sort
+    //     this.table.renderRows()
+    //     console.log(this.demande.demandeArticles)
+
+    this.demande.demandeArticles?.forEach((el, index, array) => {
+      if(el.idDemandeArticle === ligne.idDemandeArticle) {
+        array.splice(index,1)
+      }
+    })
     
   }
 

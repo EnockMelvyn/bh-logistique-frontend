@@ -10,6 +10,7 @@ export interface User {
     isDeleted?: boolean
     login?: string
     matricule?: string
+    directionId?:number 
     nameUser?: string
     password?: string
     profiles?: Profile[]

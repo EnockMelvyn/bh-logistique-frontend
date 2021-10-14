@@ -37,7 +37,12 @@ export class AuthFormComponent implements OnInit {
       (response: any) => {
         if(!response.hasError) {
           // this.data.setUserConnected(response.items[0])
-          localStorage.setItem('userConnected', JSON.stringify(response.items[0]));
+          
+          let userC : User
+          userC = response.items[0]
+          userC.directionId= 2
+          localStorage.setItem('userConnected', JSON.stringify(userC));
+          // localStorage.setItem('userConnected', JSON.stringify(response.items[0]));
           console.log(response.status.message)
           this.router.navigateByUrl('/content/sortie/creer')
         }

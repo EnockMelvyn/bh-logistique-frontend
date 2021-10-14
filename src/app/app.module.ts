@@ -38,6 +38,7 @@ import { CommandeRecapComponent } from './components/commande-recap/commande-rec
 import { SortieListComponent } from './components/sortie-list/sortie-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemandeRecapComponent } from './components/demande-recap/demande-recap.component';
+import { ListDemandeDirectionComponent } from './components/list-demande-direction/list-demande-direction.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { DemandeRecapComponent } from './components/demande-recap/demande-recap.
     CommandeRecapComponent,
     SortieListComponent,
     DashboardComponent,
-    DemandeRecapComponent
+    DemandeRecapComponent,
+    ListDemandeDirectionComponent
   ],
   imports: [
     BrowserModule,

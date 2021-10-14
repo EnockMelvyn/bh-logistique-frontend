@@ -79,7 +79,7 @@
                             
 
                             <div *ngIf="demande.demandeArticles">
-                                <table class="table table-bordered" mat-table [dataSource]="demande.demandeArticles">
+                                <table class="table table-bordered" mat-table [dataSource]="demande.demandeArticles" *ngIf="demande.demandeArticles">
                                     <ng-container matColumnDef="article">
                                     <th mat-header-cell *matHeaderCellDef> Article </th>
                                     <td mat-cell *matCellDef="let demandeArticle"> {{demandeArticle.article.libelleArticle}} </td>

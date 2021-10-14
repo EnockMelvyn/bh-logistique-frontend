@@ -53,10 +53,16 @@ export class CommandeListComponent implements OnInit{
     window.location.reload()
   }
 
-  public clickOnCommand(commande: Commande){
+  public validateCommand(commande: Commande){
     this.data.setCommande(commande)
     this.router.navigateByUrl('content/commande/recap')
   }
+  
+  public editCommand(commande: Commande){
+    this.data.setCommande(commande)
+    this.router.navigateByUrl('content/commande/creer')
+  }
+
   public getCommandesEnattente(): void {
     
     this.commandeService.getCommandesByStatut(this.codeStatut).subscribe(

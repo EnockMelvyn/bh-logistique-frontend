@@ -1,6 +1,7 @@
 export interface DashboardDemande {
 
-    nombre?: number;
-	demandeur?: string;
-	statut?: string;
+	id?:number
+    nombre?: number
+	demandeur?: string
+	statut?: string
 }

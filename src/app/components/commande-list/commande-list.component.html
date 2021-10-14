@@ -32,8 +32,9 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell *matCellDef="let row"> 
-                    <button mat-raised-button  class="btn btn-primary" (click)="clickOnCommand(row)" *ngIf="codeStatut!='VAL' && codeStatut!='REJ'"> Valider</button> 
-                    <button mat-raised-button  class="btn btn-primary" (click)="clickOnCommand(row)" *ngIf="codeStatut=='VAL' || codeStatut=='REJ'"> Voir détails</button> 
+                    <button mat-raised-button  class="btn btn-primary" (click)="validateCommand(row)" *ngIf="codeStatut!='VAL' && codeStatut!='REJ'"> Valider</button> 
+                    <button mat-raised-button  class="btn btn-primary" (click)="editCommand(row)" *ngIf="codeStatut!='VAL' && codeStatut!='REJ'"> Modifier</button> 
+                    <button mat-raised-button  class="btn btn-primary" (click)="validateCommand(row)" *ngIf="codeStatut=='VAL' || codeStatut=='REJ'"> Voir détails</button> 
                 </td>
             </ng-container>
 
