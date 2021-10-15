@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DirectionService {
 
-  private apiServerUrl = environment.apiBaseUrl+"api/directions"
+  private apiServerUrl = environment.apiBaseUrl+"/api/directions"
   constructor(private http : HttpClient) { }
 
   public getAllDirections():Observable<any> {

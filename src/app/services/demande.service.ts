@@ -50,7 +50,7 @@ export class DemandeService {
   public getCorrespondancePageCode(): any {
     return this.page_code;
   }
-  public getAllDemandes(): Observable<Demande[]> {
+  public getAllDemandes(): Observable<any> {
     return this.http.get<any>(`${this.apiServerUrl}/api/demandes`);
   }
 
