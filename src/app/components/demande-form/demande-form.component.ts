@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Article } from 'src/app/models/article';
 import { Demande } from 'src/app/models/demande';
 import { DemandeArticle } from 'src/app/models/demandeArticle';
@@ -21,27 +22,27 @@ export class DemandeFormComponent implements OnInit {
 
   @ViewChild(MatTable) table!: MatTable<DemandeArticle>;
 
-  public idDemande = 0 
+  //  idDemande: number
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
   public articles : Article[]=[]
 
-  public statutDemande: any[]= [
-    { 
-      "texte": "En attente",
-      "valeur": "EN_ATTENTE"
-    },
-    { 
-      "texte": "Validé",
-      "valeur": "VALIDEE"
-    },
-    { 
-      "texte": "Refusé",
-      "valeur": "REFUSEE"
-    }
-  ]
+  // public statutDemande: any[]= [
+  //   { 
+  //     "texte": "En attente",
+  //     "valeur": "EN_ATTENTE"
+  //   },
+  //   { 
+  //     "texte": "Validé",
+  //     "valeur": "VALIDEE"
+  //   },
+  //   { 
+  //     "texte": "Refusé",
+  //     "valeur": "REFUSEE"
+  //   }
+  // ]
   // Elements formulaire ajout Produit
   columnsToDisplay = ['article','quantite','action']
   
@@ -49,17 +50,13 @@ export class DemandeFormComponent implements OnInit {
   public idArticleToAdd = 0
   public quantite = 0
   public dateDem: Date
-  // public article?: Article;
-  private articleToAdd?: Article
+   articleToAdd?: Article
 
   private demandeArticle?: DemandeArticle 
 
   public mustJustify: boolean = false
 
   public demande : Demande = {}
-  // { numRef: '', estimation:0, observation:'',
-  //  dateDemande: new Date,idDemande:0, demandeur:'', statutDemande:'', urgent:false,
-  //  justifUrgence:'', demandeArticles:[], createdAt: new Date, createdBy:'',modifiedAt: new Date, modifiedBy:''};
 
 
   constructor( private demandeService : DemandeService, private articleService: ArticleService, 
@@ -72,19 +69,17 @@ export class DemandeFormComponent implements OnInit {
       if (this.data.getDemande() )
     {
       this.demande = this.data.getDemande() 
-    }
-      this.firstFormGroup = this._formBuilder.group({
-        numRef: [this.demande.numRef, Validators.required],
-        categorie: [this.demande.idCategorie, Validators.required],
-        estimation: [this.demande.estimation, Validators.required],
-        observation: [this.demande.observation],
-        // dateDemande: [new Date(), Validators.required],
-        // demandeur: ['', Validators.required],
-        statutDemande: ['EN_ATTENTE'],
-        urgent: [''],
-        justifUrgence: ['']
-    });
-    
+      this.mustJustify = this.demande.urgent!
+      this.idType = this.demande.idType!
+    } 
+      
+     
+    this.firstFormGroup = this._formBuilder.group({
+      observation: [this.demande.observation],
+      statutDemande: ['EN_ATTENTE'],
+      urgent: [this.demande.urgent ? this.demande.urgent : false],
+      justifUrgence: [this.demande.justifUrgence, this.mustJustify ? Validators.required : []]
+  });
 
       this.secondFormGroup = this._formBuilder.group({
         article: ['', Validators.required],
@@ -100,16 +95,6 @@ export class DemandeFormComponent implements OnInit {
       )
     this.dateDem = new Date()
     console.log(this.idType)
-    // if()
-    // if (this.data.idDemande != null) {
-    //   this.getDemande()
-    //   this.idDemande= this.data.idDemande
-    // }
-    
-    // if (this.data.getDemande() )
-    // {
-    //   this.demande = this.data.getDemande() 
-    // }
 
     console.log(this.demande)
     this.articleService.getAllArticles().subscribe(
@@ -122,6 +107,7 @@ export class DemandeFormComponent implements OnInit {
     );
     console.log(this.articles)
     
+    
   }
 
   onSubmit(form: NgForm) {
@@ -129,25 +115,39 @@ export class DemandeFormComponent implements OnInit {
   }
 
   public createDemande(): void {
-    let demande= this.buildDemande()
-    console.log("user connected => "+ this.authService.userConnected().emailUser)
-    console.log(demande)
-    this.demandeService.createDemande2(demande).subscribe(
-      (response: Demande) => {
-        this.demande = response ;
-        alert('Demande enregistrée');
-        console.log(this.demande)
-        window.close()
-      },
-      (errorResponse: HttpErrorResponse) => {
-        alert(errorResponse.error.message);
+    if(this.firstFormGroup.valid){
+      let demande = this.buildDemande()
+      console.log("user connected => "+ this.authService.userConnected().emailUser)
+      console.log( demande)
+      this.demandeService.createDemande2( demande).subscribe(
+        (response: Demande) => {
+          this.demande = response ;
+          alert('Demande enregistrée. \n Référence de la demande: '+response?.numRef);
+          console.log(this.demande)
+          this.goToList()
+        },
+        (errorResponse: HttpErrorResponse) => {
+          alert("ERREUR!!!!!!!!!!!!!!!!!");
+          alert(errorResponse.message);
+        }
+        )
+      } else {
+        alert("Renseignez les champs obligatoires" + this.firstFormGroup.getError)
       }
-      )
   }
 
   public OnChecked(target: any){
+    console.log(target)
+    this.demande.urgent = !this.demande.urgent
+    this.firstFormGroup.patchValue({urgent: target.isTrusted})
     this.mustJustify = !this.mustJustify;
     console.log("mustJustify => "+ this.mustJustify)
+    this.firstFormGroup= this._formBuilder.group({
+      observation: [this.demande.observation],
+      statutDemande: ['EN_ATTENTE'],
+      urgent: [target.isTrusted],
+      justifUrgence: [this.mustJustify ? this.demande.justifUrgence : '', this.mustJustify ? Validators.required : []]
+  });
   }
 
   public getDemande(): void {
@@ -164,35 +164,53 @@ export class DemandeFormComponent implements OnInit {
 
 
   public updateDemande(): void {
-    let demande= this.buildDemande()
-    this.demandeService.updateDemande(this.demande.idDemande!, demande).subscribe(
+     let demande= this.updateDemandeToSend()
+     console.log(demande)
+    this.demandeService.updateDemande( demande.idDemande!,demande).subscribe(
+    // this.demandeService.createDemande2(this.demande).subscribe(
       (response: Demande) => {
         this.demande = response ;
         alert('Demande mise à jour');
         console.log(this.demande)
         // window.close()
+        this.goToList()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
       )
+      
   }
 
   public buildDemande(): Demande {
-    let demande : Demande
+    let demande : Demande 
+    if (this.firstFormGroup.valid){
     demande= {
-      numRef: this.firstFormGroup.get('numRef')!.value,
-      estimation: this.firstFormGroup.get('estimation')!.value,
       observation: this.firstFormGroup.get('observation')!.value,
-      // dateDemande: this.firstFormGroup.get('dateDemande')!.value,
       demandeur: this.authService.userConnected().emailUser,
       statutDemande: 'EN_ATTENTE',
-      idType: this.idType,
+      directionId: this.authService.userConnected().directionId,
+      idType: this.demande.idType?this.demande.idType:this.idType,
       urgent: this.firstFormGroup.get('urgent')!.value,
       justifUrgence: this.firstFormGroup.get('justifUrgence')!.value,
       demandeArticles: this.demande.demandeArticles
     }
+  } else {
+    demande = {}
+  }
+    console.log('build terminé')
+    return demande;
+  }
 
+  public updateDemandeToSend(): Demande {
+    let demande:Demande = this.demande
+    demande.observation = this.firstFormGroup.get('observation')?.value 
+    demande.urgent = this.firstFormGroup.get('urgent')?.value
+    demande.justifUrgence = this.firstFormGroup.get('justifUrgence')?.value
+    demande.demandeArticles?.forEach(element => {
+      element.idArticle = element.article?.idArticle
+    })
+    console.log("PARTIE 1 OK")
     return demande;
   }
   public validateDemande(): void {
@@ -225,56 +243,54 @@ export class DemandeFormComponent implements OnInit {
   }
 
   public addDemandeArticle():void {
-
-    console.log(this.idArticleToAdd)
-    this.demandeArticle= {idArticle: this.idArticleToAdd, 
-    quantite: this.quantite}
-    this.demande.demandeArticles?.push(this.demandeArticle)
-    this.demande.demandeArticles?.sort
-    this.demandeArticle={}
-    this.table.renderRows()
-    // this.articleService.getArticleById(this.idArticleToAdd).subscribe(
-    //   (response: Article) => {
-    //     this.articleToAdd = response ;
-    //     console.log('-------------------------------------------------------')
-    //     console.log('Article to add'+this.articleToAdd)
-    //     console.log('-------------------------------------------------------')
-    //     this.demandeArticle = {article: this.articleToAdd, quantite: this.quantite}
-    //     console.log('demandeArticle 1 = ' + this.demandeArticle)
-    //     console.log('demandeArticle lib = ' + this.demandeArticle.article?.libelleArticle)
-    //     this.demande.demandeArticles!.push(this.demandeArticle);
-    //     this.demande.demandeArticles!.sort
-    //     console.log(this.demande.demandeArticles)
-    //     // nettoyage demandeArticle
-    //     this.demandeArticle={}
-    //     console.log('demandeArticle 2 = ' + this.demandeArticle)  
-    //     this.table.renderRows()
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     alert(error.message);
-    //   }
-    // )
+    if(!this.demande.demandeArticles){
+      this.demande.demandeArticles = []
+    }
+    console.log(this.articleToAdd)
+    let idArticle = this.articleToAdd ? this.articleToAdd.idArticle: undefined;
+    let demandeArticleToAdd= {article: this.articleToAdd, 
+    quantite: this.quantite, idArticle: idArticle}
+    let add = false
+    if(this.demande.demandeArticles.length>0){
+      this.demande.demandeArticles.forEach((el, index, array) => {
+        if(el.article?.idArticle === demandeArticleToAdd.article?.idArticle) {
+          el.quantite = el.quantite! + demandeArticleToAdd.quantite
+          add =true
+        }
+      })
+       
+      if (add=== false){
+        this.demande.demandeArticles.push(demandeArticleToAdd)
+      this.demande.demandeArticles.sort
+      }
+    } else {
+      this.demande.demandeArticles.push(demandeArticleToAdd)
+      this.demande.demandeArticles.sort
+      
+    }
+    
+    console.log(this.demande.demandeArticles)
+    this.table?.renderRows()
   }
 
   public deleteDemandeArticle(ligne: DemandeArticle):void {
-
-    // const index = this.demande.demandeArticles!.findIndex(demandeArticle => demandeArticle = ligne);
-    // this.demande.demandeArticles!.splice(index,1)
-    //     this.demande.demandeArticles!.sort
-    //     this.table.renderRows()
-    //     console.log(this.demande.demandeArticles)
 
     this.demande.demandeArticles?.forEach((el, index, array) => {
       if(el.idDemandeArticle === ligne.idDemandeArticle) {
         array.splice(index,1)
       }
     })
-    
+    this.table.renderRows()
   }
 
   public annulerDemande():void {
     this.demande = {}
     this.data.setDemande(this.demande)
-    this.router.navigateByUrl("/content/demande/list")
+    this.router.navigateByUrl("/content/demande/list/attente")
+  }
+
+  public goToList(){
+    this.data.setDemande({})
+    this.router.navigateByUrl('content/demande/list/attente')
   }
 }

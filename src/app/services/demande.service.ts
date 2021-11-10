@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http'
+import { HttpClient, HttpParams} from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Demande } from '../models/demande';
@@ -61,6 +61,29 @@ export class DemandeService {
   public getDemandeByStatut(statut: string ): Observable<Demande[]> {
     return this.http.get<any>(`${this.apiServerUrl}/api/demandes/statut?code=`+statut);
   }
+  
+  public getDemandeByStatutEtDirection(statut: string|null, idDirection: number|null ): Observable<Demande[]> {
+    let params = new  HttpParams();
+    if(statut!=null && statut?.length>0){
+      params=params.append('statut', statut)
+    }
+    if(idDirection!=null && idDirection>0){
+      params=params.append('idDirection', idDirection)
+    }
+    return this.http.get<any>(this.apiServerUrl+'/api/demandes/statutEtDirection',   {params: params});
+  }
+
+
+  public getDemandeByStatusEtDirection(idStatus: number|null, idDirection: number|null ): Observable<Demande[]> {
+    let params = new  HttpParams();
+    if(idStatus!=null && idStatus>0){
+      params=params.append('statut', idStatus)
+    }
+    if(idDirection!=null && idDirection>0){
+      params=params.append('idDirection', idDirection)
+    }
+    return this.http.get<any>(this.apiServerUrl+'/api/demandes/statutEtDirection', {params: params});
+  }
 
   public getDemandeById(idDemande: number ) : Observable<Demande> {
     return this.http.get<any>(`${this.apiServerUrl}/api/demandes/`+ idDemande);
@@ -75,7 +98,12 @@ export class DemandeService {
 
   public updateDemande(idDemande: number, demande:Demande ) : Observable <Demande> {
     return this.http.put<any>(`${this.apiServerUrl}/api/demandes/`+idDemande, demande);
-  }  
+  }
+
+  public updateDemande2(demande:Demande ) : Observable <Demande> {
+    return this.http.post<any>(`${this.apiServerUrl}/api/demandes/update`, demande);
+  }
+
   public validateOrRefuseDemande(idDemande: number, validateOrRefuse: String) : Observable <Demande> {
     return this.http.put<any>(`${this.apiServerUrl}/api/demandes/`+validateOrRefuse+`/`+ idDemande, null);
   }  

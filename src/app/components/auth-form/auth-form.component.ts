@@ -32,7 +32,7 @@ export class AuthFormComponent implements OnInit {
       login: this.formAuth.get('login')?.value,
       password: encoder.sha512(this.formAuth.get('password')?.value)
     }
-    console.log(user)
+    // console.log(user)
     this.authService.connexionUser(user).toPromise().then(
       (response: any) => {
         if(!response.hasError) {
@@ -40,11 +40,18 @@ export class AuthFormComponent implements OnInit {
           
           let userC : User
           userC = response.items[0]
-          userC.directionId= 2
-          localStorage.setItem('userConnected', JSON.stringify(userC));
-          // localStorage.setItem('userConnected', JSON.stringify(response.items[0]));
-          console.log(response.status.message)
-          this.router.navigateByUrl('/content/sortie/creer')
+          this.authService.getInfosSupUserByEmail(userC.emailUser!).subscribe(
+            (response2: any) =>{
+              alert(response2.directionId)
+              userC.directionId = response2.directionId
+              // userC.directionId= 2
+            localStorage.setItem('userConnected', JSON.stringify(userC));
+            // localStorage.setItem('userConnected', JSON.stringify(response.items[0]));
+            // console.log(response.status.message)
+            this.router.navigateByUrl('/content/sortie/creer')
+            }
+          )
+          
         }
         else {
           alert(response.status.message + user.password);

@@ -10,7 +10,7 @@ export interface Demande {
     demandeur?: string;
     directionId?: number
     statutDemande?: string;
-    idStatus?: number;
+    status?: Status;
     idCategorie?: number;
     idType?: number;
 

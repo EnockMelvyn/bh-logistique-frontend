@@ -6,6 +6,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +40,9 @@ import { SortieListComponent } from './components/sortie-list/sortie-list.compon
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemandeRecapComponent } from './components/demande-recap/demande-recap.component';
 import { ListDemandeDirectionComponent } from './components/list-demande-direction/list-demande-direction.component';
+import { VueValidateurComponent } from './components/vue-validateur/vue-validateur.component';
+import { VueDmgComponent } from './components/vue-dmg/vue-dmg.component';
+import { VueDmgDemandeDirComponent } from './components/vue-dmg-demande-dir/vue-dmg-demande-dir.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +69,11 @@ import { ListDemandeDirectionComponent } from './components/list-demande-directi
     SortieListComponent,
     DashboardComponent,
     DemandeRecapComponent,
-    ListDemandeDirectionComponent
+    ListDemandeDirectionComponent,
+    VueValidateurComponent,
+    VueDmgComponent,
+    VueDmgDemandeDirComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -84,7 +92,8 @@ import { ListDemandeDirectionComponent } from './components/list-demande-directi
     MatIconModule,
     MatStepperModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

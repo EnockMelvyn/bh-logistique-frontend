@@ -4,15 +4,19 @@ import { Commande } from '../models/commande';
 import { Demande } from '../models/demande';
 import { User } from '../models/user';
 import * as XLSX from 'xlsx';
+import { Direction } from '../models/direction';
+import { DemandeDirection } from '../models/demande-direction';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
+  direction: Direction = {}
   commande:Commande = {} 
   demande : Demande = {}
   userConnected: User ={}
+  demandeDirection: DemandeDirection = {}
   // = JSON.parse(localStorage.getItem('userConnected')!)
   
   
@@ -32,6 +36,14 @@ export class DataService {
 
   getDemande() {
     return this.demande
+  }
+
+  setDirection(direction: Direction) {
+    this.direction = direction
+  }
+
+  getDirection() {
+    return this.direction
   }
 
   setUserConnected (user:User) {
