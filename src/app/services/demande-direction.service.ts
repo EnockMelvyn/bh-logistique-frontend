@@ -32,4 +32,7 @@ export class DemandeDirectionService {
   public dmgValidateDemandeToDmg(demandeDirection : DemandeDirection): Observable<any> {
     return this.http.put<any>(this.apiServerUrl+'/dmgValidate', demandeDirection)
   }
+  public dmgSortieDemandeToDmg(demandeDirection : DemandeDirection): Observable<any> {
+    return this.http.put<any>(this.apiServerUrl+'/dmgSortie', demandeDirection)
+  }
 }

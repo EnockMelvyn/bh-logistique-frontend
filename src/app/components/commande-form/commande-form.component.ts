@@ -34,8 +34,13 @@ export class CommandeFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.commande = this.dataService.getCommande()
-    this.commandeDetails = this.commande.commandeDetails!
+
+    if (this.dataService.getCommande().commandeDetails) {
+      this.commande = this.dataService.getCommande()
+      this.commandeDetails = this.commande.commandeDetails! 
+    } 
+    console.log(this.dataService.getCommande()) 
+    console.log(this.commandeDetails) 
     this.dataSource.data = this.commandeDetails
     this.getAllArticles()
     this.getAllFournisseur() 
@@ -74,8 +79,8 @@ export class CommandeFormComponent implements OnInit {
     let commandeDet: CommandeDetail 
     commandeDet = {article: this.formCommande.get('article')?.value, quantite: this.formCommande.get('quantite')?.value}
     let add = false
-    if(this.commandeDetails.length>0){
-      this.commandeDetails?.forEach((el, index, array) => {
+    if(this.commandeDetails?.length>0){
+      this.commandeDetails.forEach((el, index, array) => {
         if(el.article?.idArticle === commandeDet.article?.idArticle) {
           el.quantite = el.quantite! + commandeDet.quantite!
           add =true

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DemandeDirection } from 'src/app/models/demande-direction';
 import { Status } from 'src/app/models/status';
 import { DataService } from 'src/app/services/data.service';
@@ -15,18 +15,36 @@ import { StatusService } from 'src/app/services/status.service';
 })
 export class VueDmgComponent implements OnInit {
   loading = false
+  codeStatus = ""
   dataSource: MatTableDataSource<DemandeDirection> = new MatTableDataSource()
-  colonnes = ['direction', 'dateDemande', 'actions']
+  colonnes = ['direction', 'dateDemande', 'status', 'actions']
   constructor(private demDirService:DemandeDirectionService, private dataServ : DataService,
-    private router: Router, private statusService: StatusService) { }
+    private router: Router, private statusService: StatusService, private route: ActivatedRoute) { 
+      route.params.subscribe(params => {
+        this.codeStatus = params.codeStatus
+      })
+    }
 
   ngOnInit(): void {
     this.getAllDemandeDir()
   }
 
+  // public getAllDemandeDir():void {
+  //   this.loading = true
+  //   this.demDirService.getDemandeDirByCodeStatus(this.codeStatus).subscribe(
+  //     (response: DemandeDirection[])=> {
+  //       this.loading=false
+  //       this.dataSource.data = response
+  //       console.log(response)
+  //     },
+  //     (error:HttpErrorResponse) => {
+  //       alert(error.error.message)
+  //     }
+  //   )
+  // }
   public getAllDemandeDir():void {
     this.loading = true
-    this.demDirService.getDemandeDirByCodeStatus('DMG').subscribe(
+    this.demDirService.getAllDemandeDir().subscribe(
       (response: DemandeDirection[])=> {
         this.loading=false
         this.dataSource.data = response
@@ -42,4 +60,10 @@ export class VueDmgComponent implements OnInit {
     this.dataServ.demandeDirection = demDir
     this.router.navigateByUrl('content/demande/demandeDmgDet')
   }
+  public goToSortie(demDir: DemandeDirection):void {
+    this.dataServ.demandeDirection = demDir
+    this.router.navigateByUrl('content/demande/sortie')
+  }
+
+
 }

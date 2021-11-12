@@ -3,21 +3,22 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DemandeDirection } from 'src/app/models/demande-direction';
 import { DataService } from 'src/app/services/data.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { DemandeDirectionService } from 'src/app/services/demande-direction.service';
 
 @Component({
-  selector: 'app-vue-dmg-demande-dir',
-  templateUrl: './vue-dmg-demande-dir.component.html',
-  styleUrls: ['./vue-dmg-demande-dir.component.css']
+  selector: 'app-sortie-dmg',
+  templateUrl: './sortie-dmg.component.html',
+  styleUrls: ['./sortie-dmg.component.css']
 })
-export class VueDmgDemandeDirComponent implements OnInit {
+export class SortieDmgComponent implements OnInit {
 
   loading = false
   demDir: DemandeDirection = {}
   dataSource : MatTableDataSource<DemandeDirection> = new MatTableDataSource()
-  colonnes =['article', 'quantiteDemande', 'quantiteValideDir', 'quantiteValideDmg']
-  // , 'quantiteSortieDmg', 'quantiteRecueDir'
-  constructor(private demDirService: DemandeDirectionService, private dataServ: DataService,) { }
+  colonnes =['article',  'quantiteValideDmg']
+  // , 'quantiteSortieDmg', 'quantiteRecueDir' ,'quantiteDemande', 'quantiteValideDir',
+  constructor(private demDirService: DemandeDirectionService, private dataServ: DataService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.demDir = this.dataServ.demandeDirection
@@ -28,9 +29,10 @@ export class VueDmgDemandeDirComponent implements OnInit {
     
   }
 
-  public validerDemande(): void {
+  public procederSortie(): void {
     this.loading = true
-    this.demDirService.dmgValidateDemandeToDmg(this.demDir).subscribe(
+    this.demDir.modifiedBy = this.authService.userConnected().emailUser
+    this.demDirService.dmgSortieDemandeToDmg(this.demDir).subscribe(
       (response: DemandeDirection) => {
         this.loading = false
         this.demDir = response

@@ -10,7 +10,7 @@ import { SortieService } from 'src/app/services/sortie.service';
 })
 export class SortieListComponent implements OnInit {
 
-  colonnes = ['article','demande', 'dateDemande','reference','quantite','dateSortie']
+  colonnes = ['article','demandeDirection', 'dateDemande','reference','quantite','dateSortie']
   sorties: Sortie[] = []
   constructor(private sortieService: SortieService) { }
 

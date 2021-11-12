@@ -11,14 +11,14 @@
                 <td mat-cell *matCellDef="let sortie"> {{sortie.reference}} </td>
             </ng-container>
             
-            <ng-container matColumnDef="demande">
-                <th mat-header-cell *matHeaderCellDef> Demande </th>
-                <td mat-cell *matCellDef="let sortie"> {{sortie.demande.numRef}} </td>
+            <ng-container matColumnDef="demandeDirection">
+                <th mat-header-cell *matHeaderCellDef> Demande Direction </th>
+                <td mat-cell *matCellDef="let sortie"> {{sortie.demandeDirection.numRef}} </td>
             </ng-container>
 
             <ng-container matColumnDef="dateDemande">
                 <th mat-header-cell *matHeaderCellDef> Date de la demande </th>
-                <td mat-cell *matCellDef="let sortie"> {{sortie.demande.dateDemande}} </td>
+                <td mat-cell *matCellDef="let sortie"> {{sortie.demandeDirection.dateDemande | date:'dd-MM-yyyy HH:mm'}} </td>
             </ng-container>
             
             <ng-container matColumnDef="article">
@@ -28,7 +28,7 @@
             
             <ng-container matColumnDef="dateSortie">
                 <th mat-header-cell *matHeaderCellDef> Date de sortie </th>
-                <td mat-cell *matCellDef="let sortie"> {{sortie.dateSortie}} </td>
+                <td mat-cell *matCellDef="let sortie"> {{sortie.dateSortie | date:'dd-MM-yyyy HH:mm' }} </td>
             </ng-container>
             
             <ng-container matColumnDef="quantite">
@@ -38,6 +38,9 @@
             
             <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
             <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4"> Aucune données</td>
+            </tr>
         </table>
     </div>
     

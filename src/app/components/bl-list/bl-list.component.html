@@ -49,6 +49,9 @@
   
           <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
           <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4"> Aucune données</td>
+        </tr>
         </table>
       </div>
     </div>

@@ -53,12 +53,6 @@
                                 <div class="col-6">
                                     <h2> Articles demandés</h2>
                                 </div>
-                                <!-- <div class="col-6" *ngIf="demande.demandeArticles">
-                                    <div class="btn-group float-right" *ngIf="demande.demandeArticles!.length>0 && demande.statutDemande=='EN_ATTENTE'">
-                                        <button *ngIf="demande.idDemande!=0" mat-button type="submit" class="btn btn-danger" (click)="refuseDemande()" >Refuser demande</button> 
-                                        <button *ngIf="demande.idDemande!=0" mat-button type="submit" class="btn btn-success" (click)="validateDemande()" >Valider demande</button> 
-                                    </div>
-                                </div> -->
                             </div>
                             <form [formGroup]="secondFormGroup">
                                 <div class="card-body" *ngIf="demande.status?.idStatut==1 || demande.status==null">

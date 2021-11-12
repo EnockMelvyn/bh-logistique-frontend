@@ -43,6 +43,7 @@ import { ListDemandeDirectionComponent } from './components/list-demande-directi
 import { VueValidateurComponent } from './components/vue-validateur/vue-validateur.component';
 import { VueDmgComponent } from './components/vue-dmg/vue-dmg.component';
 import { VueDmgDemandeDirComponent } from './components/vue-dmg-demande-dir/vue-dmg-demande-dir.component';
+import { SortieDmgComponent } from './components/sortie-dmg/sortie-dmg.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { VueDmgDemandeDirComponent } from './components/vue-dmg-demande-dir/vue-
     VueValidateurComponent,
     VueDmgComponent,
     VueDmgDemandeDirComponent,
+    SortieDmgComponent,
     
   ],
   imports: [

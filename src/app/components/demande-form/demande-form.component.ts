@@ -139,13 +139,13 @@ export class DemandeFormComponent implements OnInit {
   public OnChecked(target: any){
     console.log(target)
     this.demande.urgent = !this.demande.urgent
-    this.firstFormGroup.patchValue({urgent: target.isTrusted})
+    this.firstFormGroup.patchValue({urgent: this.demande.urgent})
     this.mustJustify = !this.mustJustify;
     console.log("mustJustify => "+ this.mustJustify)
     this.firstFormGroup= this._formBuilder.group({
       observation: [this.demande.observation],
       statutDemande: ['EN_ATTENTE'],
-      urgent: [target.isTrusted],
+      urgent: [this.demande.urgent],
       justifUrgence: [this.mustJustify ? this.demande.justifUrgence : '', this.mustJustify ? Validators.required : []]
   });
   }
@@ -171,6 +171,7 @@ export class DemandeFormComponent implements OnInit {
       (response: Demande) => {
         this.demande = response ;
         alert('Demande mise à jour');
+        console.log('Demande saved')
         console.log(this.demande)
         // window.close()
         this.goToList()
@@ -271,6 +272,10 @@ export class DemandeFormComponent implements OnInit {
     
     console.log(this.demande.demandeArticles)
     this.table?.renderRows()
+    this.secondFormGroup.patchValue({
+      "article" : {},
+      "quantite" : 0
+    })
   }
 
   public deleteDemandeArticle(ligne: DemandeArticle):void {

@@ -8,6 +8,8 @@ export interface DemandeDirectionDetails {
     quantiteDemande?: number;
     quantiteValideDir?: number;
     quantiteValideDmg?: number;
+    quantiteSortieDmg?: number;
+    quantiteRecueDir?: number;
 
     demandeDirection?: DemandeDirection;
 

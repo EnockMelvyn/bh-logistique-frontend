@@ -25,6 +25,7 @@ import { ListDemandeDirectionComponent } from './components/list-demande-directi
 import { VueValidateurComponent } from './components/vue-validateur/vue-validateur.component';
 import { VueDmgComponent } from './components/vue-dmg/vue-dmg.component';
 import { VueDmgDemandeDirComponent } from './components/vue-dmg-demande-dir/vue-dmg-demande-dir.component';
+import { SortieDmgComponent } from './components/sortie-dmg/sortie-dmg.component';
 
 const routes: Routes = [
   // { path: 'parametre/famille', component: FamilleComponent, canActivate: [AuthGuard] },
@@ -74,11 +75,12 @@ const routes: Routes = [
       { path: 'demande', 
         children:[
           { path: 'demandeDirection', component: VueValidateurComponent},
-          { path: 'demandeDmg', component: VueDmgComponent},
+          { path: 'demandeDmg/:codeStatus', component: VueDmgComponent},
           { path: 'demandeDmgDet', component: VueDmgDemandeDirComponent},
           { path: 'creer/:idType', component: DemandeFormComponent},
           { path: 'list/:statutDemandes', component: DemandeListComponent},
           { path: 'direction', component: ListDemandeDirectionComponent},
+          { path: 'sortie', component: SortieDmgComponent},
         ]
       },
       { path: 'sortie',

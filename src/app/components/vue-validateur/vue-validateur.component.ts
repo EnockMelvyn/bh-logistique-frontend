@@ -44,10 +44,16 @@ export class VueValidateurComponent implements OnInit {
   }
 
   public validerDemande(): void {
+    console.log("Demaden envoyée")
+    console.log(this.demDir)
+    this.demDir.modifiedBy = this.authService.userConnected().emailUser
+    this.demDir.createdBy = this.authService.userConnected().emailUser
     this.demDirService.sendDemandeToDmg(this.demDir).subscribe(
       (response: DemandeDirection) => {
         alert("Demande validée et transmise aux Moyens généraux")
         this.demDir=response
+        console.log("Demaden enregistrée")
+        console.log(response)
         this.table.renderRows()
       }
     )
