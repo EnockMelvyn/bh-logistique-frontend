@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-header">
+      <h1 class="card-title">Liste des fournisseurs</h1>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <div >
+        <button class="btn btn-primary" (click)="openDialogCreateFournisseur()" value="">Ajouter un fournisseur</button>
+      </div>
+      <div class="col-md-12">
+      <table class="mat-elevation-z8" mat-table [dataSource]="fournisseurs">
+        
+
+        <ng-container matColumnDef="nomFournisseur">
+          <th mat-header-cell *matHeaderCellDef> Nom fournisseur </th>
+          <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.nomFournisseur}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="codeFournisseur">
+          <th mat-header-cell *matHeaderCellDef> code fournisseur </th>
+          <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.codeFournisseur}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="contactFournisseur">
+          <th mat-header-cell *matHeaderCellDef> Contact fournisseur </th>
+          <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.contactFournisseur}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row (click)="openDialogUpdateFournisseur(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+  </div>
+
+</div>

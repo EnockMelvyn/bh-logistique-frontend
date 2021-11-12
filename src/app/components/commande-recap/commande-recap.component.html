@@ -1,0 +1,78 @@
+<div class="card">
+    <div class="card-header">
+        <h1> Résumé de la commande</h1>
+    </div>
+
+    <div class="card-body">
+        <div class="container">
+            
+            <form>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group .col-4" >
+                            <label for="dateCommande">Date de commande</label>
+                            <input type="text" class="form-control" name="dateCommande" id="dateCommande" [ngModel]="commande.dateCommande" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group .col-4">
+                            <label for="numCommande">N° Commande</label>
+                            <input type="text" class="form-control" name="numCommande" id="numCommande" [ngModel]="commande.numeroCommande" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group .col-4">
+                            <label for="statutCommande">Statut</label>
+                            <input type="text" class="form-control" name="statutCommande" id="statutCommande" [ngModel]="commande.status?.libelleStatut!" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group .col-4">
+                            <label for="statutCommande">Fournisseur</label>
+                            <input type="text" class="form-control" name="fournisseur" id="fournisseur" [ngModel]="commande.fournisseur?.nomFournisseur!" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table #table mat-table [dataSource]="dataSource" *ngIf="dataSource" class="table"> 
+                                    <ng-container matColumnDef="article">
+                                        <th mat-header-cell *matHeaderCellDef> Article </th>
+                                        <td mat-cell *matCellDef="let commandeDetail"> {{ commandeDetail.article.libelleArticle }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="CMUP">
+                                        <th mat-header-cell *matHeaderCellDef> CMUP </th>
+                                        <td mat-cell *matCellDef="let commandeDetail"> {{ commandeDetail.article.cmup }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="quantite">
+                                        <th mat-header-cell *matHeaderCellDef> Quantité </th>
+                                        <td mat-cell *matCellDef="let commandeDetail"> {{ commandeDetail.quantite }} </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: colonnes"></tr>
+                            
+                                    <tr class="mat-row" *matNoDataRow>
+                                        <td class="mat-cell" colspan="4"> Aucune données</td>
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-btn class="btn btn-primary" (click)="retour()"> Retour </button>
+                <button mat-raised-btn class="btn btn-danger" (click)="refuseCommande()"
+                *ngIf="commande.numeroCommande && commande.status?.codeStatut=='ATT'"> Rejeter la commande</button>
+                <button mat-raised-btn class="btn btn-success float-right" (click)="validateCommande()" 
+                *ngIf="commande.numeroCommande && commande.status?.codeStatut=='ATT'" > Valider la commande</button>
+                
+                <button mat-raised-btn class="btn btn-success float-right" (click)="exportToExcel()" > Exporter vers excel</button>
+                
+            </form>
+        </div>
+    </div>
+</div>

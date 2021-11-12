@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-header">
+        <h3>Demandes en attente de la direction</h3>
+    </div>
+    <div class="card-body">
+      <div class="spinner" *ngIf="loading">
+        <mat-spinner indeterminate></mat-spinner>
+      </div>
+      <div *ngIf="!demDir.id  && !loading">
+        <h3> Aucune demande sélectionnée</h3>
+      </div>
+      
+      <div *ngIf="demDir.id">
+        
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" *ngIf="dataSource  && !loading">
+            <ng-container matColumnDef="article">
+              <th mat-header-cell *matHeaderCellDef> Article </th>
+              <td mat-cell *matCellDef="let demandeDet"> {{demandeDet.article.libelleArticle}} </td>
+            </ng-container>
+            <ng-container matColumnDef="quantiteDemande">
+              <th mat-header-cell *matHeaderCellDef> Quantité demandée </th>
+              <td mat-cell *matCellDef="let demandeDet"> {{demandeDet.quantiteDemande}} </td>
+            </ng-container>
+            <ng-container matColumnDef="quantiteValideDir">
+              <th mat-header-cell *matHeaderCellDef> Quantité validée </th>
+              <td mat-cell *matCellDef="let demandeDet"> 
+                <input *ngIf="demDir.status!.idStatut == 1" type="number" [(ngModel)]="demandeDet.quantiteValideDir">
+                <p *ngIf="demDir.status!.idStatut != 1"> {{ demandeDet.quantiteValideDir }}</p>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="quantiteValideDmg">
+              <th mat-header-cell *matHeaderCellDef> Quantité validée DMG </th>
+              <td mat-cell *matCellDef="let demandeDet"> 
+                <input *ngIf="demDir.status!.idStatut == 13" type="number" [(ngModel)]="demandeDet.quantiteValideDmg">
+                <p *ngIf="demDir.status!.idStatut != 13"> {{ demandeDet.quantiteValideDmg }}</p>
+              </td>
+             </ng-container>
+            <!--<ng-container matColumnDef="quantiteSortieDmg">
+              <th mat-header-cell *matHeaderCellDef> Quantité sortie DMG </th>
+              <td mat-cell *matCellDef="let demandeDet"> 
+                <input *ngIf="demDir.status!.idStatut == 13" type="number" [(ngModel)]="demandeDet.quantiteSortieDmg">
+                <p *ngIf="demDir.status!.idStatut != 13"> {{ demandeDet.quantiteSortieDmg }}</p>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="quantiteRecueDir">
+              <th mat-header-cell *matHeaderCellDef> Quantité Recue Direction </th>
+              <td mat-cell *matCellDef="let demandeDet"> 
+                <input *ngIf="demDir.status!.idStatut == 13" type="number" [(ngModel)]="demandeDet.quantiteRecueDir">
+                <p *ngIf="demDir.status!.idStatut != 13"> {{ demandeDet.quantiteRecueDir }}</p>
+              </td>
+            </ng-container> -->
+    
+            <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
+            <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4"> Aucune demande</td>
+          </tr>
+        </table>
+
+        <div class="button-group" *ngIf="demDir.status!.idStatut == 13">
+          <!-- <button class="btn btn-primary"> MAJ Demande</button> -->
+          <button class="btn btn-success" (click)="validerDemande()"> Valider demande</button>
+        </div>
+      </div>
+    </div>
+</div>

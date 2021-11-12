@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header">
+      <h1 class="card-title">Liste des familles</h1>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <div >
+        <button class="btn btn-primary" (click)="openDialogCreateFamille()" value="">Ajouter une famille</button>
+      </div>
+      <div class="col-md-12">
+      <table class="mat-elevation-z8" mat-table [dataSource]="familles">
+        <ng-container matColumnDef="libelleFamille">
+          <th mat-header-cell *matHeaderCellDef> Libellé famille </th>
+          <td mat-cell *matCellDef="let famille"> {{famille.libelleFamille}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="codeFamille">
+          <th mat-header-cell *matHeaderCellDef> code famille </th>
+          <td mat-cell *matCellDef="let famille"> {{famille.codeFamille}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row (click)="openDialogUpdateFamille(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+  </div>
+</div>
+

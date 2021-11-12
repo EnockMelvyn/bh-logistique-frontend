@@ -1,0 +1,26 @@
+
+      <h1 mat-dialog-title >Détails fournisseur</h1>
+      <mat-dialog-content>
+      <form #fournisseurForm="ngForm">
+          <div class="form-group">
+            <label for="nomFournisseur">Nom fournisseur</label>
+            <input mat-input type="text" class="form-control" name="nomFournisseur"  placeholder="libellé fournisseur" [(ngModel)]="fournisseur.nomFournisseur" >
+          </div>
+          <div class="form-group">
+            <label for="codeFournisseur">Code fournisseur</label>
+            <input mat-input type="text" class="form-control" name="codeFournisseur" placeholder="Code fournisseur" [(ngModel)]="fournisseur.codeFournisseur">
+          </div>
+          <div class="form-group">
+            <label for="codeFournisseur">Contact fournisseur</label>
+            <input mat-Input type="text" class="form-control" name="contactFournisseur" placeholder="Contact fournisseur" [(ngModel)]="fournisseur.contactFournisseur">
+          </div>
+          
+          
+      </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button type="submit" class="btn btn-primary" (click)="updateFournisseur()" *ngIf="fournisseur.idFournisseur">Mettre à jour</button>
+          <button type="submit" class="btn btn-primary" (click)="createFournisseur()" *ngIf="!fournisseur.idFournisseur">Enregistrer le fournisseur</button>
+          <button type="submit" class="btn btn-danger" mat-dialog-close >Annuler</button>
+    </mat-dialog-actions>
+  

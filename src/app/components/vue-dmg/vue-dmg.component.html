@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-header">
+        <h3>Demandes en attente </h3>
+    </div>
+    <div class="card-body">
+        <div class="spinner" *ngIf="loading">
+            <mat-spinner indeterminate></mat-spinner>
+        </div>   
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" *ngIf="dataSource && !loading">
+            
+            <ng-container matColumnDef="direction">
+              <th mat-header-cell *matHeaderCellDef> Direction </th>
+              <td mat-cell *matCellDef="let demandeDir"> {{demandeDir.direction.libelleDirection}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dateDemande">
+              <th mat-header-cell *matHeaderCellDef> Date de la demande </th>
+              <td mat-cell *matCellDef="let demandeDir"> {{demandeDir.dateDemande | date : "dd-MM-yyyy HH:mm"}} </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> Statut de la demande </th>
+              <td mat-cell *matCellDef="let demandeDir"> {{demandeDir.status.libelleStatut}} </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>  </th>
+              <td mat-cell *matCellDef="let demandeDir"> 
+                <button class="btn btn-primary" (click)="goToDetail(demandeDir)" > Voir détails </button>
+                <button *ngIf ="demandeDir.status.codeStatut=='DMG'" class="btn btn-primary" (click)="goToDetail(demandeDir)" > Valider quantité </button>
+                <button *ngIf ="demandeDir.status.codeStatut=='VAL'" class="btn btn-primary" (click)="goToSortie(demandeDir)" aria-label="Procéder à la sortie"> Sortie </button>
+              </td>
+            </ng-container>
+    
+            <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
+            <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4"> Aucune données</td>
+          </tr>
+        </table>
+
+    </div>
+</div>

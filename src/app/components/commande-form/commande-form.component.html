@@ -1,0 +1,121 @@
+<div class="card">
+    <div class="card-header">
+        <h1> Enregistrer une Commande</h1>
+    </div>
+
+    <div class="card-body">
+        
+        <form [formGroup] ="formCommande" *ngIf="formCommande">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group .col-4" >
+                                <label for="dateCommande">Date de commande</label>
+                                <input type="date" class="form-control" name="dateCommande" id="dateCommande" formControlName="dateCommande" >
+                                <!-- <div *ngIf="dateCommInvalid" class="text-danger">
+                                    <div >
+                                        Veuillez renseigner la date de la commande
+                                      </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group .col-4">
+                                <label for="numCommande">N° Commande</label>
+                                <input type="text" class="form-control" name="numCommande" id="numCommande" formControlName="numCommande" placeholder="BL000XX" >
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group .col-4">
+                                <label for="fournisseur">Fournisseur</label>
+                                <mat-select class="form-control" name="fournisseur" id="fournisseur" formControlName="fournisseur" >
+                                    <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur"> {{ fournisseur.nomFournisseur}} </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group .col-4">
+                                <label for="articles">Article</label>
+                                <mat-select class="form-control" name="article" formControlName="article" placeholder="article">
+                                    <mat-option *ngFor="let article of articles" [value]="article">{{ article.libelleArticle }}</mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group .col-4">
+                                <label for="articles">Quantité</label>
+                                <input type="number" class="form-control" name="quantite" id="quantite" formControlName="quantite" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <button mat-raised-btn class="btn btn-primary" routerLink="/content/commande/list/attente"> Retour </button>
+                            <button mat-raised-button type="submit"  mat-button class="btn btn-primary" (click)="addArticle()" 
+                            *ngIf="formCommande.get('article')?.value && formCommande.get('quantite')?.value"> Ajouter l'article</button>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            
+                                        </div>
+                                        <div class="col-sm-2" *ngIf="formCommande.valid && commandeDetails.length>0">
+                                            <button mat-flat-button *ngIf="!commande.idCommande" type="submit" mat-button class="btn btn-success" (click)="createCommande()" > Enregistrer la commande</button>
+                                            <button mat-flat-button *ngIf="commande.idCommande" type="submit" mat-button class="btn btn-success" (click)="updateCommande()" > Mettre à jour la commande</button>
+                                            
+                                        </div>
+                                    </div>
+                                    <table #table mat-table [dataSource]="dataSource" *ngIf="dataSource" class="table">
+                                            <ng-container matColumnDef="article">
+                                                <th mat-header-cell *matHeaderCellDef> Article </th>
+                                                <td mat-cell *matCellDef="let commandeDetail"> 
+                                                    <div> {{ commandeDetail.article.libelleArticle }} </div>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="CMUP">
+                                                <th mat-header-cell *matHeaderCellDef> CMUP </th>
+                                                <td mat-cell *matCellDef="let commandeDetail"> 
+                                                    <div> {{ commandeDetail.article.cmup }}  </div>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="quantite">
+                                                <th mat-header-cell *matHeaderCellDef> Quantité </th>
+                                                <td mat-cell *matCellDef="let commandeDetail"> 
+                                                    <div > {{ commandeDetail.quantite }}  </div>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="actions">
+                                                <th mat-header-cell *matHeaderCellDef> </th>
+                                                <td mat-cell *matCellDef="let row; index as i"> 
+                                                    <!-- <button mat-raised-button color="error" (click)="edit(row)" aria-hidden="true"> Modifier</button> -->
+                                                    <button mat-raised-button color="error" (click)="supprimerComDet(i)" aria-hidden="true"> X </button>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: colonnes"></tr>
+                                    
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4"> Aucune données</td>
+                                            </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+        </form>
+    </div>
+</div>

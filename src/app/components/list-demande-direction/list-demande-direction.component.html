@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    <h1>Demandes enregistrées par direction</h1>
+  </div>
+  <div class="card-body">
+    <table class="mat-elevation-z8" mat-table [dataSource]="dataSource">
+        
+
+      <ng-container matColumnDef="direction">
+        <th mat-header-cell *matHeaderCellDef>Direction</th>
+        <td mat-cell *matCellDef="let ligne"> {{ligne.direction.libelleDirection}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre de demandes </th>
+        <td mat-cell *matCellDef="let ligne"> {{ligne.nombre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let ligne"> 
+          <button class="btn btn-primary" (click)="goToListeDemandeDirection(ligne.direction)"> 
+            <mat-icon> search</mat-icon>  
+          </button>
+        </td>
+      </ng-container>
+    
+    
+      <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
+      <tr mat-row  *matRowDef="let myRowData; columns: colonnes"></tr>
+    </table>
+  </div>
+</div>
