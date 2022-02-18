@@ -21,6 +21,10 @@ export class DemandeDirectionService {
   public getDemandeDirByCodeStatus(codeStatus: String): Observable<any> {
     return this.http.get<any>(this.apiServerUrl+'/status?codeStatus='+codeStatus)
   }
+  
+  public getDemandeDirByDateDemandeBetween(periode: any): Observable<any> {
+    return this.http.post<any>(this.apiServerUrl+'/between', periode)
+  }
 
   public genererDemande(direction : Direction): Observable<any> {
     return this.http.post<any>(this.apiServerUrl, direction)

@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <form [formGroup] ="firstFormGroup" (ngSubmit)="onSubmit" *ngIf="firstFormGroup">
+                            <form [formGroup] ="firstFormGroup" *ngIf="firstFormGroup">
                             
                                 <div class="card-body">
                                     <div class="row">
@@ -66,29 +66,44 @@
                                         <label for="quantite">Quantité demandée</label>
                                         <input matInput type="number" class="form-control" name="quantite" formControlName="quantite" placeholder="Quantité" [(ngModel)]="quantite">
                                     </div>
-                                    <button [disabled]="quantite<=0" mat-button type="submit" class="btn btn-primary" (click)="addDemandeArticle()" >Ajouter l'article <i class="fa fa-plus"></i></button>
+                                    <button [disabled]="quantite<=0 && articleToAdd==null" mat-button type="submit" class="btn btn-primary" (click)="addDemandeArticle()" >Ajouter l'article <i class="fa fa-plus"></i></button>
                                 </div>
                                 
-
-                                <div *ngIf="demande.demandeArticles" >
+                                <div *ngIf="demande.demandeArticles && demande.status?.codeStatut=='ATT'" >
                                     <table class="table table-bordered" mat-table [dataSource]="demande.demandeArticles" *ngIf="demande.demandeArticles">
                                         <ng-container matColumnDef="article">
                                         <th mat-header-cell *matHeaderCellDef> Article </th>
                                         <td mat-cell *matCellDef="let demandeArticle"> {{demandeArticle.article.libelleArticle}} </td>
                                         </ng-container>
-                                
                                         <ng-container matColumnDef="quantite">
                                         <th mat-header-cell *matHeaderCellDef> Quantité </th>
                                         <td mat-cell *matCellDef="let demandeArticle"> {{ demandeArticle.quantite }} </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="action">
-                                        <th mat-header-cell *matHeaderCellDef>  </th>
+                                        <th mat-header-cell *matHeaderCellDef> </th>
                                         <td  mat-cell *matCellDef="let demandeArticle" (click)="deleteDemandeArticle(demandeArticle)"> <mat-icon> delete </mat-icon></td>
                                         </ng-container>
                             
-                                        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                                        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+                                        <tr mat-header-row *matHeaderRowDef="columnsToDisplayAttente"></tr>
+                                        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplayAttente"></tr>
+                                        <!-- <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr> -->
+                                    </table>
+                                </div>
+                                <div *ngIf="demande.demandeArticles && demande.status?.codeStatut!='ATT'" >
+                                    <table class="table table-bordered" mat-table [dataSource]="demande.demandeArticles" *ngIf="demande.demandeArticles">
+                                        <ng-container matColumnDef="article">
+                                            <th mat-header-cell *matHeaderCellDef> Article </th>
+                                            <td mat-cell *matCellDef="let demandeArticle"> {{demandeArticle.article.libelleArticle}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="quantite">
+                                            <th mat-header-cell *matHeaderCellDef> Quantité </th>
+                                            <td mat-cell *matCellDef="let demandeArticle"> {{ demandeArticle.quantite }} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="columnsToDisplayValide"></tr>
+                                        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplayValide"></tr>
+                                        <!-- <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr> -->
                                     </table>
                                 </div>
                             </form>

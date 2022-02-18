@@ -1,0 +1,71 @@
+<div class="card">
+    <div class="card-header">
+        <h3>Enregistrer un inventaire</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <form [formGroup] ="formInventaire" *ngIf="formInventaire">
+                <div class="form-group">
+                    <label for="dateInventaire">Date de l'inventaire</label>
+                    <input type="datetime-local" class="form-control" name="dateInventaire" id="dateInventaire" formControlName="dateInventaire"  placeholder="Date de l'inventaire">
+                </div>
+                <div class="form-group">
+                    <label for="libelle">Libellé de l'inventaire</label>
+                    <input type="text" class="form-control" name="libelle" id="libelle" formControlName="libelle"  placeholder="Libellé de l'inventaire">
+                </div>
+                <div class="form-group">
+                    <label for="dateInventaire">Valeur de l'écart constaté</label>
+                    <input type="number" class="form-control" name="valeurEcart" id="valeurEcart" formControlName="valeurEcart"  placeholder="0" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary"  value="Commencer inventaire" (click)="genererInventaire()" *ngIf="inventaire.id==null">
+                    <input type="button" class="btn btn-primary"  value="Enregistrer valeur" (click)="enregistrerDetails()" *ngIf="inventaire.id!=null && inventaire.status?.idStatut!=3">
+                    <input type="button" class="btn btn-success"  value="Valider inventaire" (click)="validerInventaire()" *ngIf="inventaire.id!=null && inventaire.status?.idStatut!=3">
+                    
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <table mat-table [dataSource]="inventaire.details" class="table" *ngIf="inventaire.details">
+                <ng-container matColumnDef="article">
+                    <th mat-header-cell *matHeaderCellDef> Article </th>
+                    <td mat-cell *matCellDef="let invDet"> {{ invDet.article.libelleArticle }} </td>
+                </ng-container>
+                <ng-container matColumnDef="cmup">
+                    <th mat-header-cell *matHeaderCellDef> Prix d'achat </th>
+                    <td mat-cell *matCellDef="let invDet"> {{ invDet.cmup}} </td>
+                </ng-container>
+                <ng-container matColumnDef="qteCalcule">
+                    <th mat-header-cell *matHeaderCellDef> Quantité calculée</th>S
+                    <td mat-cell *matCellDef="let invDet"> {{ invDet.qteCalcule }} </td>
+                </ng-container>
+                <ng-container matColumnDef="qteComptee">
+                    <th mat-header-cell *matHeaderCellDef> Quantité inventoriée </th>
+                    <td mat-cell *matCellDef="let invDet;let i= index">
+                        <input type="number" (change)="updateDetails($event,i)" [value]="invDet.qteComptee" *ngIf="inventaire.status?.idStatut!=3">
+                        <p> {{ invDet.qteComptee }}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="ecart">
+                    <th mat-header-cell *matHeaderCellDef> Ecart </th>
+                    <td mat-cell *matCellDef="let invDet">
+                        {{ invDet.qteComptee-invDet.qteCalcule}} 
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="valeurEcart">
+                    <th mat-header-cell *matHeaderCellDef> Valeur de l'écart </th>
+                    <td mat-cell *matCellDef="let invDet">
+                        {{ (invDet.qteComptee-invDet.qteCalcule)*invDet.cmup }} 
+                    </td>
+                </ng-container>
+
+                <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
+                <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4"> Aucune données</td>
+            </tr>
+            </table>
+            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        </div>
+    </div>
+</div>

@@ -16,7 +16,7 @@ export class FamilleComponent implements OnInit {
   // familleSelected = new Famille ;
   public familles: Famille[] = [];
 
-  columnsToDisplay = ['libelleFamille','codeFamille']
+  columnsToDisplay = ['libelleFamille','codeFamille', 'actions']
 
   constructor(private familleService: FamilleService, public dialog: MatDialog) { }
 

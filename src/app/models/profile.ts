@@ -1,5 +1,5 @@
 export interface Profile {
-    codeProfile?: string,
+    code?: string,
     createdAt?: "2021-04-27 10:21:39.0",
     descriptionProfile?: string,
     idProfile?: number,

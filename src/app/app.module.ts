@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +45,13 @@ import { VueValidateurComponent } from './components/vue-validateur/vue-validate
 import { VueDmgComponent } from './components/vue-dmg/vue-dmg.component';
 import { VueDmgDemandeDirComponent } from './components/vue-dmg-demande-dir/vue-dmg-demande-dir.component';
 import { SortieDmgComponent } from './components/sortie-dmg/sortie-dmg.component';
+import { InventaireFormComponent } from './components/inventaire/inventaire-form/inventaire-form.component';
+import { InventaireListComponent } from './components/inventaire/inventaire-list/inventaire-list.component';
+import { DemandeurDemandeListComponent } from './components/demandeur-demande-list/demandeur-demande-list.component';
+import { ProfilUserListComponent } from './components/user/profil-user-list/profil-user-list.component';
+import { CreateComponent } from './components/user/create/create.component';
+import {MatSortModule} from '@angular/material/sort';
+import { DashboardDmgComponent } from './components/dashboard-dmg/dashboard-dmg.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +83,12 @@ import { SortieDmgComponent } from './components/sortie-dmg/sortie-dmg.component
     VueDmgComponent,
     VueDmgDemandeDirComponent,
     SortieDmgComponent,
+    InventaireListComponent,
+    InventaireFormComponent,
+    DemandeurDemandeListComponent,
+    ProfilUserListComponent,
+    CreateComponent,
+    DashboardDmgComponent,
     
   ],
   imports: [
@@ -95,7 +109,10 @@ import { SortieDmgComponent } from './components/sortie-dmg/sortie-dmg.component
     MatStepperModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatSortModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

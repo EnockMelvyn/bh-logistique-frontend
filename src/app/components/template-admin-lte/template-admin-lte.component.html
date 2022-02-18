@@ -67,17 +67,17 @@
         </div>
   
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
+        <nav class="mt-2" *ngIf="menuAcces.includes('accueil')">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
               <a routerLink="/content/dashboard" routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
-                  Dashboard
+                  Accueil
                 </p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="menuAcces.includes('sortie')">
               <a routerLink="/content/sortie/creer" routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
@@ -86,6 +86,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a routerLink="/content/article/list" routerLinkActive="active" class="nav-link">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                  Liste des articles
+                </p>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="menuAcces.includes('sortie')">
               <a routerLink="/content/sortie/list" routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
@@ -93,7 +101,7 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="menuAcces.includes('commande')">
               <a  routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
@@ -122,7 +130,7 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="menuAcces.includes('livraison')">
               <a routerLink="/content/livraison/list" routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
@@ -145,67 +153,31 @@
                     <p> Enregistrer une demande </p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="menuAcces.includes('demandeDMG')">
                   <a routerLink="/content/demande/list/attente" routerLinkActive="active" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p> Liste des demandes </p>
                   </a>
                 </li>
                 <li class="nav-item">
+                  <a routerLink="/content/demande/mesDemandes" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Mes demandes </p>
+                  </a>
+                </li>
+                <li class="nav-item" *ngIf="menuAcces.includes('demandeDirection')"> 
                   <a routerLink="/content/demande/demandeDirection" routerLinkActive="active" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p> Générer demande direction </p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="menuAcces.includes('demandeDMG')">
                   <a routerLink="/content/demande/demandeDmg/DMG" routerLinkActive="active" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p> Demandes DMG </p>
                   </a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a routerLink="/content/demande/demandeDmg/VAL" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p> Sortie DMG </p>
-                  </a>
-                </li> -->
-                <!-- <li class="nav-item">
-                  <a routerLink="/content/demande/list/attente" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p> En attente </p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a routerLink="/content/demande/list/refuse" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p> Refusées </p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a routerLink="/content/demande/list/valideParSuperieur" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p> Validées </p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a routerLink="/content/demande/list/enTraitement" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p> En cours de traitement</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a routerLink="/content/demande/list/visaDemandeur" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p> En attente de votre visa</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a routerLink="/content/demande/list/traitee" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p> Traitées </p>
-                  </a>
-                </li> -->
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="menuAcces.includes('demandeDMG')">
                   <a routerLink="/content/demande/direction" routerLinkActive="active" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p> Directions </p>
@@ -213,9 +185,34 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link">
+            <li class="nav-item" *ngIf="menuAcces.includes('inventaire')">
+              <a  routerLinkActive="active" class="nav-link">
                 <i class="nav-icon fas fa-circle"></i>
+                <p>
+                  Inventaires
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a routerLink="/content/inventaire/list" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Liste des inventaires </p>
+                  </a>
+                </li>
+              </ul>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a routerLink="/content/inventaire/creer" routerLinkActive="active" class="nav-link" >
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Enregistrer un inventaire </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item" *ngIf="menuAcces.includes('parametre')">
+              <a class="nav-link">
+                <i class="nav-icon fas fa-cog"></i>
                 <p>
                   Paramètres
                   <i class="right fas fa-angle-left"></i>
@@ -236,14 +233,7 @@
                     </p>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a routerLink="/content/parametre/article" routerLinkActive="active" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>
-                      Articles
-                    </p>
-                  </a>
-                </li>
+                
                 <li class="nav-item">
                   <a routerLink="/content/parametre/fournisseur" routerLinkActive="active" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -251,6 +241,23 @@
                       Fournisseurs
                     </p>
                   </a>
+                </li>
+
+                <li class="nav-item">
+                  <a routerLink="/content/parametre/utilisateur/liste" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Utilisateurs </p>
+                    <i class="right fas fa-angle-left"></i>
+                  </a>
+                  
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a routerLink="/content/parametre/utilisateur/create" routerLinkActive="active" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Enregistrer</p>
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>
@@ -261,7 +268,11 @@
       <!-- /.sidebar -->
       
     </aside>
-    <div class="content-wrapper">
-      <router-outlet></router-outlet>
-    </div>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="content-wrapper">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </section>
   </body>

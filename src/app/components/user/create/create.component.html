@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-header">
+        <h1> Enregistrer un utilisateur</h1>
+    </div>
+    <form [formGroup]="formUser">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label required for="email"> Adresse mail</label>
+                        <input type="email" class="form-control" formControlName="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="directionId"> Direction</label>
+                        <select name="directionId" formControlName="directionId" class="form-control">
+                            <option *ngFor="let direction of directions" [value]="direction.idDirection"> {{ direction.libelleDirection }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label required for="matricule"> Matricule</label>
+                        <input type="number" class="form-control" formControlName="matricule">
+                    </div>
+                    <div class="form-group">
+                        <label for="nameUser">Nom utilisateur</label>
+                        <input type="text" class="form-control" formControlName="nameUser">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastnameUser">Prénoms utilisateur</label>
+                        <input type="text" class="form-control" formControlName="lastnameUser">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="login">Identifiant</label>
+                        <input type="text" class="form-control" formControlName="login">
+                    </div>
+                    <div class="form-group">
+                        <label for="password"> Mot de passe</label>
+                        <input type="password" class="form-control" formControlName="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="profil"> Profil</label>
+                        <select name="profiles" multiple formControlName="profiles" class="form-control select2">
+                            <option *ngFor="let profil of allProfils" [value]="profil.code"> {{ profil.code }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <input type="button" class="btn btn-danger float-left" (click)="goToListeUser()" value="Annuler">
+            <input type="button" *ngIf="user.idUser ==null" class="btn btn-primary float-right" (click)="createUser()" value="Enregistrer">
+            <input type="button" *ngIf="user.idUser !=null" class="btn btn-primary float-right" (click)="updateUser()" value="Mettre à jour">
+        </div>
+    </form>
+</div>

@@ -5,18 +5,30 @@
     <div class="card-body">
         <form [formGroup] ="formBl" *ngIf="formBl">
             <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group .col-4">
-                        <label for="Commande">Commande</label>
-                        <mat-select class="form-control" name="commande" id="commande" formControlName="commande" >
+                <div class="col-sm-4">
+                    <div class="form-group .col-5">
+                        <label for="Commande" >Commande</label>
+                        <mat-select class="form-control" name="commande" id="commande" formControlName="commande" (selectionChange)="getArticleFromCommande($event)" required>
                             <mat-option *ngFor="let commande of commandesValide" [value]="commande"> {{ commande.numeroCommande+ ' du ' + commande.dateCommande}} </mat-option>
                         </mat-select>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="form-group col-sm-2">
+                    <div class="form-check"> 
+                        <br>                       
+                        <br>                       
+                        <input type="checkbox" class="form-check-input" name="isLivraisonTotal" id="isLivraisonTotal" formControlName="isLivraisonTotal" required>
+                        <label for="Commande" class="form-check-label">Commande complète?</label>
+                    </div>
+                    <!-- <div class="form-check col-sm-6" >
+                        <input type="checkbox" class="form-check-input" name="urgent" id="urgent" formControlName="urgent" (change)="OnChecked($event)">
+                        <label class="form-check-label" for="urgent">Urgent ?</label>
+                    </div> -->
+                </div>
+                <div class="col-sm-5">
                     <div class="form-group .col-4">
                         <label for="fournisseur">Fournisseur</label>
-                        <mat-select class="form-control" name="fournisseur" id="fournisseur" formControlName="fournisseur" >
+                        <mat-select class="form-control" name="fournisseur" id="fournisseur" formControlName="fournisseur" required>
                             <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur"> {{ fournisseur.nomFournisseur}} </mat-option>
                         </mat-select>
                     </div>
@@ -26,38 +38,52 @@
                 <div class="col-sm-6">
                     <div class="form-group .col-4">
                         <label for="dateLivraison">Date de livraison</label>
-                        <input type="date" class="form-control" name="dateLivraison" id="dateLivraison" formControlName="dateLivraison">
+                        <input type="datetime-local" class="form-control" name="dateLivraison" id="dateLivraison" formControlName="dateLivraison" required>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group .col-4">
                         <label for="numeroBl">N° Bon de livraison</label>
-                        <input type="text" class="form-control" name="numeroBl" id="numeroBl" formControlName="numeroBl" placeholder="BL000XX" >
+                        <input type="text" class="form-control" name="numeroBl" id="numeroBl" formControlName="numeroBl" placeholder="BL000XX" required>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-2">
+                <!-- <div class="col-sm-2">
                     <div class="form-group .col-4">
                         <label for="articles">Importer les articles du BL</label>
                         <input type="file" class="form-control" name="articles" id="artiles" formControlName="articles" placeholder="articles" (change)="onFileChange($event)">
                     </div>
                     <button mat-raised-button type="submit" *ngIf="file" mat-button color="primary" (click)="onImport()"> importer le fichier</button>
-                    <button mat-raised-button type="submit" *ngIf="file" mat-button color="success" (click)="createLivraison()"> Valider</button>
-                </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-9">
+                    
+                </div> -->
+                <!-- <div class="col-sm-1"></div> -->
+                <div class="col-sm-10">
                     <div class="card">
                         <div class="card-body">
                             <h4>Liste des articles</h4>
-                            <mat-form-field appearance="standard">
+                            <!-- <mat-form-field appearance="standard">
                                 <mat-label>Rechercher ...</mat-label>
                                 <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-                            </mat-form-field>
+                            </mat-form-field> -->
+                            <button mat-button mat-raised-button class="btn btn-success float-right" type="submit" *ngIf="dataSource" color="success" (click)="createLivraison()"> Valider</button>
                             <table mat-table [dataSource]="dataSource" *ngIf="dataSource" class="table">
-                                <mat-text-column name="Ref"></mat-text-column>
-                                <mat-text-column name="Entrée"></mat-text-column>
-                                <mat-text-column name="Prix Unitaire"></mat-text-column>
+                                <!-- <mat-text-column name="Ref"></mat-text-column> -->
+                                <ng-container matColumnDef="article">
+                                    <th mat-header-cell *matHeaderCellDef> Article </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.article.libelleArticle}} </td>
+                                </ng-container>
+                                <mat-text-column name="quantite"></mat-text-column>
+                                <ng-container matColumnDef="prixUnitaire">
+                                    <th mat-header-cell *matHeaderCellDef> Prix Unitaire </th>
+                                    <td mat-cell *matCellDef="let element; index as i">
+                                        <input type="number" [(value)]="element.prixUnitaire" (change)="updatePU(i,$event)">
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="total">
+                                    <th mat-header-cell *matHeaderCellDef> Montant total </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.prixUnitaire*element.quantite}} </td>
+                                </ng-container>
                                 <mat-text-column name="Montant Total"></mat-text-column>
 
                                 <tr mat-header-row *matHeaderRowDef="colonnes"></tr>

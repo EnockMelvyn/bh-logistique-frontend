@@ -8,6 +8,7 @@ export interface Commande {
     dateCommande?: Date
     fournisseur?: Fournisseur
     status?: Status
+    livraisonTotal?: boolean
     commandeDetails?:CommandeDetail[]
     createdBy?: string
 }

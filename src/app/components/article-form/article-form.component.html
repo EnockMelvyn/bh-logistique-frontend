@@ -1,28 +1,85 @@
 
-      <h1 mat-dialog-title >Détails article</h1>
-    <!-- /.card-header -->
-    <!-- form start -->
-    <mat-dialog-content>
-    <form [formGroup]="formArticle">
-        <div class="form-group">
-          <label for="libelleArticle">Libellé article</label>
-          <input mat-input type="text" class="form-control" name="libelleArticle" formControlName="libelleArticle" placeholder="libellé article" >
-        </div>
-        <div class="form-group">
-          <label for="codeArticle">Code article</label>
-          <input type="text" class="form-control" name="codeArticle" formControlName="codeArticle" placeholder="Code article">
-        </div>
-        <div class="form-group">
-          <label for="sousFamille">Sous famille</label>
-          <mat-select class="form-control" name="sousFamille" formControlName="sousFamille" placeholder="Sous famille">
-            <mat-option *ngFor="let sousFamille of sousFamilles" [value]="sousFamille"> {{ sousFamille.libelleSousFamille }} </mat-option>
-          </mat-select>
+     <div class="card">
+       <div class="card-header">
+        <h1 mat-dialog-title >Détails article</h1>
+       </div>
+        <form [formGroup]="formArticle">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="libelleArticle">Libellé article</label>
+              <input mat-input type="text" class="form-control" name="libelleArticle" formControlName="libelleArticle" placeholder="libellé article" >
+            </div>
+            <div class="form-group">
+              <label for="codeArticle">Code article</label>
+              <input type="text" class="form-control" name="codeArticle" formControlName="codeArticle" placeholder="Code article">
+            </div>
+            <div class="form-group">
+              <label for="sousFamille">Sous famille</label>
+              <mat-select class="form-control" name="sousFamille" formControlName="sousFamille" placeholder="Sous famille">
+                <mat-option *ngFor="let sousFamille of sousFamilles" [value]="sousFamille"> {{ sousFamille.libelleSousFamille }} </mat-option>
+              </mat-select>
+            </div>
+          </div>
+          
+          <div class="card-footer">
+            <input type="button" class="btn btn-primary" (click)="updateArticle()" *ngIf="article?.idArticle" value="Mettre à jour">
+            <button type="submit" class="btn btn-primary" (click)="createArticle()" *ngIf="!article?.idArticle">Enregistrer l'article</button>
+            <button type="submit"  routerLink="/content/article/list" class="btn btn-danger" mat-dialog-close >Retour</button>
+          </div>
+        </form>
+
+        <div class="card">
+          <div class="card-header">
+            Mouvements article
+          </div>
+          <div class="card-body">
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort  *ngIf="dataSource">
+              <ng-container matColumnDef="dateMouvement"> 
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date mouvement </th>
+                <td mat-cell *matCellDef="let mouv"> {{mouv.dateMouvement | date : "dd/MM/yyyy hh:mm"}} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="article">
+                <th mat-header-cell *matHeaderCellDef> Article </th>
+                <td mat-cell *matCellDef="let mouv"> {{ article.libelleArticle}} </td>
+              </ng-container>
+        
+              <ng-container matColumnDef="prixUnitaire">
+                <th mat-header-cell *matHeaderCellDef> P.U. </th>
+                <td mat-cell *matCellDef="let mouv"> {{ mouv.prixUnitaire }} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="typeMouvement">
+                <th mat-header-cell *matHeaderCellDef> Type mouvement </th>
+                <td mat-cell *matCellDef="let mouv"> {{ mouv.typeMouvement  }} </td>
+              </ng-container>
+              <ng-container matColumnDef="qteAvant">
+                <th mat-header-cell *matHeaderCellDef> Quantité avant </th>
+                <td mat-cell *matCellDef="let mouv"> {{ mouv.qteAvant  }} </td>
+              </ng-container>
+              <ng-container matColumnDef="qteMouvement">
+                <th mat-header-cell *matHeaderCellDef> Quantité mouvement</th>
+                <td mat-cell *matCellDef="let mouv"> {{ mouv.qteMouvement  }} </td>
+              </ng-container>
+              <ng-container matColumnDef="qteApres">
+                <th mat-header-cell *matHeaderCellDef> Quantité après</th>
+                <td mat-cell *matCellDef="let mouv"> 
+                  <p  *ngIf="mouv.typeMouvement=='SORTIE'"> {{ mouv.qteAvant - mouv.qteMouvement  }}</p>  
+                  <p  *ngIf="mouv.typeMouvement=='ENTREE'"> {{ mouv.qteAvant + mouv.qteMouvement  }}</p>  
+                  <p  *ngIf="mouv.typeMouvement=='INVENTAIRE'"> {{  mouv.qteMouvement  }}</p>  
+                </td>
+                <!-- <td mat-cell *matCellDef="let mouv" *ngIf="mouv.typeMouvement=='ENTREE'"> {{ mouv.qteAvant + mouv.qteMouvement  }} </td>
+                <td mat-cell *matCellDef="let mouv" *ngIf="mouv.typeMouvement=='INVENTAIRE'"> {{ mouv.qteAvant + mouv.qteMouvement  }} </td> -->
+              </ng-container>
+              <ng-container matColumnDef="username">
+                <th mat-header-cell *matHeaderCellDef> Acteur</th>
+                <td mat-cell *matCellDef="let mouv"> {{ mouv.username  }} </td>
+              </ng-container>
+              
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row  *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+            </table>
+          </div>
         </div>
         
-    </form>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button type="submit" class="btn btn-primary" (click)="updateArticle()" *ngIf="idArticle!=-1">Mettre à jour</button>
-        <button type="submit" class="btn btn-primary" (click)="createArticle()" *ngIf="idArticle==-1">Enregistrer l'article</button>
-        <button type="submit" class="btn btn-danger" mat-dialog-close >Retour</button>
-  </mat-dialog-actions>
+      </div> 

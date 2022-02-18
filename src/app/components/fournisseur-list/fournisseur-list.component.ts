@@ -14,7 +14,7 @@ export class FournisseurListComponent implements OnInit {
 
   fournisseurs: Fournisseur[] = [];
 
-  columnsToDisplay = ['nomFournisseur','codeFournisseur', 'contactFournisseur']
+  columnsToDisplay = ['nomFournisseur','codeFournisseur', 'contactFournisseur', 'actions']
 
   constructor(private fournisseurService: FournisseurService, public dialog: MatDialog) { }
 

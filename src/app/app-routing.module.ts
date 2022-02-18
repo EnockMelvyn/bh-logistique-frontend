@@ -26,6 +26,12 @@ import { VueValidateurComponent } from './components/vue-validateur/vue-validate
 import { VueDmgComponent } from './components/vue-dmg/vue-dmg.component';
 import { VueDmgDemandeDirComponent } from './components/vue-dmg-demande-dir/vue-dmg-demande-dir.component';
 import { SortieDmgComponent } from './components/sortie-dmg/sortie-dmg.component';
+import { InventaireFormComponent } from './components/inventaire/inventaire-form/inventaire-form.component';
+import { InventaireListComponent } from './components/inventaire/inventaire-list/inventaire-list.component';
+import { HasRoleAdminGuard } from './guards/has-role-admin.guard';
+import { DemandeurDemandeListComponent } from './components/demandeur-demande-list/demandeur-demande-list.component';
+import { ProfilUserListComponent } from './components/user/profil-user-list/profil-user-list.component';
+import { CreateComponent } from './components/user/create/create.component';
 
 const routes: Routes = [
   // { path: 'parametre/famille', component: FamilleComponent, canActivate: [AuthGuard] },
@@ -47,8 +53,18 @@ const routes: Routes = [
     children:[
 
       { path: 'dashboard', component: DashboardComponent},
-      { path: 'liv/creer', component: BlFormComponent},
+      { path: 'liv/creer', component: BlFormComponent, canActivate: [HasRoleAdminGuard]},
+      { path: 'article', 
+            children:[
+              { path: 'creer', component: ArticleFormComponent, canActivate: [AuthGuard]},
+              { path: 'list', component: ArticleListComponent, canActivate: [AuthGuard]}
+            ] 
+          },
       { path: 'parametre',
+        canActivate: [HasRoleAdminGuard],
+        data: {
+          role:['ECO','DMG','ADMIN']
+        },
         children:[
           { path: 'famille', component: FamilleComponent,
             children:[
@@ -60,30 +76,50 @@ const routes: Routes = [
               { path: 'creer', component: SousfamilleFormComponent, canActivate: [AuthGuard]},
             ] 
           },
-          { path: 'article', component: ArticleListComponent,
-            children:[
-              { path: 'creer', component: ArticleFormComponent, canActivate: [AuthGuard]}
-            ] 
-          },
           { path: 'fournisseur', component: FournisseurListComponent,
             children:[
               { path: 'creer', component: FournisseurFormComponent, canActivate: [AuthGuard]}
             ]
           },
+          { path: 'utilisateur',
+            children:[
+              { path: 'liste', component: ProfilUserListComponent, canActivate: [AuthGuard]},
+              { path: 'create', component: CreateComponent, canActivate: [AuthGuard]}
+            ]
+          }
         ] 
       },
       { path: 'demande', 
         children:[
           { path: 'demandeDirection', component: VueValidateurComponent},
-          { path: 'demandeDmg/:codeStatus', component: VueDmgComponent},
+          { path: 'demandeDmg/:codeStatus', component: VueDmgComponent, canActivate: [HasRoleAdminGuard], data: {
+            role: ['ECO','DMG','ADMIN']
+          }},
           { path: 'demandeDmgDet', component: VueDmgDemandeDirComponent},
           { path: 'creer/:idType', component: DemandeFormComponent},
-          { path: 'list/:statutDemandes', component: DemandeListComponent},
+          { path: 'list/:statutDemandes', component: DemandeListComponent,canActivate: [HasRoleAdminGuard], data: {
+            role: ['ECO','DMG','ADMIN']
+          }},
+          { path: 'mesDemandes', component: DemandeurDemandeListComponent},
           { path: 'direction', component: ListDemandeDirectionComponent},
           { path: 'sortie', component: SortieDmgComponent},
         ]
       },
+      { path: 'inventaire', 
+        canActivate: [HasRoleAdminGuard],
+        data: {
+          role:['ECO','DMG','ADMIN']
+        },
+        children:[
+          { path: 'creer', component: InventaireFormComponent},
+          { path: 'list', component: InventaireListComponent},
+        ]
+      },
       { path: 'sortie',
+        canActivate: [HasRoleAdminGuard],
+        data: {
+          role:['ADMIN','ECO','DMG']
+        },
         children:[
           { path: 'creer', component: SortieFormComponent},
           { path: 'list', component: SortieListComponent}
@@ -93,9 +129,17 @@ const routes: Routes = [
         children:[
           { path: 'creer', component: BlFormComponent},
           { path: 'list', component: BlListComponent},
-        ] 
+        ],
+        canActivate: [HasRoleAdminGuard],
+        data: {
+          role:['ECO','DMG','ADMIN']
+        } 
       },
       { path: 'commande', 
+        canActivate: [HasRoleAdminGuard],
+        data: {
+          role:['ECO','DMG','ADMIN']
+        },
         children:[
           { path: 'creer', component: CommandeFormComponent },
           { path: 'list/:statutCommandes', component: CommandeListComponent },

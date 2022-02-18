@@ -10,7 +10,22 @@
                     <div class="card-header">
                         Mes demandes
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" >
+                        <div class="row"  *ngIf="dashboardDemandes.length==0">
+                            <div *ngFor="let statut of statuts" class="col-lg-3 col-4">
+                                <!-- small box -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                    <h3> 0</h3>
+                    
+                                    <p> Statut: {{ statut.libelle}}</p>
+                                    </div>
+                                    <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div *ngFor="let dashboardDemande of dashboardDemandes" class="col-lg-3 col-4">
                                 <!-- small box -->
@@ -26,10 +41,91 @@
                                     <a (click)="goToDetailDemandeDashboard(dashboardDemande)" class="small-box-footer">Voir détails<i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Demandes Directions
+                    </div>
+                    <div class="card-body" >
+                        <div class="row"  *ngIf="dashboardDemandesDirection.length==0">
+                            <div *ngFor="let statut of statuts" class="col-lg-3 col-4">
+                                <!-- small box -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                    <h3> 0</h3>
+                    
+                                    <p> Statut: {{ statut.libelle}}</p>
+                                    </div>
+                                    <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div *ngFor="let dashboardDemande of dashboardDemandesDirection" class="col-lg-3 col-4">
+                                <!-- small box -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                    <h3> {{ dashboardDemande.nombre }}</h3>
+                    
+                                    <p> Statut: {{ dashboardDemande.statut }}</p>
+                                    </div>
+                                    <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    </div>
+                                    <a (click)="goToDetailDemandeDashboard(dashboardDemande)" class="small-box-footer">Voir détails<i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Livraisons par direction
+                    </div>
+                    <div class="card-body" >
+                        <div class="row"  *ngIf="dashboardDemandesDirection.length==0">
+                            <div *ngFor="let statut of statuts" class="col-lg-3 col-4">
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                    <h3> 0</h3>
+                    
+                                    <p> Statut: {{ statut.libelle}}</p>
+                                    </div>
+                                    <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div *ngFor="let dashboardDemande of dashboardDemandesDirection" class="col-lg-3 col-4">
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                    <h3> {{ dashboardDemande.nombre }}</h3>
+                    
+                                    <p> Statut: {{ dashboardDemande.statut }}</p>
+                                    </div>
+                                    <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    </div>
+                                    <a (click)="goToDetailDemandeDashboard(dashboardDemande)" class="small-box-footer">Voir détails<i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             
         </div>
     </div>

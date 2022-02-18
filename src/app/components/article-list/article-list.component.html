@@ -5,7 +5,8 @@
     <!-- /.card-header -->
     <div class="card-body">
       <div >
-        <button class="btn btn-primary" (click)="openDialogCreateArticle()" value="">Nouvel article</button>
+        <!-- <button class="btn btn-primary" (click)="openDialogCreateArticle()" value="">Nouvel article</button> -->
+        <button class="btn btn-primary" (click)="createArticle()" value="">Nouvel article</button>
       </div>
       <div class="col-md-12">
       <table class="mat-elevation-z8" mat-table [dataSource]="articles">
@@ -39,8 +40,21 @@
           <td mat-cell *matCellDef="let article"> {{ article.quantiteStock  }} </td>
         </ng-container>
 
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let article"> 
+            <div class="row button-row">
+              <div class="button-container">
+                <button type="button"  class="btn btn-primary" aria-label="Bouton 1 Modifier"> 
+                  <mat-icon (click)="updateArticle(article)" fab fa-pencil>edit</mat-icon>
+                </button>
+              </div>
+            </div>  
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row (click)="openDialogUpdateArticle(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+        <tr mat-row  *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
       </table>
     </div>
   </div>

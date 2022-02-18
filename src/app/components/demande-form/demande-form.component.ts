@@ -1,10 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Article } from 'src/app/models/article';
 import { Demande } from 'src/app/models/demande';
 import { DemandeArticle } from 'src/app/models/demandeArticle';
@@ -24,27 +22,14 @@ export class DemandeFormComponent implements OnInit {
 
   //  idDemande: number
 
+  loading = false
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
   public articles : Article[]=[]
 
-  // public statutDemande: any[]= [
-  //   { 
-  //     "texte": "En attente",
-  //     "valeur": "EN_ATTENTE"
-  //   },
-  //   { 
-  //     "texte": "Validé",
-  //     "valeur": "VALIDEE"
-  //   },
-  //   { 
-  //     "texte": "Refusé",
-  //     "valeur": "REFUSEE"
-  //   }
-  // ]
-  // Elements formulaire ajout Produit
-  columnsToDisplay = ['article','quantite','action']
+  columnsToDisplayAttente = ['article','quantite','action']
+  columnsToDisplayValide = ['article','quantite']
   
   public idType : number
   public idArticleToAdd = 0
@@ -64,15 +49,7 @@ export class DemandeFormComponent implements OnInit {
     private data : DataService, private route : ActivatedRoute,
     private router: Router, private _formBuilder: FormBuilder,
     private authService: AuthService) { 
-     
-
-      if (this.data.getDemande() )
-    {
-      this.demande = this.data.getDemande() 
-      this.mustJustify = this.demande.urgent!
-      this.idType = this.demande.idType!
-    } 
-      
+         
      
     this.firstFormGroup = this._formBuilder.group({
       observation: [this.demande.observation],
@@ -89,14 +66,27 @@ export class DemandeFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    // initialisation de la demande
+    if (this.data.getDemande() )
+    {
+      this.demande = this.data.getDemande() 
+      this.mustJustify = this.demande.urgent!
+      this.idType = this.demande.idType!
+    } 
+    
+    // initialisation du type de demande ECO, MOYENS GEN
     this.route.params.subscribe(params =>{
       this.idType = params.idType
       }
       )
     this.dateDem = new Date()
-    console.log(this.idType)
+    
+    //initialisation de la liste d'articles de la BD
+    this.getAllArticles()    
+    
+  }
 
-    console.log(this.demande)
+  getAllArticles() {
     this.articleService.getAllArticles().subscribe(
       (response: Article[]) => {
         this.articles = response ;
@@ -105,22 +95,19 @@ export class DemandeFormComponent implements OnInit {
         alert(error.message);
       }
     );
-    console.log(this.articles)
-    
-    
   }
 
-  onSubmit(form: NgForm) {
-    console.log(form.value);
-  }
+  
 
   public createDemande(): void {
+    this.loading = true
     if(this.firstFormGroup.valid){
       let demande = this.buildDemande()
       console.log("user connected => "+ this.authService.userConnected().emailUser)
       console.log( demande)
       this.demandeService.createDemande2( demande).subscribe(
         (response: Demande) => {
+          this.loading=false
           this.demande = response ;
           alert('Demande enregistrée. \n Référence de la demande: '+response?.numRef);
           console.log(this.demande)
@@ -150,25 +137,14 @@ export class DemandeFormComponent implements OnInit {
   });
   }
 
-  public getDemande(): void {
-    this.demandeService.getDemandeById(this.demande.idDemande!).subscribe(
-      (response: Demande) => {
-        this.demande = response ;
-        console.log(this.demande)
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-      )
-  }
-
-
   public updateDemande(): void {
+    this.loading = true
      let demande= this.updateDemandeToSend()
      console.log(demande)
     this.demandeService.updateDemande( demande.idDemande!,demande).subscribe(
     // this.demandeService.createDemande2(this.demande).subscribe(
       (response: Demande) => {
+        this.loading= false
         this.demande = response ;
         alert('Demande mise à jour');
         console.log('Demande saved')
@@ -215,13 +191,13 @@ export class DemandeFormComponent implements OnInit {
     return demande;
   }
   public validateDemande(): void {
+    this.loading = true
     this.demandeService.validateOrRefuseDemande(this.demande.idDemande!, "validate").subscribe(
       (response: Demande) => {
+        this.loading = false
         this.demande = response ;
-        alert('Demande mise à jour');
+        alert('Demande validée');
         console.log(this.demande)
-        // this.router.navigateByUrl('/demande')
-        // window.close()
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -229,13 +205,12 @@ export class DemandeFormComponent implements OnInit {
       )
   }
   public refuseDemande(): void {
+    this.loading = true
     this.demandeService.validateOrRefuseDemande(this.demande.idDemande!, "refuse").subscribe(
       (response: Demande) => {
+        this.loading= false
         this.demande = response ;
-        alert('Demande mise à jour');
-        console.log(this.demande)
-        // this.router.navigateByUrl('/demande')
-        // window.close()
+        alert('Demande refusée');
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -247,7 +222,7 @@ export class DemandeFormComponent implements OnInit {
     if(!this.demande.demandeArticles){
       this.demande.demandeArticles = []
     }
-    console.log(this.articleToAdd)
+
     let idArticle = this.articleToAdd ? this.articleToAdd.idArticle: undefined;
     let demandeArticleToAdd= {article: this.articleToAdd, 
     quantite: this.quantite, idArticle: idArticle}
@@ -270,7 +245,6 @@ export class DemandeFormComponent implements OnInit {
       
     }
     
-    console.log(this.demande.demandeArticles)
     this.table?.renderRows()
     this.secondFormGroup.patchValue({
       "article" : {},
@@ -279,23 +253,24 @@ export class DemandeFormComponent implements OnInit {
   }
 
   public deleteDemandeArticle(ligne: DemandeArticle):void {
-
+    this.loading = true
     this.demande.demandeArticles?.forEach((el, index, array) => {
       if(el.idDemandeArticle === ligne.idDemandeArticle) {
         array.splice(index,1)
       }
     })
+    this.loading = false
     this.table.renderRows()
   }
 
   public annulerDemande():void {
     this.demande = {}
     this.data.setDemande(this.demande)
-    this.router.navigateByUrl("/content/demande/list/attente")
+    this.router.navigateByUrl("/content/demande/mesDemandes")
   }
 
   public goToList(){
     this.data.setDemande({})
-    this.router.navigateByUrl('content/demande/list/attente')
+    this.router.navigateByUrl('content/demande/mesDemandes')
   }
 }

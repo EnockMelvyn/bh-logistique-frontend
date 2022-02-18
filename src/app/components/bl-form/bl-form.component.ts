@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Article } from 'src/app/models/article';
 import { Commande } from 'src/app/models/commande';
 import { Fournisseur } from 'src/app/models/fournisseur';
@@ -22,7 +22,9 @@ import * as xlsx from 'xlsx';
 export class BlFormComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
-  colonnes= ["Ref", "Entrée", "Prix Unitaire", "Montant Total"];
+  @ViewChild(MatTable) table : MatTable<any>;
+  // colonnes= ["Ref", "Entrée", "Prix Unitaire", "Montant Total"];
+  colonnes= ["article", "quantite","prixUnitaire", "total"];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   formBl: FormGroup;
   file: File;
@@ -41,7 +43,8 @@ export class BlFormComponent implements OnInit{
       fournisseur: ['', Validators.required],
       dateLivraison: ['', Validators.required],
       numeroBl: ['', Validators.required],
-      commande: [''],
+      commande: ['',Validators.required],
+      isLivraisonTotal: [true, Validators.required],
       articles: []
     });
   }
@@ -86,6 +89,30 @@ export class BlFormComponent implements OnInit{
     )
   }
 
+  public getArticleFromCommande(event: any) {
+    let commandeEnCours : Commande
+    // commandeEnCours = this.formBl.get('commande')?.value
+    commandeEnCours = event.value
+    commandeEnCours.commandeDetails?.forEach(element =>
+      {
+        let livDet : LivraisonDetail = {
+          "article": element.article, 
+          "quantite": element.quantite!,
+          "prixUnitaire": 0
+        }
+        this.livraisonDetails.push(livDet)
+      })
+
+      this.dataSource= new MatTableDataSource(this.livraisonDetails)
+      this.dataSource.paginator = this.paginator
+      
+  }
+
+  public updatePU(index:any, event:any) {
+    let qte : number = event.target.value
+    this.livraisonDetails[index].prixUnitaire=qte
+    this.dataSource= new MatTableDataSource(this.livraisonDetails)
+  }
   onFileChange (event: any) {
     try {
       if (event.target.files.length >0){
@@ -146,17 +173,18 @@ export class BlFormComponent implements OnInit{
         }
       }
     }
-
+  let commandeEnCours : Commande = this.formBl.get('commande')?.value
+  commandeEnCours.livraisonTotal = this.formBl.get('isLivraisonTotal')?.value
+  console.log (commandeEnCours)
   //  if (this.formBl.valid) {
      this.livraison = {
       "dateLivraison": this.formBl.get('dateLivraison')?.value,
       "fournisseur": this.formBl.get('fournisseur')?.value,
       "numeroBl": this.formBl.get('numeroBl')?.value,
-      "commande": this.formBl.get('commande')?.value,
+      "commande": commandeEnCours,
       "livraisonDetails": this.livraisonDetails
     // }
    }
-
   //  console.log(this.livraison.dateLivraison)
   //  console.log(this.livraison.fournisseur)
   //  console.log(this.livraison.commande)
@@ -166,17 +194,21 @@ export class BlFormComponent implements OnInit{
   }
 
   public createLivraison(): void {
-    this.creationObjetLivraison()
-    this.livraisonService.createLivraison(this.livraison).subscribe(
-      (response: Livraison) => {
-        this.livraison = response ;
-        alert('Bon de livraison enregistré avec succès');
-        this.ngOnInit()
-                
-      },
-      (errorResponse: HttpErrorResponse) => {
-        alert(errorResponse.error.message);
-      }
-    )
+    if (this.formBl.valid){
+      this.creationObjetLivraison()
+      this.livraisonService.createLivraison(this.livraison).subscribe(
+        (response: Livraison) => {
+          this.livraison = response ;
+          alert('Bon de livraison enregistré avec succès');
+          this.ngOnInit()
+                  
+        },
+        (errorResponse: HttpErrorResponse) => {
+          alert(errorResponse.error.message);
+        }
+      )
+    } else {
+      alert("Remplissez tous les champs du formulaire")
+    }
   }
 }

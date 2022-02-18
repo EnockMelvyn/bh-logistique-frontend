@@ -61,6 +61,10 @@ export class DemandeService {
   public getDemandeByStatut(statut: string ): Observable<Demande[]> {
     return this.http.get<any>(`${this.apiServerUrl}/api/demandes/statut?code=`+statut);
   }
+
+  public getDemandesByDemandeur(demandeur: string ): Observable<Demande[]> {
+    return this.http.get<any>(`${this.apiServerUrl}/api/demandes/demandeur?demandeur=`+demandeur);
+  }
   
   public getDemandeByStatutEtDirection(statut: string|null, idDirection: number|null ): Observable<Demande[]> {
     let params = new  HttpParams();

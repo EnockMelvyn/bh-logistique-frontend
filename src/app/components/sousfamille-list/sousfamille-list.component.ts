@@ -14,7 +14,7 @@ export class SousfamilleListComponent implements OnInit {
 
   public sousFamilles: SousFamille[] = [];
 
-  columnsToDisplay = ['libelleSousFamille','codeSousFamille', 'famille']
+  columnsToDisplay = ['libelleSousFamille','codeSousFamille', 'famille', 'actions']
 
   constructor(private sousFamilleService: sousFamilleService, public dialog: MatDialog) { }
 

@@ -14,5 +14,6 @@ export interface User {
     nameUser?: string
     password?: string
     profiles?: Profile[]
+    profileRole?: string[]
     updatedAt?: Date 
 }

@@ -1,17 +1,43 @@
-<p>auth-form works!</p>
-<div class="card">
+<!-- 
+<div class="flex h-auto w-1/2 justify-center items-center h-screen mx-auto bg-blue-400">
     <div class="card-body">
-        <form [formGroup]="formAuth">
+        <form [formGroup]="formAuth" class="w-1/2">
             <div class="form-group">
-                <label for="login">Email</label>
-                <input mat-input type="text" class="formControl" name="login" id="login" formControlName="login">
+                <label for="login" class="text-lg px-2">Email</label>
+                <input mat-input type="text" class="formControl w-full" name="login" id="login" formControlName="login">
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password" class="text-lg px-2">Password</label>
                 <input mat-input type="password" class="formControl" name="password" formControlName="password">
             </div>
 
             <button mat-raised-button color="success" (click)="connexionUser()">Connecter</button>
         </form>
+    </div>
+</div> -->
+
+<div class="grid place-items-center h-screen">
+    <div class="card-primary shadow-md w-1/4">
+        <div class="card-header max-h-10"> <h3 class="text-2xl">BH LOGISTIQUE</h3></div>
+        <div class="card-body bg-slate-200">
+            <form [formGroup]="formAuth" class="w-full">
+                <div class="form-group">
+                    <label for="login" class="text-md px-2 w-1/4 ">Email</label>
+                    <input mat-input type="text" class="formControl w-3/4 h-8 p-2 shadow-inner " name="login" id="login" formControlName="login">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="text-md px-2 w-1/4">Password</label>
+                    <input mat-input type="password" class="formControl w-3/4 h-8 p-2 shadow-inner" name="password" formControlName="password">
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="text-sm text-blue-600"> Mot de passe oublié ?</p>
+                    </div>                    
+                    <div class="col-6">
+                        <button class="btn btn-primary float-right text-md" (click)="connexionUser()">Se connecter</button>
+                    </div>
+                </div>                
+            </form>
+        </div>
     </div>
 </div>

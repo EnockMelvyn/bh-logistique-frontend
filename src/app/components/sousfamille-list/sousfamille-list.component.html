@@ -24,8 +24,20 @@
           <td mat-cell *matCellDef="let sousFamille"> {{sousFamille.famille?sousFamille.famille.libelleFamille: ''}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let sousFamille"> 
+            <div class="row button-row">
+              <div class="button-container">
+                <button (click)="openDialogUpdateSousFamille(sousFamille)" class="btn btn-primary" aria-label="Modifier">
+                  <mat-icon fab fa-pencil>edit</mat-icon>
+                </button>
+              </div>
+            </div>  
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row (click)="openDialogUpdateSousFamille(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
       </table>
     </div>
   </div>

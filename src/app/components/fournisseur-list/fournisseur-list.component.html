@@ -26,9 +26,20 @@
           <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.contactFournisseur}} </td>
         </ng-container>
 
-
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let fournisseur"> 
+            <div class="row button-row">
+              <div class="button-container">
+                <button (click)="openDialogUpdateFournisseur(fournisseur)" class="btn btn-primary" aria-label="Modifier">
+                  <mat-icon fab fa-pencil>edit</mat-icon>
+                </button>
+              </div>
+            </div>  
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row (click)="openDialogUpdateFournisseur(myRowData)" *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+        <tr mat-row  *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
       </table>
     </div>
   </div>

@@ -6,6 +6,7 @@ import * as encoder from 'js-sha512';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -16,7 +17,7 @@ export class AuthFormComponent implements OnInit {
 
   formAuth : FormGroup
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router,
-    private data: DataService) {
+    private data: DataService, private userService:UserService) {
     this.formAuth = this.formBuilder.group({
       login : ['', Validators.required],
       password: ['', Validators.required]
@@ -42,13 +43,14 @@ export class AuthFormComponent implements OnInit {
           userC = response.items[0]
           this.authService.getInfosSupUserByEmail(userC.emailUser!).subscribe(
             (response2: any) =>{
-              alert(response2.directionId)
               userC.directionId = response2.directionId
+              userC.profiles = response2.profilesCode
+              userC.profileRole = response2.profilesCode
               // userC.directionId= 2
             localStorage.setItem('userConnected', JSON.stringify(userC));
             // localStorage.setItem('userConnected', JSON.stringify(response.items[0]));
             // console.log(response.status.message)
-            this.router.navigateByUrl('/content/sortie/creer')
+            this.router.navigateByUrl('/content/dashboard')
             }
           )
           
