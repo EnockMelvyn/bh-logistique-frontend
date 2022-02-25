@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
         let delaiTotal=0
           for(let demandeDir of response){            
             if(demandeDir.status?.codeStatut == "TRAITEE"){
-              let diffInMs = demandeDir.modifiedAt?.valueOf! - demandeDir.createdAt?.valueOf()!
+              let diffInMs = demandeDir.modifiedAt?.valueOf()! - demandeDir.createdAt?.valueOf()!
               console.log(demandeDir.modifiedAt?.valueOf()!)
               let diffDays = Math.ceil(diffInMs/(1000*60*60*24))
               console.log("delai de traitement de la demande: "+diffDays)
