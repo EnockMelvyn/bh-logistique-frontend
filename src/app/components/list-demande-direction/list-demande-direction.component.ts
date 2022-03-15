@@ -9,6 +9,7 @@ import { DirectionService } from 'src/app/services/direction.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-list-demande-direction',
@@ -17,7 +18,8 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class ListDemandeDirectionComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<any>;
-
+  @ViewChild(MatPaginator) paginator : MatPaginator
+  loading = false
   demandesToShow: any [] = []
   direction:Direction = {}
   allUsers : User[] = []
@@ -34,6 +36,7 @@ export class ListDemandeDirectionComponent implements OnInit {
   }
 
   public getData(): void {
+    this.loading = true
     this.directionService.getAllDirections().subscribe(
       (response: Direction[]) => {
         response.forEach(element => {
@@ -41,10 +44,12 @@ export class ListDemandeDirectionComponent implements OnInit {
             (resp: Demande[]) => {
               this.demandesToShow.push({'direction':element, 'nombre': resp.length})
               this.dataSource.data=this.demandesToShow
+              this.dataSource.paginator  = this.paginator
               this.table.renderRows()
             }
           )
         })
+        this.loading = false
       }
     )
   }

@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTable } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Famille } from 'src/app/models/famille';
 import { FamilleService } from 'src/app/services/famille.service';
 import { FamilleFormComponent } from '../famille-form/famille-form.component';
@@ -13,9 +14,11 @@ import { FamilleFormComponent } from '../famille-form/famille-form.component';
 })
 export class FamilleComponent implements OnInit {
   @ViewChild(MatTable) table!: MatTable<Famille>;
+  @ViewChild(MatPaginator) paginator : MatPaginator
   // familleSelected = new Famille ;
+  dataSource : MatTableDataSource<Famille> = new MatTableDataSource()
   public familles: Famille[] = [];
-
+  loading = false
   columnsToDisplay = ['libelleFamille','codeFamille', 'actions']
 
   constructor(private familleService: FamilleService, public dialog: MatDialog) { }
@@ -25,11 +28,16 @@ export class FamilleComponent implements OnInit {
   }
 
   public getAllFamilles(): void {
+    this.loading = true
     this.familleService.getAllFamilles().subscribe(
       (response: Famille[]) => {
+        this.loading = false
         this.familles = response ;
+        this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
       },
       (error: HttpErrorResponse) => {
+        this.loading = false
         alert(error.message);
       }
       )

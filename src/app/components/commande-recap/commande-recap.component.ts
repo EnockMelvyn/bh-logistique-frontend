@@ -47,6 +47,9 @@ export class CommandeRecapComponent implements OnInit{
 
     public retour():void {
       switch (this.commande.status?.codeStatut) {
+        case 'LIV':
+          this.router.navigateByUrl('/content/commande/list/livre')
+          break;
         case 'REJ':
           this.router.navigateByUrl('/content/commande/list/refuse')
           break;
@@ -111,6 +114,6 @@ export class CommandeRecapComponent implements OnInit{
       return dataToReturn;
     }
     public exportToExcel () {
-       this.data.exportToExecl(this.createExcelArray(this.commande.commandeDetails!),'Commande.xlsx');
+       this.data.exportToExcel(this.createExcelArray(this.commande.commandeDetails!),'Commande.xlsx');
     }
 }

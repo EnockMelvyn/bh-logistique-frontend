@@ -67,7 +67,10 @@ export class CreateComponent implements OnInit {
     this.user.password = encoder.sha512(this.formUser.get('password')?.value)
     this.user.matricule = this.formUser.get('matricule')?.value
 
-    this.profils = this.formUser.get('profiles')?.value
+    this.formUser.get('profiles')?.value?.forEach((element:string) => {
+      console.log(element)
+      this.profils.push(element)
+    })
     console.log(this.profils)
     return userBuilt
   }
@@ -77,12 +80,15 @@ export class CreateComponent implements OnInit {
     this.authService.createUser(userToCreate).subscribe(
       (response : any) => {
         this.user = response.items[0]
+
         let profilPerso = {"idPerso": this.user.idUser, "codesProfile": this.profils}
         this.authService.createProfilPersonnel(profilPerso).subscribe(
           (response2 : any) => {
             console.log("Données sup"+response2)
             this.user.directionId = response2.directionId
             this.user.profiles = response2.profilesCode
+            alert("Utilisateur enregistré")
+            this.goToListeUser()
           }
         )
       }
@@ -100,6 +106,8 @@ export class CreateComponent implements OnInit {
             console.log("Données sup"+response2)
             this.user.directionId = response2.directionId
             this.user.profiles = response2.profilesCode
+            alert("Utilisateur mis à jour")
+            this.goToListeUser()
           }
         )
       }

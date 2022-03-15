@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -15,7 +16,7 @@ export class ProfilUserListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   users : User [] = []
-
+  loading = false
   dataSource : MatTableDataSource<any> = new MatTableDataSource<any>()
   colonnes = ["emailUser", "lastnameUser", "nameUser", "login", "actions"]
   constructor(private authService : AuthService, private router: Router, private dataService: DataService) { }
@@ -32,11 +33,17 @@ export class ProfilUserListComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   getAllUsers(){
+    this.loading = true
     this.authService.getAllUsers().subscribe(
       (response: any) => {
+        this.loading = false
         console.log(response.items)
         this.users = response.items
         this.dataSource.data = response.items
+      },
+      (error : HttpErrorResponse) => {
+        this.loading = false
+        alert (error.message)
       }
     )
   }

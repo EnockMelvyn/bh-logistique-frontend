@@ -81,12 +81,12 @@ export class DemandeService {
   public getDemandeByStatusEtDirection(idStatus: number|null, idDirection: number|null ): Observable<Demande[]> {
     let params = new  HttpParams();
     if(idStatus!=null && idStatus>0){
-      params=params.append('statut', idStatus)
+      params=params.append('idStatus', idStatus)
     }
     if(idDirection!=null && idDirection>0){
       params=params.append('idDirection', idDirection)
     }
-    return this.http.get<any>(this.apiServerUrl+'/api/demandes/statutEtDirection', {params: params});
+    return this.http.get<any>(this.apiServerUrl+'/api/demandes/statusEtDirection', {params: params});
   }
 
   public getDemandeById(idDemande: number ) : Observable<Demande> {

@@ -128,6 +128,12 @@
                     <p> Refusées </p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a routerLink="/content/commande/list/livre" routerLinkActive="active" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> Livrées </p>
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item" *ngIf="menuAcces.includes('livraison')">
@@ -174,7 +180,7 @@
                 <li class="nav-item" *ngIf="menuAcces.includes('demandeDMG')">
                   <a routerLink="/content/demande/demandeDmg/DMG" routerLinkActive="active" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p> Demandes DMG </p>
+                    <p> Demandes transmises </p>
                   </a>
                 </li>
                 <li class="nav-item" *ngIf="menuAcces.includes('demandeDMG')">

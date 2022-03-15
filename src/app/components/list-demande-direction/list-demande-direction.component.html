@@ -3,7 +3,7 @@
     <h1>Demandes enregistrées par direction</h1>
   </div>
   <div class="card-body">
-    <table class="mat-elevation-z8" mat-table [dataSource]="dataSource">
+    <table class="table" mat-table [dataSource]="dataSource">
         
 
       <ng-container matColumnDef="direction">
@@ -28,6 +28,12 @@
     
       <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
       <tr mat-row  *matRowDef="let myRowData; columns: colonnes"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td  *ngIf="!loading" class="mat-cell" colspan="3"> Aucune données</td>
+        <td class="mat-cell " colspan="3"><mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" > </mat-progress-spinner></td>
+      </tr>
     </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>
   </div>
 </div>

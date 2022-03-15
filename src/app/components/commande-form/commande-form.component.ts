@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Article } from 'src/app/models/article';
 import { Commande } from 'src/app/models/commande';
 import { CommandeDetail } from 'src/app/models/commande-detail';
@@ -29,7 +30,8 @@ export class CommandeFormComponent implements OnInit {
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   formCommande : FormGroup 
   constructor(private formBuilder : FormBuilder, private articleService: ArticleService,
-    private commandeService : CommandeService, private fournisseurService: FournisseurService, private dataService: DataService) { 
+    private commandeService : CommandeService, private fournisseurService: FournisseurService, private dataService: DataService,
+    private router : Router) { 
 
    }
 
@@ -125,7 +127,8 @@ export class CommandeFormComponent implements OnInit {
       (response: Commande) => {
         this.commande = response ;
         alert('Bon de commande enregistré avec succès');
-        this.ngOnInit()
+        this.commande = this.dataService.commande = {}
+        this.router.navigateByUrl("content/commande/list/attente")
                 // window.close()
       },
       (errorResponse: HttpErrorResponse) => {
@@ -144,6 +147,7 @@ export class CommandeFormComponent implements OnInit {
     } else {
     this.commande= {
       idCommande: id,
+      status : this.commande.status,
       dateCommande: this.formCommande.get('dateCommande')?.value,
       numeroCommande: this.formCommande.get('numCommande')?.value,
       fournisseur: this.formCommande.get('fournisseur')?.value,
@@ -154,8 +158,8 @@ export class CommandeFormComponent implements OnInit {
       (response: Commande) => {
         this.commande = response ;
         alert('Bon de commande mis à jour');
-        this.ngOnInit()
-                // window.close()
+        this.commande = this.dataService.commande = {}
+        this.router.navigateByUrl("content/commande/list/attente")
       },
       (errorResponse: HttpErrorResponse) => {
         alert(errorResponse.error.message);

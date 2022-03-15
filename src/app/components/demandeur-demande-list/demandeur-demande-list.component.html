@@ -5,14 +5,14 @@
   <!-- /.card-header -->
   <div class="card-body">
     <div class="button-row">
-        <button mat-button class="btn btn-primary float-right" (click)="goToCreateDemande(1)" value="">Enregistrer une demande Economat</button>
+        <button class="btn btn-primary float-right" (click)="goToCreateDemande(1)" value="">Enregistrer une demande Economat</button>
         <!-- <button mat-button class="btn btn-primary" (click)="goToCreateDemande(2)" value="">Enregistrer une demande Moyen Généraux</button> -->
     </div>
     <br>
 
     <br/>
     <div class="col-md-12">
-      <table class="mat-elevation-z8" mat-table [dataSource]="dataSource">
+      <table class="table" mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="numRef">
           <th mat-header-cell *matHeaderCellDef> N° Ref </th>
           <td mat-cell *matCellDef="let demande"> {{demande.numRef}} </td>
@@ -33,10 +33,10 @@
             <td mat-cell *matCellDef="let demande"> {{ demande.dateDemande | date:'dd-MM-yyyy HH:mm' }} </td>
         </ng-container>
   
-        <ng-container matColumnDef="demandeur">
+        <!-- <ng-container matColumnDef="demandeur">
             <th mat-header-cell *matHeaderCellDef> Demandeur </th>
             <td mat-cell *matCellDef="let demande"> {{demande.demandeur}} </td>
-        </ng-container>
+        </ng-container> -->
         
         <ng-container matColumnDef="directionId">
             <th mat-header-cell *matHeaderCellDef> Direction </th>
@@ -63,8 +63,8 @@
             <td mat-cell *matCellDef="let demande"> 
               <div class="row button-row">
                 <div class="button-container">
-                  <button (click)="goToUpdateDemande(demande)" mat-mini-fab color="primary" aria-label="Bouton 1 Modifier">
-                    <mat-icon fab fa-pencil>edit</mat-icon>
+                  <button class="btn btn-primary" aria-label="Bouton 1 Modifier">
+                    <mat-icon fab fa-pencil (click)="goToUpdateDemande(demande)">edit</mat-icon>
                   </button>
                 </div>
                 <!-- <div class="button-container">
@@ -84,9 +84,11 @@
         <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
         <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4"> Aucune données</td>
-      </tr>
+          <td  *ngIf="!loading" class="mat-cell" colspan="8"> Aucune données</td>
+          <td class="mat-cell " colspan="8"><mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" > </mat-progress-spinner></td>
+        </tr>
       </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>
     </div>
   </div>
 

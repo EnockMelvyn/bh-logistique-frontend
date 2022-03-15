@@ -20,12 +20,8 @@
                         <input type="checkbox" class="form-check-input" name="isLivraisonTotal" id="isLivraisonTotal" formControlName="isLivraisonTotal" required>
                         <label for="Commande" class="form-check-label">Commande complète?</label>
                     </div>
-                    <!-- <div class="form-check col-sm-6" >
-                        <input type="checkbox" class="form-check-input" name="urgent" id="urgent" formControlName="urgent" (change)="OnChecked($event)">
-                        <label class="form-check-label" for="urgent">Urgent ?</label>
-                    </div> -->
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                     <div class="form-group .col-4">
                         <label for="fournisseur">Fournisseur</label>
                         <mat-select class="form-control" name="fournisseur" id="fournisseur" formControlName="fournisseur" required>
@@ -49,25 +45,13 @@
                 </div>
             </div>
             <div class="row">
-                <!-- <div class="col-sm-2">
-                    <div class="form-group .col-4">
-                        <label for="articles">Importer les articles du BL</label>
-                        <input type="file" class="form-control" name="articles" id="artiles" formControlName="articles" placeholder="articles" (change)="onFileChange($event)">
-                    </div>
-                    <button mat-raised-button type="submit" *ngIf="file" mat-button color="primary" (click)="onImport()"> importer le fichier</button>
-                    
-                </div> -->
-                <!-- <div class="col-sm-1"></div> -->
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <div class="card">
+                        <div class="card-header">
+                            <h3>Liste des articles</h3>
+                        </div>
                         <div class="card-body">
-                            <h4>Liste des articles</h4>
-                            <!-- <mat-form-field appearance="standard">
-                                <mat-label>Rechercher ...</mat-label>
-                                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-                            </mat-form-field> -->
-                            <button mat-button mat-raised-button class="btn btn-success float-right" type="submit" *ngIf="dataSource" color="success" (click)="createLivraison()"> Valider</button>
-                            <table mat-table [dataSource]="dataSource" *ngIf="dataSource" class="table">
+                            <table class="table" mat-table [dataSource]="dataSource" *ngIf="dataSource" >
                                 <!-- <mat-text-column name="Ref"></mat-text-column> -->
                                 <ng-container matColumnDef="article">
                                     <th mat-header-cell *matHeaderCellDef> Article </th>
@@ -97,6 +81,14 @@
                         </div>
                     </div>
                         
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="button-row">
+                        <button class="btn btn-danger float-left" type="submit" *ngIf="dataSource" routerLink="/content/livraison/list"> Retour</button>
+                        <button class="btn btn-success float-right" type="submit" *ngIf="dataSource" (click)="createLivraison()"> Valider</button>
+                    </div>
                 </div>
             </div>
         </form>

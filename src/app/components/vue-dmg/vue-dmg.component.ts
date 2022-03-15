@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DemandeDirection } from 'src/app/models/demande-direction';
@@ -17,6 +18,7 @@ export class VueDmgComponent implements OnInit {
   loading = false
   codeStatus = ""
   dataSource: MatTableDataSource<DemandeDirection> = new MatTableDataSource()
+  @ViewChild(MatPaginator) paginator : MatPaginator
   colonnes = ['direction', 'dateDemande', 'status', 'actions']
   constructor(private demDirService:DemandeDirectionService, private dataServ : DataService,
     private router: Router, private statusService: StatusService, private route: ActivatedRoute) { 
@@ -48,6 +50,7 @@ export class VueDmgComponent implements OnInit {
       (response: DemandeDirection[])=> {
         this.loading=false
         this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
         console.log(response)
       },
       (error:HttpErrorResponse) => {

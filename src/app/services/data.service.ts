@@ -8,6 +8,7 @@ import { Direction } from '../models/direction';
 import { DemandeDirection } from '../models/demande-direction';
 import { Inventaire } from '../models/inventaire';
 import { Article } from '../models/article';
+import { Livraison } from '../models/livraison';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class DataService {
   private article: Article = {}
   direction: Direction = {}
   commande:Commande = {} 
+  livraison: Livraison = {}
   demande : Demande = {}
   inventaire: Inventaire = {}
   user: User ={}
@@ -69,7 +71,7 @@ export class DataService {
     return this.userConnected
   }
 
-  public exportToExecl (jsonArry: any, fileName:string) {
+  public exportToExcel (jsonArry: any, fileName:string) {
     // XLSX.utils.
     const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(jsonArry);
   

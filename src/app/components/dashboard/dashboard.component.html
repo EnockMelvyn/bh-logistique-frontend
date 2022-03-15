@@ -49,9 +49,40 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        Demandes Directions
+                        Demandes Directions Mois en cours  {{ jourj | date : "MM/YYYY" }}
                     </div>
                     <div class="card-body" >
+                        <div class="row">
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-danger">
+                                    <div class="inner">
+                                        <h3>{{ valeurStock  | currency: 'XOF ':'symbol':'1.0-0' }}</h3>
+
+                                        <p>   Valeur stock  </p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-danger">
+                                    <div class="inner">
+                                        <h3>{{ delaiMoyenTraitement.nombre }}</h3>
+
+                                        <p>   Demandes traitées  </p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6" *ngIf="delaiMoyenTraitement.moyenne ">
+                                <div class="small-box bg-danger">
+                                    <div class="inner">
+                                        <h3> {{ delaiMoyenTraitement.moyenne | number : '1.0-0' }} </h3>
+                                        <!-- <h3> 10</h3> -->
+                                        <p>Délai moyen de traitement (jrs)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row"  *ngIf="dashboardDemandesDirection.length==0">
                             <div *ngFor="let statut of statuts" class="col-lg-3 col-4">
                                 <!-- small box -->
@@ -74,12 +105,12 @@
                                     <div class="inner">
                                     <h3> {{ dashboardDemande.nombre }}</h3>
                     
-                                    <p> Statut: {{ dashboardDemande.statut }}</p>
+                                    <p> Statut: {{ dashboardDemande.statut.libelle }}</p>
                                     </div>
                                     <div class="icon">
                                     <i class="ion ion-bag"></i>
                                     </div>
-                                    <a (click)="goToDetailDemandeDashboard(dashboardDemande)" class="small-box-footer">Voir détails<i class="fas fa-arrow-circle-right"></i></a>
+                                    <!-- <a (click)="goToDetailDemandeDashboard(dashboardDemande)" class="small-box-footer">Voir détails<i class="fas fa-arrow-circle-right"></i></a> -->
                                 </div>
                             </div>
 

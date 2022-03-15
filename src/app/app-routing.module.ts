@@ -32,6 +32,7 @@ import { HasRoleAdminGuard } from './guards/has-role-admin.guard';
 import { DemandeurDemandeListComponent } from './components/demandeur-demande-list/demandeur-demande-list.component';
 import { ProfilUserListComponent } from './components/user/profil-user-list/profil-user-list.component';
 import { CreateComponent } from './components/user/create/create.component';
+import { BlRecapComponent } from './components/bl-recap/bl-recap.component';
 
 const routes: Routes = [
   // { path: 'parametre/famille', component: FamilleComponent, canActivate: [AuthGuard] },
@@ -129,6 +130,7 @@ const routes: Routes = [
         children:[
           { path: 'creer', component: BlFormComponent},
           { path: 'list', component: BlListComponent},
+          { path: 'recap', component: BlRecapComponent}
         ],
         canActivate: [HasRoleAdminGuard],
         data: {

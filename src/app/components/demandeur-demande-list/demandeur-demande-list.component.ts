@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Demande } from 'src/app/models/demande';
@@ -17,12 +18,13 @@ import { StatusService } from 'src/app/services/status.service';
 })
 export class DemandeurDemandeListComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator !: MatPaginator
   status: Status[] = []
   demandes: Demande[] = []
   user: User = {}
-
-  colonnes = ['numRef', 'observation', 'dateDemande', 'demandeur', 'directionId','status', 'urgent', 'actions']
-  dataSource : MatTableDataSource<Demande> = new MatTableDataSource<Demande>()
+  loading = false
+  colonnes = ['numRef', 'observation', 'dateDemande', 'directionId','status', 'urgent', 'actions']  // 'demandeur',
+ dataSource : MatTableDataSource<Demande> = new MatTableDataSource<Demande>()
 
 
 
@@ -35,14 +37,18 @@ export class DemandeurDemandeListComponent implements OnInit {
   }
 
   public getAllDemandeurDemandes() {
+    this.loading = true
     console.log(this.user.emailUser!)
     this.demandeService.getDemandesByDemandeur(this.user.emailUser!).subscribe(
       (response: Demande[]) => {
+        this.loading = false
         console.log(response)
         this.demandes = response
         this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
       },
       (error: HttpErrorResponse) =>{
+        this.loading = false
         console.log(error.message)
       }
     )

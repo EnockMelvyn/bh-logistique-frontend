@@ -4,59 +4,81 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-      <div >
-        <!-- <button class="btn btn-primary" (click)="openDialogCreateArticle()" value="">Nouvel article</button> -->
-        <button class="btn btn-primary" (click)="createArticle()" value="">Nouvel article</button>
+      <div *ngIf="modifArticle" class="row" >
+        <div class="col-12">
+          <button class="btn btn-primary float-right" (click)="createArticle()" value="">Nouvel article</button>
+        </div>
       </div>
-      <div class="col-md-12">
-      <table class="mat-elevation-z8" mat-table [dataSource]="articles">
-        <ng-container matColumnDef="idArticle">
-          <mat-header-cell *matHeaderCellDef> id article </mat-header-cell>
-          <mat-cell *matCellDef="let article"> {{article.idArticle}} </mat-cell>
-        </ng-container>
+      <br>
 
-        <ng-container matColumnDef="libelleArticle">
-          <th mat-header-cell *matHeaderCellDef> Libellé article </th>
-          <td mat-cell *matCellDef="let article"> {{article.libelleArticle}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="codeArticle">
-          <th mat-header-cell *matHeaderCellDef> code article </th>
-          <td mat-cell *matCellDef="let article"> {{article.codeArticle}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="sousFamille">
-          <th mat-header-cell *matHeaderCellDef> Sous-famille </th>
-          <td mat-cell *matCellDef="let article"> {{article.sousFamille? article.sousFamille.libelleSousFamille: ""}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="cmup">
-          <th mat-header-cell *matHeaderCellDef> CMUP </th>
-          <td mat-cell *matCellDef="let article"> {{ article.cmup  }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="quantiteStock">
-          <th mat-header-cell *matHeaderCellDef> Quantité en stock </th>
-          <td mat-cell *matCellDef="let article"> {{ article.quantiteStock  }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> </th>
-          <td mat-cell *matCellDef="let article"> 
-            <div class="row button-row">
-              <div class="button-container">
-                <button type="button"  class="btn btn-primary" aria-label="Bouton 1 Modifier"> 
-                  <mat-icon (click)="updateArticle(article)" fab fa-pencil>edit</mat-icon>
-                </button>
-              </div>
-            </div>  
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row  *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-      </table>
+      <div class="row">
+        <div class="form-group">
+          <mat-label>Rechercher</mat-label>
+          <input class="form-control  border-b-2 border-t-0 border-x-0 "(keyup)="applyFilter($event)" placeholder="Ex. Avis Orion">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-12">
+          <table mat-table class="table" [dataSource]="dataSource">
+            <ng-container matColumnDef="idArticle">
+              <mat-header-cell *matHeaderCellDef> id article </mat-header-cell>
+              <mat-cell *matCellDef="let article"> {{article.idArticle}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="libelleArticle">
+              <th mat-header-cell *matHeaderCellDef> Libellé article </th>
+              <td mat-cell *matCellDef="let article"> {{article.libelleArticle}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="codeArticle">
+              <th mat-header-cell *matHeaderCellDef> code article </th>
+              <td mat-cell *matCellDef="let article"> {{article.codeArticle}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="sousFamille">
+              <th mat-header-cell *matHeaderCellDef> Sous-famille </th>
+              <td mat-cell *matCellDef="let article"> {{article.sousFamille? article.sousFamille.libelleSousFamille: ""}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="cmup">
+              <th mat-header-cell *matHeaderCellDef> CMUP </th>
+              <td mat-cell *matCellDef="let article"> {{ article.cmup  }} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="quantiteStock">
+              <th mat-header-cell *matHeaderCellDef> Quantité en stock </th>
+              <td mat-cell *matCellDef="let article"> {{ article.quantiteStock  }} </td>
+            </ng-container>
+  
+            <ng-container *ngIf="modifArticle" matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let article"> 
+                <div class="row button-row">
+                  <div class="button-container">
+                    <button class="btn btn-primary" aria-label="Bouton 1 Modifier"> 
+                      <mat-icon (click)="updateArticle(article)" fab fa-pencil>edit</mat-icon>
+                    </button>
+                    <button class="btn btn-primary" aria-label="Bouton 1 Modifier"> 
+                      <mat-icon (click)="updateArticle(article)" fab fa-search>search</mat-icon>
+                    </button>
+                  </div>
+                </div>  
+              </td>
+            </ng-container>
+  
+            <tr class="thead-light" mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr class="body" mat-row  *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  
+            <tr class="mat-row" *matNoDataRow>
+              <td  *ngIf="!loading" class="mat-cell" colspan="4"> Aucune données</td>
+                  <td class="mat-cell " colspan="4"><mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" > </mat-progress-spinner></td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>  
+        </div>
+         
+      </div>
     </div>
-  </div>
 
 </div>

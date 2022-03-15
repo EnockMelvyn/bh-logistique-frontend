@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,6 +15,8 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class CommandeListComponent implements OnInit{
 
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  loading = false
   titre = ''
   statutCommandes =''
   codeStatut =''
@@ -29,6 +32,10 @@ export class CommandeListComponent implements OnInit{
     this.route.params.subscribe( params => {
       this.statutCommandes = params.statutCommandes
       switch (this.statutCommandes) {
+        case 'livre':
+          this.codeStatut= 'LIV'
+          this.titre = "Liste des commandes Livrées"
+          break;
         case 'refuse':
           this.codeStatut= 'REJ'
           this.titre = "Liste des commandes rejetées"
@@ -42,7 +49,7 @@ export class CommandeListComponent implements OnInit{
           this.titre = "Liste des commandes en attente"
           break;
       }
-      this.getCommandesEnattente()
+      this.getCommandesByStatut()
     } );
      
     
@@ -63,14 +70,17 @@ export class CommandeListComponent implements OnInit{
     this.router.navigateByUrl('content/commande/creer')
   }
 
-  public getCommandesEnattente(): void {
-    
+  public getCommandesByStatut(): void {
+    this.loading= true
     this.commandeService.getCommandesByStatut(this.codeStatut).subscribe(
       (response: Commande[]) => {
+        this.loading = false
         this.commandes = response ;
         this.dataSource.data = response;
+        this.dataSource.paginator = this.paginator
       },
       (error: HttpErrorResponse) => {
+        this.loading = false
         alert(error.message);
       }
     )

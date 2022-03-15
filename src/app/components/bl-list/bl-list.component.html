@@ -4,74 +4,56 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-      <div class="button-row">
-        
-        <div class="row">
-          <div class="col-lg-9" ></div>
-          <div class="col-lg-3">
-              <div class="col-lg-4">
-                <button mat-button class="btn btn-primary" routerLink="/content/livraison/creer" >Enregistrer une livraison</button>
-              </div>
-          </div>
+      <div class="row">
+        <div class="button-row col-12">
+          <button class="btn btn-primary float-right" (click)="goToForm({})" >Enregistrer une livraison</button>
         </div>
       </div>
   
       <br/>
-      <div class="col-md-12">
-        <table class="mat-elevation-z8" mat-table [dataSource]="livraisons">
-          <ng-container matColumnDef="numeroBl">
-            <th mat-header-cell *matHeaderCellDef> N° BL </th>
-            <td mat-cell *matCellDef="let livraison"> {{livraison.numeroBl}} </td>
-          </ng-container>
-          
-          <ng-container matColumnDef="fournisseur">
-            <th mat-header-cell *matHeaderCellDef> Fournisseur </th>
-            <td mat-cell *matCellDef="let livraison"> {{livraison.fournisseur.nomFournisseur}} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="dateLivraison">
-              <th mat-header-cell *matHeaderCellDef> Date de livraison </th>
-              <td mat-cell *matCellDef="let livraison"> {{livraison.dateLivraison}} </td>
-          </ng-container>
-            
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef> </th>
-              <td mat-cell *matCellDef="let livraison"> 
-                <div class="row button-row">
-                  <div class="button-container">
-                    <button (click)="openDialogUpdateLivraison(livraison.idLivraison)" mat-mini-fab color="primary" aria-label="Bouton 1 Modifier">
-                      <mat-icon fab fa-pencil>edit</mat-icon>
-                    </button>
-                  </div>
-                </div>  
-              </td>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table mat-elevation-z8" mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="numeroBl">
+              <th mat-header-cell *matHeaderCellDef> N° BL </th>
+              <td mat-cell *matCellDef="let livraison"> {{livraison.numeroBl}} </td>
             </ng-container>
-  
-          <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
-          <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4"> Aucune données</td>
-        </tr>
-        </table>
+            
+            <ng-container matColumnDef="fournisseur">
+              <th mat-header-cell *matHeaderCellDef> Fournisseur </th>
+              <td mat-cell *matCellDef="let livraison"> {{livraison.fournisseur.nomFournisseur}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="dateLivraison">
+                <th mat-header-cell *matHeaderCellDef> Date de livraison </th>
+                <td mat-cell *matCellDef="let livraison"> {{livraison.dateLivraison | date : "dd/MM/yyyy hh:mm"}} </td>
+            </ng-container>
+              
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let livraison"> 
+                  <div class="row button-row">
+                    <div class="button-container">
+                      <button class="btn btn-primary" aria-label="Bouton 1 Modifier">
+                        <mat-icon (click)="goToRecap(livraison)" fab fa-pencil>edit</mat-icon>
+                      </button>
+                    </div>
+                  </div>  
+                </td>
+              </ng-container>
+    
+            <tr class="thead-light" mat-header-row *matHeaderRowDef="colonnes"></tr>
+            <tr class="tbody" mat-row *matRowDef="let myRowData; columns: colonnes"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td  *ngIf="!loading" class="mat-cell" colspan="4"> Aucune données</td>
+              <td class="mat-cell " colspan="4"><mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" > </mat-progress-spinner></td>
+          </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>
+        </div>
       </div>
+      
     </div>
   
   </div>
   
-  <!-- <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
-  </script> -->

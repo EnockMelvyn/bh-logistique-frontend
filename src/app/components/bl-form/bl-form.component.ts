@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Article } from 'src/app/models/article';
 import { Commande } from 'src/app/models/commande';
 import { Fournisseur } from 'src/app/models/fournisseur';
@@ -10,6 +11,7 @@ import { Livraison } from 'src/app/models/livraison';
 import { LivraisonDetail } from 'src/app/models/livraison-detail';
 import { ArticleService } from 'src/app/services/article.service';
 import { CommandeService } from 'src/app/services/commande.service';
+import { DataService } from 'src/app/services/data.service';
 import { FournisseurService } from 'src/app/services/fournisseur.service';
 import { LivraisonService } from 'src/app/services/livraison.service';
 import * as xlsx from 'xlsx';
@@ -21,13 +23,13 @@ import * as xlsx from 'xlsx';
 })
 export class BlFormComponent implements OnInit{
 
-  @ViewChild(MatPaginator) paginator : MatPaginator;
-  @ViewChild(MatTable) table : MatTable<any>;
+  @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild(MatTable) table !: MatTable<any>;
   // colonnes= ["Ref", "Entrée", "Prix Unitaire", "Montant Total"];
   colonnes= ["article", "quantite","prixUnitaire", "total"];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  formBl: FormGroup;
-  file: File;
+  formBl!: FormGroup;
+  file!: File;
   
   arrayBuffer: any;
   commandesValide : Commande[] = []
@@ -37,22 +39,32 @@ export class BlFormComponent implements OnInit{
 
   articles: Article[] = []
   fournisseurs : Fournisseur[]=[]
-  constructor( private fournisseurService: FournisseurService, private articleService: ArticleService, 
-    private livraisonService: LivraisonService, private commandeService:CommandeService, private formBuilder: FormBuilder) { 
-    this.formBl = this.formBuilder.group({
-      fournisseur: ['', Validators.required],
-      dateLivraison: ['', Validators.required],
-      numeroBl: ['', Validators.required],
-      commande: ['',Validators.required],
-      isLivraisonTotal: [true, Validators.required],
-      articles: []
-    });
+  constructor( private fournisseurService: FournisseurService, private articleService: ArticleService, private router: Router,
+    private livraisonService: LivraisonService, private commandeService:CommandeService, private formBuilder: FormBuilder, private dataService: DataService) { 
+    if (this.dataService.livraison) {
+      console.log("test")
+      this.livraison = this.dataService.livraison
+      this.livraisonDetails = this.livraison.livraisonDetails ? this.livraison.livraisonDetails : []
+    } 
+    
   }
 
   ngOnInit(): void {
+    this.initForm()
     this.getAllFournisseurs()
     this.getCommandeValide()
     this.getAllArticles()
+  }
+
+  public initForm() {
+    this.formBl = this.formBuilder.group({
+      fournisseur: [this.livraison.fournisseur, Validators.required],
+      dateLivraison: [this.livraison.dateLivraison, Validators.required],
+      numeroBl: [this.livraison.numeroBl, Validators.required],
+      commande: [this.livraison.commande,Validators.required],
+      isLivraisonTotal: [true, Validators.required],
+      articles: []
+    });
   }
 
 
@@ -100,6 +112,7 @@ export class BlFormComponent implements OnInit{
           "quantite": element.quantite!,
           "prixUnitaire": 0
         }
+        console.log(this.livraisonDetails)
         this.livraisonDetails.push(livDet)
       })
 
@@ -200,7 +213,8 @@ export class BlFormComponent implements OnInit{
         (response: Livraison) => {
           this.livraison = response ;
           alert('Bon de livraison enregistré avec succès');
-          this.ngOnInit()
+          this.router.navigateByUrl("content/livraison/list")
+          // this.ngOnInit()
                   
         },
         (errorResponse: HttpErrorResponse) => {

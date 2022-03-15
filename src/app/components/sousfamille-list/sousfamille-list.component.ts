@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { SousFamille } from 'src/app/models/sousFamille';
 import { sousFamilleService } from 'src/app/services/sousFamille.service';
 import { SousfamilleFormComponent } from '../sousfamille-form/sousfamille-form.component';
@@ -13,7 +15,9 @@ import { SousfamilleFormComponent } from '../sousfamille-form/sousfamille-form.c
 export class SousfamilleListComponent implements OnInit {
 
   public sousFamilles: SousFamille[] = [];
-
+  @ViewChild(MatPaginator) paginator : MatPaginator
+  dataSource : MatTableDataSource<SousFamille> = new MatTableDataSource()
+  loading = false
   columnsToDisplay = ['libelleSousFamille','codeSousFamille', 'famille', 'actions']
 
   constructor(private sousFamilleService: sousFamilleService, public dialog: MatDialog) { }
@@ -23,11 +27,16 @@ export class SousfamilleListComponent implements OnInit {
   }
 
   public getAllSousFamilles(): void {
+    this.loading = true
     this.sousFamilleService.getAllSousFamilles().subscribe(
       (response: SousFamille[]) => {
+        this.loading = false
         this.sousFamilles = response ;
+        this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
       },
       (error: HttpErrorResponse) => {
+        this.loading = false
         alert(error.message);
       }
     )

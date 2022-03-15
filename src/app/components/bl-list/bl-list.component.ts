@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Livraison } from 'src/app/models/livraison';
+import { DataService } from 'src/app/services/data.service';
 import { LivraisonService } from 'src/app/services/livraison.service';
-import { BlFormComponent } from '../bl-form/bl-form.component';
 
 @Component({
   selector: 'app-bl-list',
@@ -15,46 +15,40 @@ import { BlFormComponent } from '../bl-form/bl-form.component';
 export class BlListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
-  colonnes= ["numeroBl", "dateLivraison", "fournisseur"];
+  colonnes= ["numeroBl", "dateLivraison", "fournisseur", "actions"];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   livraisons: Livraison[] = []
-
-  constructor(private livraisonService: LivraisonService, public dialog: MatDialog) { }
+  loading = false
+  constructor(private livraisonService: LivraisonService, public dataService : DataService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAllLivraisons();
+    
   }
 
   public getAllLivraisons(): void {
+    this.loading = true
     this.livraisonService.getAllLivraisons().subscribe(
       (response: Livraison[]) => {
+        this.loading = false
         this.livraisons = response ;
+        this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
       },
       (error: HttpErrorResponse) => {
+        this.loading = false
         alert(error.message);
       }
     )
   }
 
-  openDialogUpdateLivraison(row:Livraison): void {
-    const dialogRef = this.dialog.open(BlFormComponent, {
-      data: {idLivraison: row.idLivraison}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.ngOnInit()
-    });
+  public goToRecap(livraison : Livraison): void {
+    this.dataService.livraison = livraison
+    this.router.navigateByUrl("content/livraison/recap")
   }
-
-  openDialogCreateLivraison(): void {
-    const dialogRef = this.dialog.open(BlFormComponent, {
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.ngOnInit()
-    });
+  public goToForm(livraison : Livraison): void {
+    this.dataService.livraison = livraison
+    this.router.navigateByUrl("content/livraison/creer")
   }
 
 }

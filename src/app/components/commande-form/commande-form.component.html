@@ -64,12 +64,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-sm-8">
-                                            
-                                        </div>
-                                        <div class="col-sm-2" *ngIf="formCommande.valid && commandeDetails.length>0">
-                                            <button mat-flat-button *ngIf="!commande.idCommande" type="submit" mat-button class="btn btn-success" (click)="createCommande()" > Enregistrer la commande</button>
-                                            <button mat-flat-button *ngIf="commande.idCommande" type="submit" mat-button class="btn btn-success" (click)="updateCommande()" > Mettre à jour la commande</button>
+                                        <div class="col-sm-12" *ngIf="formCommande.valid && commandeDetails.length>0">
+                                            <button mat-flat-button *ngIf="!commande.idCommande" type="submit" mat-button class="btn btn-success float-right" (click)="createCommande()" > Enregistrer la commande</button>
+                                            <button mat-flat-button *ngIf="commande.idCommande" type="submit" mat-button class="btn btn-success float-right" (click)="updateCommande()" > Mettre à jour la commande</button>
                                             
                                         </div>
                                     </div>

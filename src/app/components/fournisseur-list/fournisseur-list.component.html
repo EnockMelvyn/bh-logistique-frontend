@@ -8,7 +8,7 @@
         <button class="btn btn-primary" (click)="openDialogCreateFournisseur()" value="">Ajouter un fournisseur</button>
       </div>
       <div class="col-md-12">
-      <table class="mat-elevation-z8" mat-table [dataSource]="fournisseurs">
+      <table class="table" mat-table [dataSource]="dataSource">
         
 
         <ng-container matColumnDef="nomFournisseur">
@@ -41,6 +41,7 @@
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row  *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
       </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="dataSource"></mat-paginator>
     </div>
   </div>
 

@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Form, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Article } from 'src/app/models/article';
 import { MouvStock } from 'src/app/models/mouv-stock';
 import { SousFamille } from 'src/app/models/sousFamille';
@@ -29,9 +29,9 @@ export class ArticleFormComponent implements OnInit {
   dataSource : MatTableDataSource<MouvStock> = new MatTableDataSource<MouvStock>()
   columnsToDisplay = ['dateMouvement','article','prixUnitaire','typeMouvement','qteAvant', 'qteMouvement','qteApres', 'username']
   
-  @ViewChild(MatSort) sort : MatSort;
+  @ViewChild(MatSort) sort !: MatSort;
     constructor(private articleService: ArticleService, private sousFamilleService : sousFamilleService, 
-      private formBuilder: FormBuilder, private mouvStockService : MouvStockService, public dataService : DataService
+      private formBuilder: FormBuilder, private mouvStockService : MouvStockService, public dataService : DataService, private router : Router
       ) {
         this.formArticle = formBuilder.group({
           libelleArticle: ['',Validators.required],
@@ -42,7 +42,6 @@ export class ArticleFormComponent implements OnInit {
   
     ngOnInit(): void {      
       this.getAllSousFamilles()
-      console.log(this.sousFamilles)
       this.article = this.dataService.getArticle()
       this.initForm()
 
@@ -69,9 +68,9 @@ export class ArticleFormComponent implements OnInit {
       console.log(this.formArticle.value)
     }
 
-    onSubmit(form: NgForm) {
-      console.log(form.value);
-    }
+    // onSubmit(form: NgForm) {
+    //   console.log(form.value);
+    // }
 
     public createArticle(): void {
       this.createObjectArticle()
@@ -80,26 +79,13 @@ export class ArticleFormComponent implements OnInit {
           alert('Article ajoutée avec succès');
           this.article = {}
           this.dataService.setArticle(this.article)
-          // window.close()
+          this.router.navigateByUrl("/content/article/list")
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
         }
         )
     }
-  
-    // public getArticle(): void {
-    //   this.articleService.getArticleById(this.article?.idArticle!).subscribe(
-    //     (response: Article) => {
-    //       this.article = response ;
-    //       console.log(response)
-    //       this.initForm()
-    //     },
-    //     (error: HttpErrorResponse) => {
-    //       alert(error.message);
-    //     }
-    //     )
-    // }
   
     public updateArticle(): void {
       this.createObjectArticle()
@@ -109,7 +95,7 @@ export class ArticleFormComponent implements OnInit {
           alert('Article mis à jour');
           this.article = {}
           this.dataService.setArticle(this.article)
-
+          this.router.navigateByUrl("/content/article/list")
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -129,16 +115,20 @@ export class ArticleFormComponent implements OnInit {
     }
 
     public getAllArticleMouvement() : void {
-      this.mouvStockService.getAllMouvementByArticle(this.article?.idArticle!).subscribe(
-        (response : MouvStock[])=> {
-          console.log(response)
-          this.dataSource.data = response
-          this.dataSource.sort = this.sort
-        },
-        (errorResponse : HttpErrorResponse) => {
-          console.log(errorResponse.error.message)
-        }
-      )
+      if (this.article?.idArticle!) {
+        this.mouvStockService.getAllMouvementByArticle(this.article?.idArticle!).subscribe(
+          (response : MouvStock[])=> {
+            console.log(response)
+            if(response!=null && response.length>0){
+              this.dataSource.data = response
+              this.dataSource.sort = this.sort
+            }
+          },
+          (errorResponse : HttpErrorResponse) => {
+            console.log(errorResponse.error.message)
+          }
+        )
+      }
     }
 }
 

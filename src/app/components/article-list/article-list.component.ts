@@ -1,69 +1,75 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Article } from 'src/app/models/article';
 import { ArticleService } from 'src/app/services/article.service';
 import { DataService } from 'src/app/services/data.service';
-import { ArticleFormComponent } from '../article-form/article-form.component';
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.css']
 })
 export class ArticleListComponent implements OnInit {
-  
+  @ViewChild(MatPaginator) paginator: MatPaginator
   articles: Article[] = [];
-
+  modifArticle = true
+  dataSource : MatTableDataSource<Article> = new MatTableDataSource()
   columnsToDisplay = ['libelleArticle','codeArticle', 'sousFamille', 'cmup', 'quantiteStock','actions']
-
-  constructor(private articleService: ArticleService, public dialog: MatDialog, public router : Router, public dataService: DataService) { }
+  // columnsToDisplay:string[] =['libelleArticle','codeArticle', 'sousFamille']
+  loading = false
+  constructor(private articleService: ArticleService, public router : Router, public dataService: DataService) { }
 
   ngOnInit(): void {
+    // this.setModif()
     this.getAllArticles();
   }
 
   public getAllArticles(): void {
+    this.loading = true
     this.articleService.getAllArticles().subscribe(
       (response: Article[]) => {
+        this.loading = false
         this.articles = response ;
+        this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
       },
       (error: HttpErrorResponse) => {
+        this.loading = false
         alert(error.message);
       }
     )
   }
 
-  
-  // openDialogUpdateArticle(row:Article): void {
-  //   const dialogRef = this.dialog.open(ArticleFormComponent, {
-  //     data: {article: row}
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     this.ngOnInit()
-  //   });
-  // }
-  updateArticle(row:Article) {
+    updateArticle(row:Article) {
     this.dataService.setArticle(row) 
     this.router.navigateByUrl("/content/article/creer")
-    // this.dataService.setArticle(row) 
     
   }
 
   createArticle() {
     this.dataService.setArticle({}) 
     this.router.navigateByUrl("/content/article/creer")
-    
   }
-  openDialogCreateArticle(): void {
-    const dialogRef = this.dialog.open(ArticleFormComponent, {
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.ngOnInit()
-    });
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  // setModif(){
+  //   console.log(this.dataService.userConnected)
+  //   if (this.dataService.userConnected.profileRole?.includes('DMG')){
+  //     console.log("L'utilisateur est un admin")
+  //   }
+
+  //   if (this.dataService.userConnected.profileRole?.includes('DMG') ||
+  //   this.dataService.userConnected.profileRole?.includes('ECO') ||
+  //   this.dataService.userConnected.profileRole?.includes('ADMIN')) {
+  //     this.modifArticle = true
+  //     this.columnsToDisplay = ['libelleArticle','codeArticle', 'sousFamille', 'cmup', 'quantiteStock','actions']
+  //   }
+  // }
 }

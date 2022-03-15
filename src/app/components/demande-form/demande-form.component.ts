@@ -25,16 +25,20 @@ export class DemandeFormComponent implements OnInit {
   loading = false
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-
+  
+  validation_messages= [
+    {type: 'required', message:'Veuillez renseigner le champ svp'},
+    {type: 'min', message:'Renseignez une quantité supérieure à 0'}
+  ]
   public articles : Article[]=[]
 
   columnsToDisplayAttente = ['article','quantite','action']
   columnsToDisplayValide = ['article','quantite']
   
-  public idType : number
+  public idType !: number
   public idArticleToAdd = 0
   public quantite = 0
-  public dateDem: Date
+  public dateDem = new Date()
    articleToAdd?: Article
 
   private demandeArticle?: DemandeArticle 
@@ -60,7 +64,7 @@ export class DemandeFormComponent implements OnInit {
 
       this.secondFormGroup = this._formBuilder.group({
         article: ['', Validators.required],
-        quantite: ['', Validators.required],
+        quantite: ['', [Validators.required, Validators.min(1)]],
       });
   
     }
@@ -219,37 +223,40 @@ export class DemandeFormComponent implements OnInit {
   }
 
   public addDemandeArticle():void {
-    if(!this.demande.demandeArticles){
-      this.demande.demandeArticles = []
-    }
-
-    let idArticle = this.articleToAdd ? this.articleToAdd.idArticle: undefined;
-    let demandeArticleToAdd= {article: this.articleToAdd, 
-    quantite: this.quantite, idArticle: idArticle}
-    let add = false
-    if(this.demande.demandeArticles.length>0){
-      this.demande.demandeArticles.forEach((el, index, array) => {
-        if(el.article?.idArticle === demandeArticleToAdd.article?.idArticle) {
-          el.quantite = el.quantite! + demandeArticleToAdd.quantite
-          add =true
-        }
-      })
-       
-      if (add=== false){
-        this.demande.demandeArticles.push(demandeArticleToAdd)
-      this.demande.demandeArticles.sort
+    if(this.secondFormGroup.valid){
+      if(!this.demande.demandeArticles){
+        this.demande.demandeArticles = []
       }
-    } else {
-      this.demande.demandeArticles.push(demandeArticleToAdd)
-      this.demande.demandeArticles.sort
+  
+      let idArticle = this.articleToAdd ? this.articleToAdd.idArticle: undefined;
+      let demandeArticleToAdd= {article: this.articleToAdd, 
+      quantite: this.quantite, idArticle: idArticle}
+      let add = false
+      if(this.demande.demandeArticles.length>0){
+        this.demande.demandeArticles.forEach((el, index, array) => {
+          if(el.article?.idArticle === demandeArticleToAdd.article?.idArticle) {
+            el.quantite = el.quantite! + demandeArticleToAdd.quantite
+            add =true
+          }
+        })
+         
+        if (add=== false){
+          this.demande.demandeArticles.push(demandeArticleToAdd)
+        this.demande.demandeArticles.sort
+        }
+      } else {
+        this.demande.demandeArticles.push(demandeArticleToAdd)
+        this.demande.demandeArticles.sort
+        
+      }
       
+      this.table?.renderRows()
+      this.secondFormGroup.patchValue({
+        "article" : null,
+        "quantite" : 0
+      })
     }
     
-    this.table?.renderRows()
-    this.secondFormGroup.patchValue({
-      "article" : {},
-      "quantite" : 0
-    })
   }
 
   public deleteDemandeArticle(ligne: DemandeArticle):void {

@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -52,6 +52,8 @@ import { ProfilUserListComponent } from './components/user/profil-user-list/prof
 import { CreateComponent } from './components/user/create/create.component';
 import {MatSortModule} from '@angular/material/sort';
 import { DashboardDmgComponent } from './components/dashboard-dmg/dashboard-dmg.component';
+import { BlRecapComponent } from './components/bl-recap/bl-recap.component';
+import { ArticleRecapComponent } from './components/article-recap/article-recap.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,8 @@ import { DashboardDmgComponent } from './components/dashboard-dmg/dashboard-dmg.
     ProfilUserListComponent,
     CreateComponent,
     DashboardDmgComponent,
+    BlRecapComponent,
+    ArticleRecapComponent,
     
   ],
   imports: [

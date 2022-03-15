@@ -18,21 +18,21 @@
               <td mat-cell *matCellDef="let demandeDet"> {{demandeDet.article.libelleArticle}} </td>
             </ng-container>
             <ng-container matColumnDef="quantiteDemande">
-              <th mat-header-cell *matHeaderCellDef> Quantité demandée </th>
+              <th mat-header-cell *matHeaderCellDef> Quantités demandées </th>
               <td mat-cell *matCellDef="let demandeDet"> {{demandeDet.quantiteDemande}} </td>
             </ng-container>
             <ng-container matColumnDef="quantiteValideDir">
-              <th mat-header-cell *matHeaderCellDef> Quantité validée </th>
+              <th mat-header-cell *matHeaderCellDef> Quantités transmises </th>
               <td mat-cell *matCellDef="let demandeDet"> 
                 <input *ngIf="demDir.status!.idStatut == 1" type="number" [(ngModel)]="demandeDet.quantiteValideDir">
                 <p *ngIf="demDir.status!.idStatut != 1"> {{ demandeDet.quantiteValideDir }}</p>
               </td>
             </ng-container>
             <ng-container matColumnDef="quantiteValideDmg">
-              <th mat-header-cell *matHeaderCellDef> Quantité validée DMG </th>
+              <th mat-header-cell *matHeaderCellDef> Quantités validées DMG </th>
               <td mat-cell *matCellDef="let demandeDet"> 
                 <input *ngIf="demDir.status!.idStatut == 13" type="number" [(ngModel)]="demandeDet.quantiteValideDmg">
-                <p *ngIf="demDir.status!.idStatut != 13"> {{ demandeDet.quantiteValideDmg }}</p>
+                <p *ngIf="demDir.status!.idStatut != 13"> {{ demandeDet.quantiteValideDmg ? demandeDet.quantiteValideDmg: demandeDet.quantiteValideDir}}</p>
               </td>
              </ng-container>
             <!--<ng-container matColumnDef="quantiteSortieDmg">

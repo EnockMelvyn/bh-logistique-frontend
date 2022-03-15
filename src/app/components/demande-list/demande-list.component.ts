@@ -2,6 +2,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Demande } from 'src/app/models/demande';
@@ -22,15 +23,17 @@ import { DemandeFormComponent } from '../demande-form/demande-form.component';
 export class DemandeListComponent implements OnInit {
 
   @ViewChild(MatTable) table!: MatTable<Demande>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator; 
   dataSource : MatTableDataSource<Demande> = new MatTableDataSource();
   demandes: Demande[] = [];
 
+  loading = false
   titre = ''
   statutDemandes =''
   codeStatut =''
-  direction: Direction 
+  direction: Direction = {}
   directions: Direction[] = []
-  statut : string
+  statut : Status ={}
   status : Status [] = []
   statuts = ['VALIDE_PAR_SUPERIEUR','REJETEE','VALIDEE_POUR_TRAITEMENT','VISA_DEMANDEUR','TRAITEE', 'EN_ATTENTE']
   columnsToDisplay = ['numRef', 'observation', 'dateDemande', 'demandeur', 'directionId','status', 'urgent', 'actions']
@@ -46,35 +49,36 @@ export class DemandeListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllStatus()
     this.getDemandesByStatutEtDirection()
-    // this.route.params.subscribe(params =>
-    //   {
-    //     this.statutDemandes = params.statutDemandes
-    //     switch(this.statutDemandes){
-    //     case 'valideParSuperieur':
-    //       this.codeStatut= 'VALIDE_PAR_SUPERIEUR'
-    //       this.titre = "Liste des demandes validées par le supérieur"
-    //       break;
-    //     case 'refuse':
-    //       this.codeStatut= 'REJETEE'
-    //       this.titre = "Liste des demandes rejetées"
-    //       break;
-    //     case 'enTraitement':
-    //       this.codeStatut= 'VALIDEE_POUR_TRAITEMENT'
-    //       this.titre = "Liste des demandes en cours de traitement"
-    //       break;
-    //     case 'visaDemandeur':
-    //       this.codeStatut= 'VISA_DEMANDEUR'
-    //       this.titre = "Liste des demandes en attente de votre visa" 
-    //       break;
-    //     case 'traitee':
-    //       this.codeStatut= 'TRAITEE'
-    //       this.titre = "Liste des demandes traitées"
-    //       break;
-    //     default:
-    //       this.codeStatut= 'EN_ATTENTE'
-    //       this.titre = "Liste des demandes en attente"
-    //       break;
-    //     }
+    this.route.params.subscribe(params =>
+      {
+        this.statutDemandes = params.statutDemandes
+        switch(this.statutDemandes){
+        case 'valideParSuperieur':
+          this.codeStatut= 'VALIDE_PAR_SUPERIEUR'
+          this.titre = "Liste des demandes validées par le supérieur"
+          break;
+        case 'refuse':
+          this.codeStatut= 'REJETEE'
+          this.titre = "Liste des demandes rejetées"
+          break;
+        case 'enTraitement':
+          this.codeStatut= 'VALIDEE_POUR_TRAITEMENT'
+          this.titre = "Liste des demandes en cours de traitement"
+          break;
+        case 'visaDemandeur':
+          this.codeStatut= 'VISA_DEMANDEUR'
+          this.titre = "Liste des demandes en attente de votre visa" 
+          break;
+        case 'traitee':
+          this.codeStatut= 'TRAITEE'
+          this.titre = "Liste des demandes traitées"
+          break;
+        default:
+          this.codeStatut= 'EN_ATTENTE'
+          this.titre = "Liste des demandes en attente"
+          break;
+        }
+      })
 
     //     this.getDemandesByStatut();
         this.getDirections();
@@ -88,11 +92,14 @@ export class DemandeListComponent implements OnInit {
   }
 
   public getAllDemandes(): void {
+    this.loading = true
     this.demandeService.getAllDemandes().subscribe(
       (response: Demande[]) => {
+        this.loading = false
         this.demandes = response ;
       },
       (error: HttpErrorResponse) => {
+        this.loading = false
         alert(error.message);
       }
     )
@@ -110,25 +117,38 @@ export class DemandeListComponent implements OnInit {
   }
 
   public getDemandesByStatut(): void {
+    this.loading = true
     this.demandeService.getDemandeByStatut(this.codeStatut).subscribe(
       (response: Demande[])=> {
+        this.loading = false
         this.demandes = response
         this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
         console.log(response)
       },
       (error:HttpErrorResponse)=>{
+        this.loading = false
         console.log(error.message)
       }
     )
   }
   public getDemandesByStatutEtDirection(): void {
-    this.demandeService.getDemandeByStatutEtDirection(this.statut?this.statut:null, this.direction.idDirection?this.direction.idDirection:null).subscribe(
+    this.dataSource.data = []
+    this.loading = true
+    console.log(this.loading)
+    console.log(this.statut)
+    console.log(this.direction)
+    this.demandeService.getDemandeByStatusEtDirection(this.statut?this.statut.idStatut!:null, this.direction.idDirection?this.direction.idDirection:null).subscribe(
       (response: Demande[])=> {
+        this.loading = false
+        console.log(this.loading)
         this.demandes = response
         this.dataSource.data = response
+        this.dataSource.paginator = this.paginator
         console.log(response)
       },
       (error:HttpErrorResponse)=>{
+        this.loading = false
         console.log(error.message)
       }
     )
